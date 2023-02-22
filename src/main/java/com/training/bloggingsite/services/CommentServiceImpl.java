@@ -1,5 +1,4 @@
-
 package com.training.bloggingsite.services;
 
-public class none {
+public class CommentServiceImpl {
 }
