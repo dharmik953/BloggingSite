@@ -1,4 +1,4 @@
-package com.training.bloggingsite.services;
+package com.training.bloggingsite.services.interfaces;
 
 import com.training.bloggingsite.entities.Category;
 import com.training.bloggingsite.entities.Comment;
@@ -10,7 +10,7 @@ public interface CommentService {
 
     public void deleteComment(long id);
 
-    List<Comment> getCommentByUser();
+    List<Comment> getCommentByUser(long userId);
     List<Comment> getCommentByPost();
     List<Comment> getVerifiedComments();
     List<Comment> getUnverifiedComments();

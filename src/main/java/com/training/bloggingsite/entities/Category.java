@@ -7,7 +7,9 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 
@@ -21,15 +23,25 @@ public class Category {
     @Column(name = "category_id")
     private long categoryId;
 
-    @ElementCollection(fetch = FetchType.EAGER)
-//    @CollectionTable(name = "subcategory", joinColumns = @JoinColumn(name = "category_id"))
-    private Set<String> subCategory = new HashSet<String>();
+//    @ElementCollection(fetch = FetchType.EAGER)
+////    @CollectionTable(name = "subcategory", joinColumns = @JoinColumn(name = "category_id"))
+//    private List<SubCategory> subCategory = new ArrayList<>();
+////    private Set<String> subCategory = new HashSet<String>();
     private String categoryName;
-    private String title;
 
     @CreationTimestamp
     private LocalDateTime createDateTime;
-
+//    @ElementCollection(fetch = FetchType.EAGER)
+////    @CollectionTable(name = "subcategory", joinColumns = @JoinColumn(name = "category_id"))
+//    private List<SubCategory> subCategory = new ArrayList<>();
+//    private Set<String> subCategory = new HashSet<String>();
     @UpdateTimestamp
     private LocalDateTime updateDateTime;
+
+    @ManyToOne
+    private Category parentCategory;
+
+    @OneToMany(mappedBy = "parentCategory")
+    private Set<Category> subCategories = new HashSet<>();
+
 }

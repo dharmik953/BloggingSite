@@ -17,6 +17,7 @@ import java.time.LocalDateTime;
 @Entity
 public class PostEditor {
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long postId;
@@ -33,6 +34,14 @@ public class PostEditor {
     @UpdateTimestamp
     private LocalDateTime updateDateTime;
 
+    private Long id;
 
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getId() {
+        return id;
+    }
 }
