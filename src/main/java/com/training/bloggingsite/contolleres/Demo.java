@@ -8,7 +8,7 @@ public class Demo {
 
 
 
-    @GetMapping("")
+    @GetMapping("hello")
     public String getHomepage() {
         return "Object";
     }
