@@ -1,7 +1,8 @@
-package com.training.bloggingsite.services;
+package com.training.bloggingsite.services.impl;
 
 import com.training.bloggingsite.entities.Category;
 import com.training.bloggingsite.repositories.CategoryRepositories;
+import com.training.bloggingsite.services.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +12,7 @@ import java.util.Optional;
 import static java.util.Objects.isNull;
 
 @Service
-public class CategoryServiceImpl implements CategoryService{
+public class CategoryServiceImpl implements CategoryService {
 
     @Autowired
     CategoryRepositories repositories;
