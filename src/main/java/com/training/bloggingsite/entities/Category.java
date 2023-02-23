@@ -21,6 +21,9 @@ public class Category {
     @Column(name = "category_id")
     private long categoryId;
 
+    @ElementCollection(fetch = FetchType.EAGER)
+//    @CollectionTable(name = "subcategory", joinColumns = @JoinColumn(name = "category_id"))
+    private Set<String> subCategory = new HashSet<String>();
     private String categoryName;
     private String title;
 
