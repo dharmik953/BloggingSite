@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Registration | Blogging </title>
+    <style>
+
+        table {
+            align-content: center;
+        }
+
+        tr, td {
+            border: 1px solid black;
+        }
+
+    </style>
+</head>
+<body>
+
+<h1>Sign Up Now</h1>
+
+<p>Please fill out this to register</p>
+
+<table>
+
+    <form th:action="@{/user/registerProcessing}" th:object="${userData}" method="post">
+
+        <tr>
+            <div>
+                <td><label for="firstName">Full Name :</label></td>
+                <td><input type="text" id="firstName" th:field="*{name}" placeholder="Your Firstname"></td>
+            </div>
+        </tr>
+
+        <tr>
+            <div>
+                <td><label for="email">Email address :</label>
+                <td><input type="email" th:field="*{email}" placeholder="Email" id="email"></td>
+            </div>
+        </tr>
+
+        <tr>
+            <div>
+                <td><label for="password">Password :</label></td>
+                <td><input type="password" th:field="*{password}" placeholder="Password" name="password" id="password">
+                </td>
+            </div>
+        </tr>
+
+        <tr rowspan="2">
+            <td><input type="submit" value="Register">
+                <input type="reset" value="Reset"></td>
+        </tr>
+
+        <p th:each="err : ${#fields.errors()}" th:text="${err}" class="error" style="color: red">
+            <br>
+        </p>
+
+        <p th:if="${errors}" th:text="${errors}" style="color: red">
+            <br>
+        </p>
+
+    </form>
+</table>
+<span>Already have an account <a th:href="@{/login}">Login here</a></span>
+
+</body>
+</html>
