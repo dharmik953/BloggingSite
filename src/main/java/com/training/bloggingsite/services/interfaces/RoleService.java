@@ -1,6 +1,7 @@
 package com.training.bloggingsite.services.interfaces;
 
 import com.training.bloggingsite.dtos.RoleDto;
+import com.training.bloggingsite.entities.Role;
 
 import java.util.List;
 

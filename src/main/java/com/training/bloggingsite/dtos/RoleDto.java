@@ -6,7 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class RoleDto {
-    private int id;
+    private String id;
     private String role;
 
     @Override
@@ -15,5 +15,4 @@ public class RoleDto {
                 "role='" + role + '\'' +
                 '}';
     }
-
 }

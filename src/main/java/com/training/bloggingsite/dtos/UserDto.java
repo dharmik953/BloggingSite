@@ -17,4 +17,11 @@ public class UserDto {
     private String password;
     private Set<Role> roles = new HashSet<>();
 
+    @Override
+    public String toString() {
+        return "UserDto{" +
+                "name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                '}';
+    }
 }

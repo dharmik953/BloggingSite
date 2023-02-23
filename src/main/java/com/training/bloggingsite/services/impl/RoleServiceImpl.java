@@ -28,9 +28,9 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public RoleDto addRole(RoleDto roleDto) {
 
-        Role checkRole= this.roleRepository.findByRole(roleDto.getRole());
+        Role check= this.roleRepository.findByRole(roleDto.getRole());
 
-        if(checkRole==null) {
+        if(check==null) {
             Role roleToBeInserted = modelMapper.map(roleDto, Role.class);
             roleToBeInserted.setRole(roleToBeInserted.getRole().toUpperCase());
             this.roleRepository.save(roleToBeInserted);
@@ -38,8 +38,7 @@ public class RoleServiceImpl implements RoleService {
             return roleDto;
         }
         else{
-            logger.info("Role already present :" + roleDto.getRole());
-            throw new RoleAlreadyExistsException(roleDto.getRole().toUpperCase());
+            throw new RoleAlreadyExistsException(roleDto.getRole());
         }
     }
 
@@ -69,7 +68,6 @@ public class RoleServiceImpl implements RoleService {
     public RoleDto getRole(String roleDto){
         Role role = this.roleRepository.findByRole(roleDto);
         RoleDto roleDtoData = modelMapper.map(role,RoleDto.class);
-        logger.info("Role fetched by name :"+role);
         return roleDtoData;
     }
 
