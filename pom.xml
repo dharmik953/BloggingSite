@@ -69,13 +69,6 @@
             <scope>runtime</scope>
         </dependency>
 
-        <!-- This dependency helps in creating the getters and setters automatically -->
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <optional>true</optional>
-        </dependency>
-
         <!-- This dependency as the Core for testing Spring Boot application -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
