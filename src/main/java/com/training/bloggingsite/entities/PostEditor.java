@@ -1,9 +1,8 @@
 package com.training.bloggingsite.entities;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import java.util.List;
+
+
+
 public class PostEditor {
 
     @Id
@@ -18,7 +17,6 @@ public class PostEditor {
 
 
 
-     private List<Category> categoryList;
 
 
 }
