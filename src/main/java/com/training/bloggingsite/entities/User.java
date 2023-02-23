@@ -3,14 +3,12 @@ package com.training.bloggingsite.entities;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
-import java.time.LocalDateTime;
-
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
-@Table(name = "user_table")
+@Table(name = "user")
 @Getter
 @Setter
 public class User {
@@ -20,21 +18,25 @@ public class User {
     @Column(name = "user_id")
     private long id;
 
-    @Column(name = "full_name")
+    @Column(name = "name")
     private String name;
 
-    @Column(name = "user_email")
+    @Column(name = "email")
     private String email;
 
-    @Column(name = "user_password")
+    @Column(name = "password")
     private String password;
 
-    @Column(name = "created_on")
-    @CreationTimestamp
-    private LocalDateTime createdOn;
+    @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @JoinTable(
+            joinColumns = {
+                    @JoinColumn(name = "user_id")
+            },
+            inverseJoinColumns = {
+              @JoinColumn(name = "role_id")
+            }
+    )
+    private Set<Role> roles = new HashSet<>();
 
-    @Column(name = "updated_on")
-    @UpdateTimestamp
-    private LocalDateTime updatedOn;
 
 }

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>View Roles | Blogging</title>
+    <style>
+        table,tr,td{
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+
+    <a th:href="@{/admin/add-role}">Add Role</a>
+
+    <table>
+
+        <tr>
+            <td><b>Role</b></td>
+            <td colspan="2"><b>Action</b></td>
+        </tr>
+
+        <tr th:each="role: ${roles}">
+            <td th:text="${role.role}" />
+            <td><a th:href="@{/admin/delete-role(role=${role.id})}"/>delete</td>
+            <td><a th:href="@{/admin/update-role(role=${role.id})}"/>update</td>
+        </tr>
+
+    </table>
+</body>
+</html>
