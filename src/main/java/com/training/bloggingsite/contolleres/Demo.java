@@ -5,14 +5,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/a/")
 public class Demo {
 
 
 
-    @GetMapping("welcome")
+    @RequestMapping(value = "/welcome")
     public String getHomepage() {
-        return "Object";
+        return "welcome";
     }
 
 

@@ -27,9 +27,6 @@ public interface PostService {
 
     Post getPostById(Long id);
 
-    //TobeAdded
-    List<Post> getVerifiedPost(Post post);
-
 
     List<Post> getAllPostByUser(User user);
 }

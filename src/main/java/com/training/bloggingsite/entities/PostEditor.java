@@ -13,12 +13,12 @@ import java.time.LocalDateTime;
 @Setter
 public class PostEditor {
 
-    private long postId;
+    private long postId=1;
 
     @Lob
     private String content;
 
-    private boolean isVerified;//is verified by Admin?
+    private boolean isVerified=false;//is verified by Admin?
 
     private String title;
 
