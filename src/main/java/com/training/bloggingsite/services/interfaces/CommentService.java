@@ -1,4 +1,4 @@
-package com.training.bloggingsite.services;
+package com.training.bloggingsite.services.interfaces;
 
 import com.training.bloggingsite.entities.Category;
 import com.training.bloggingsite.entities.Comment;
