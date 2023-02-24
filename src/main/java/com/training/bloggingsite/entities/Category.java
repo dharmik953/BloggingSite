@@ -5,6 +5,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import java.time.LocalDateTime;
 
+
 @Entity
 public class Category {
 
@@ -13,52 +14,25 @@ public class Category {
     @Column(name = "category_id")
     private long categoryId;
 
+//    @ElementCollection(fetch = FetchType.EAGER)
+////    @CollectionTable(name = "subcategory", joinColumns = @JoinColumn(name = "category_id"))
+//    private List<SubCategory> subCategory = new ArrayList<>();
+////    private Set<String> subCategory = new HashSet<String>();
     private String categoryName;
-    private String title;
 
     @CreationTimestamp
     private LocalDateTime createDateTime;
-
+//    @ElementCollection(fetch = FetchType.EAGER)
+////    @CollectionTable(name = "subcategory", joinColumns = @JoinColumn(name = "category_id"))
+//    private List<SubCategory> subCategory = new ArrayList<>();
+//    private Set<String> subCategory = new HashSet<String>();
     @UpdateTimestamp
     private LocalDateTime updateDateTime;
+    
+     @ManyToOne
+    private Category parentCategory;
 
-    public String getCategoryName() {
-        return categoryName;
-    }
+    @OneToMany(mappedBy = "parentCategory")
+    private Set<Category> subCategories = new HashSet<>();
 
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public LocalDateTime getCreateDateTime() {
-        return createDateTime;
-    }
-
-    public void setCreateDateTime(LocalDateTime createDateTime) {
-        this.createDateTime = createDateTime;
-    }
-
-    public LocalDateTime getUpdateDateTime() {
-        return updateDateTime;
-    }
-
-    public void setUpdateDateTime(LocalDateTime updateDateTime) {
-        this.updateDateTime = updateDateTime;
-    }
-
-    public long getCategoryId() {
-        return categoryId;
-    }
-
-    public void setCategoryId(long categoryId) {
-        this.categoryId = categoryId;
-    }
 }

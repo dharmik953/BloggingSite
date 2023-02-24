@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface CategoryService {
 
-    public boolean addCategory(Category category);
+    public Category addCategory(Category category);
 
     public void deleteCategory(long id);
 
@@ -14,4 +14,5 @@ public interface CategoryService {
 
     public Category getCategoryById(long id);
 
+    public Category addSubCategory(Category categoryName);
 }

@@ -10,7 +10,7 @@ public interface CommentService {
 
     public void deleteComment(long id);
 
-    List<Comment> getCommentByUser();
+    List<Comment> getCommentByUser(long userId);
     List<Comment> getCommentByPost();
     List<Comment> getVerifiedComments();
     List<Comment> getUnverifiedComments();
