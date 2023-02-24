@@ -2,9 +2,7 @@ package com.training.bloggingsite.services.interfaces;
 
 import com.training.bloggingsite.entities.Category;
 import com.training.bloggingsite.entities.Post;
-import com.training.bloggingsite.entities.PostEditor;
 import com.training.bloggingsite.entities.User;
-import com.training.bloggingsite.repositories.PostRepository;
 
 import java.util.List;
 

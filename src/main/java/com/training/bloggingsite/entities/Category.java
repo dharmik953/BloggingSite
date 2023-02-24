@@ -34,6 +34,8 @@ public class Category {
     @OneToMany(mappedBy = "parentCategory")
     private Set<Category> subCategories = new HashSet<>();
 
+
+
     public long getCategoryId() {
         return categoryId;
     }

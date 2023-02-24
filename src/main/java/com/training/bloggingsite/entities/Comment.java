@@ -23,6 +23,13 @@ public class Comment {
     private LocalDateTime updateDateTime;
     private String commentContent;
 
+    public Comment(long commentId, boolean isVerified, LocalDateTime createDateTime, LocalDateTime updateDateTime, String commentContent) {
+        this.commentId = commentId;
+        this.isVerified = isVerified;
+        this.createDateTime = createDateTime;
+        this.updateDateTime = updateDateTime;
+        this.commentContent = commentContent;
+    }
 
     public long getCommentId() {
         return commentId;
