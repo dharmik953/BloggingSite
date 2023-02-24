@@ -16,15 +16,16 @@
   <tr>
     <td><b>Name</b></td>
     <td><b>Email</b></td>
-    <td><b>Action</b></td>
+    <td colspan="2"><b>Action</b></td>
   </tr>
 
   <tr th:each="user: ${users}">
     <td th:text="${user.name}" />
     <td th:text="${user.email}" />
-    <td><a th:href="@{/admin/user/delete-user(user=${user.id})}"/>delete</td>
+    <td><a th:href="@{/admin/user/view(id=${user.id})}"/>View</td>
   </tr>
 
 </table>
+<a th:href="@{/admin/home}">Back</a>-->
 </body>
 </html>
