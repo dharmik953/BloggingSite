@@ -1,7 +1,6 @@
 package com.training.bloggingsite.repositories;
 
 import com.training.bloggingsite.entities.Post;
-import com.training.bloggingsite.entities.PostEditor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
