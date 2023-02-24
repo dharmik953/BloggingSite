@@ -2,9 +2,6 @@ package com.training.bloggingsite.services.impl;
 
 import com.training.bloggingsite.entities.Comment;
 import com.training.bloggingsite.repositories.CommentRepositories;
-import com.training.bloggingsite.services.CommentService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -24,13 +21,11 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<Comment> getCommentByUser() {
-        return null;
+
     }
 
     @Override
-    public List<Comment> getCommentByPost() {
-        return null;
+
     }
 
     @Override

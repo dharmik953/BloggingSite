@@ -1,42 +1,79 @@
 package com.training.bloggingsite.dtos;
 
+import com.training.bloggingsite.entities.Role;
 
+import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
-
-@NoArgsConstructor
-@Getter
-@Setter
 public class UserDto {
 
-    private static final String passwordErrorMessage = """
-            Password must be at least 8 characters and at most 20 characters,
-            contains at least one digit,
-            contains at least one upper case alphabet,
-            contains at least one lower case alphabet,
-            contains at least one special character which includes (@ $ %).""";
-
-    private static final String emailRegx = "^[a-zA-Z0-9_\\.\\-]+\\@[a-zA-Z0-9\\-]+\\.[a-zA-Z]{2,4}$";
-    private static final String passwordRegx = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[\\$\\@\\%]).{8,20}$";
-
     private long id;
-
-    @NotBlank(message = "\nFull Name cannot be Blank !!")
-    @Size(min=5,message = "\nPlease enter a valid Full Name !!")
     private String name;
-
-    @NotBlank(message = "\nEmail cannot be Blank !!")
-    @Pattern(regexp = emailRegx ,message = "\nPlease enter a valid Email !!")
     private String email;
-
-    @NotBlank(message = "\nPassword cannot be Blank !!")
-    @Pattern(regexp = passwordRegx, message = passwordErrorMessage)
     private String password;
+    private Set<Role> roles = new HashSet<>();
+    private LocalDateTime createDateTime;
+    private LocalDateTime updateDateTime;
 
+    public UserDto(){}
+
+    public UserDto(long id, String name, String email, String password, Set<Role> roles,
+    LocalDateTime createDateTime, LocalDateTime updateDateTime) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.roles = roles;
+        this.createDateTime = createDateTime;
+        this.updateDateTime = updateDateTime;
+    }
+
+    @Override
+    public String toString() {
+        return "UserDto{" +
+                "name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                '}';
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
 }

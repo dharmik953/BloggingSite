@@ -1,18 +1,14 @@
 package com.training.bloggingsite.entities;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-
 import java.time.LocalDateTime;
-
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
-@Table(name = "user_table")
-@Getter
-@Setter
+@Table(name = "user")
 public class User {
 
     @Id
@@ -20,21 +16,98 @@ public class User {
     @Column(name = "user_id")
     private long id;
 
-    @Column(name = "full_name")
+    @Column(name = "name")
     private String name;
 
-    @Column(name = "user_email")
+    @Column(name = "email")
     private String email;
 
-    @Column(name = "user_password")
+    @Column(name = "password")
     private String password;
 
-    @Column(name = "created_on")
+    @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @JoinTable(
+            joinColumns = {
+                    @JoinColumn(name = "user_id")
+            },
+            inverseJoinColumns = {
+              @JoinColumn(name = "role_id")
+            }
+    )
+    private Set<Role> roles = new HashSet<>();
+
     @CreationTimestamp
-    private LocalDateTime createdOn;
+    private LocalDateTime createDateTime;
 
-    @Column(name = "updated_on")
     @UpdateTimestamp
-    private LocalDateTime updatedOn;
+    private LocalDateTime updateDateTime;
 
+    public User(){}
+
+    public User(long id, String name, String email, String password, Set<Role> roles,
+                LocalDateTime createDateTime, LocalDateTime updateDateTime) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.roles = roles;
+        this.createDateTime = createDateTime;
+        this.updateDateTime = updateDateTime;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
+    public LocalDateTime getCreateDateTime() {
+        return createDateTime;
+    }
+
+    public void setCreateDateTime(LocalDateTime createDateTime) {
+        this.createDateTime = createDateTime;
+    }
+
+    public LocalDateTime getUpdateDateTime() {
+        return updateDateTime;
+    }
+
+    public void setUpdateDateTime(LocalDateTime updateDateTime) {
+        this.updateDateTime = updateDateTime;
+    }
 }
