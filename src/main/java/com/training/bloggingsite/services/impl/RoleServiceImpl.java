@@ -10,9 +10,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class RoleServiceImpl implements RoleService {
@@ -28,25 +27,27 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public RoleDto addRole(RoleDto roleDto) {
 
-        Role checkRole= this.roleRepository.findByRole(roleDto.getRole());
+        Role check= this.roleRepository.findByRole(roleDto.getRole());
 
-        if(checkRole==null) {
-            Role roleToBeInserted = modelMapper.map(roleDto, Role.class);
+        if(check==null) {
+            Role roleToBeInserted = toRole(roleDto);
             roleToBeInserted.setRole(roleToBeInserted.getRole().toUpperCase());
             this.roleRepository.save(roleToBeInserted);
             logger.info("Role Added :" + roleDto);
             return roleDto;
         }
         else{
-            logger.info("Role already present :" + roleDto.getRole());
-            throw new RoleAlreadyExistsException(roleDto.getRole().toUpperCase());
+            throw new RoleAlreadyExistsException(roleDto.getRole());
         }
     }
 
     @Override
     public List<RoleDto> getAllRoles() {
          List<Role> roles = this.roleRepository.findAll();
-         List<RoleDto> roleDtos = roles.stream().map((role)->this.modelMapper.map(role,RoleDto.class)).collect(Collectors.toList());
+         List<RoleDto> roleDtos = new ArrayList<>();
+         for (Role role : roles){
+             roleDtos.add(toRoleDto(role));
+         }
         logger.info("Roles Fetched :"+roleDtos);
          return roleDtos;
     }
@@ -60,7 +61,7 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public RoleDto getRoleById(int id){
         Role role =  this.roleRepository.findById(id).get();
-        RoleDto roleDto = modelMapper.map(role,RoleDto.class);
+        RoleDto roleDto = toRoleDto(role);
         logger.info("Role fetched :"+roleDto);
         return roleDto;
     }
@@ -68,8 +69,7 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public RoleDto getRole(String roleDto){
         Role role = this.roleRepository.findByRole(roleDto);
-        RoleDto roleDtoData = modelMapper.map(role,RoleDto.class);
-        logger.info("Role fetched by name :"+role);
+        RoleDto roleDtoData = toRoleDto(role);
         return roleDtoData;
     }
 

@@ -1,21 +1,12 @@
 package com.training.bloggingsite.entities;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 
 @Entity
-@Getter
-@Setter
 public class Category {
 
     @Id
@@ -37,8 +28,8 @@ public class Category {
 //    private Set<String> subCategory = new HashSet<String>();
     @UpdateTimestamp
     private LocalDateTime updateDateTime;
-
-    @ManyToOne
+    
+     @ManyToOne
     private Category parentCategory;
 
     @OneToMany(mappedBy = "parentCategory")

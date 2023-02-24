@@ -21,7 +21,8 @@ public class RoleController {
     @GetMapping("admin/add-role")
     public ModelAndView getaddRole(){
         ModelAndView mav = new ModelAndView("add-role");
-        mav.addObject("roleData", new RoleDto());
+        RoleDto roleDto = new RoleDto();
+        mav.addObject("roleData",roleDto);
         return mav;
     }
 
@@ -40,10 +41,9 @@ public class RoleController {
     }
 
     @GetMapping("admin/delete-role")
-    public String deleteRole(@RequestParam("role")int id){
-        this.roleService.deleteRole(id);
+    public String deleteRole(@RequestParam("role")int role){
+        this.roleService.deleteRole(role);
         return "redirect:/admin/view-role";
-
     }
 
     @GetMapping("admin/update-role")
@@ -53,6 +53,5 @@ public class RoleController {
         mav.addObject("roleData",roleDto);
         return mav;
     }
-
 
 }
