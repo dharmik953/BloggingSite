@@ -1,12 +1,16 @@
 package com.training.bloggingsite.services.interfaces;
 
-import com.training.bloggingsite.dtos.RoleDto;
 import com.training.bloggingsite.dtos.UserDto;
 import com.training.bloggingsite.entities.User;
 
 import java.util.List;
 
 public interface UserService {
+
+    default UserDto toDto(User user){
+        return new UserDto(user.getId(), user.getName(), user.getEmail(), user.getPassword(), user.getRoles()
+                ,user.getCreateDateTime(),user.getUpdateDateTime());
+    }
 
     public UserDto addUser(UserDto userDto);
 

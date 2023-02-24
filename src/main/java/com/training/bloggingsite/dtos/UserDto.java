@@ -1,6 +1,8 @@
 package com.training.bloggingsite.dtos;
 
 import com.training.bloggingsite.entities.Role;
+
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -11,15 +13,20 @@ public class UserDto {
     private String email;
     private String password;
     private Set<Role> roles = new HashSet<>();
+    private LocalDateTime createDateTime;
+    private LocalDateTime updateDateTime;
 
     public UserDto(){}
 
-    public UserDto(long id, String name, String email, String password, Set<Role> roles) {
+    public UserDto(long id, String name, String email, String password, Set<Role> roles,
+    LocalDateTime createDateTime, LocalDateTime updateDateTime) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.password = password;
         this.roles = roles;
+        this.createDateTime = createDateTime;
+        this.updateDateTime = updateDateTime;
     }
 
     @Override
