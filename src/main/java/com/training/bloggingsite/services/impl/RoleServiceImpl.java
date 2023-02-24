@@ -5,7 +5,6 @@ import com.training.bloggingsite.entities.Role;
 import com.training.bloggingsite.exceptions.RoleAlreadyExistsException;
 import com.training.bloggingsite.repositories.RoleRepository;
 import com.training.bloggingsite.services.interfaces.RoleService;
-import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +17,6 @@ public class RoleServiceImpl implements RoleService {
 
     @Autowired
     RoleRepository roleRepository;
-
-    @Autowired
-    ModelMapper modelMapper;
 
     private Logger logger = LoggerFactory.getLogger(RoleServiceImpl.class);
 
@@ -37,7 +33,7 @@ public class RoleServiceImpl implements RoleService {
             return roleDto;
         }
         else{
-            throw new RoleAlreadyExistsException(roleDto.getRole());
+            throw new RoleAlreadyExistsException(roleDto.getRole().toUpperCase());
         }
     }
 

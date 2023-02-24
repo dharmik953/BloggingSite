@@ -13,23 +13,26 @@
 <body><h1>Sign Up Now</h1>
 <p>Please fill out this to register</p>
 <table>
-    <form th:action="@{/user/register-user-save}" th:object="${userData}" method="post">
+    <form th:action="@{/register/save}" th:object="${userData}" method="post">
         <tr>
             <div>
                 <td><label for="firstName">Full Name :</label></td>
                 <td><input type="text" id="firstName" th:field="*{name}" placeholder="Your Firstname"></td>
+                <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}"/>
             </div>
         </tr>
         <tr>
             <div>
                 <td><label for="email">Email address :</label>
                 <td><input type="email" th:field="*{email}" placeholder="Email" id="email"></td>
+                <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}"/>
             </div>
         </tr>
         <tr>
             <div>
                 <td><label for="password">Password :</label></td>
                 <td><input type="password" th:field="*{password}" placeholder="Password" name="password" id="password">
+                    <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}"/>
                 </td>
             </div>
         </tr>
