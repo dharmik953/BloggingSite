@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>SubCategory</title>
+</head>
+<body>
+<div>
+
+  <h3>SubCategory List</h3>
+  <a th:href="@{/admin/addSubcategory/{id}(id=${subcategories[0].getCategory().getCategoryId()})}">Add SubCategory</a>
+  <table border="1">
+    <thead>
+    <tr>
+      <th>SubCategory Name</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="count : ${subcategories}">
+      <td> <a th:href="@{/admin/AllProducts/{id}(id=${count.getSubcategoryId()})}" th:text="${count.getSubcategoryName()}">
+      </a><td>
+      <a th:href="@{/admin/SubCategory/Update/{id}(id=${count.getSubcategoryId()})}">Update</a>
+      <a  th:href="@{/admin/SubCategory/delete/{id}(id=${count.getSubcategoryId()})}">Delete</a>
+    </td>
+    </tr>
+
+    </tbody>
+  </table>
+</div>
+</body>

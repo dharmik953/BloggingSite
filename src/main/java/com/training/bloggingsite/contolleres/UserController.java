@@ -1,6 +1,5 @@
 package com.training.bloggingsite.contolleres;
 
-import com.training.bloggingsite.dtos.RoleDto;
 import com.training.bloggingsite.dtos.UserDto;
 import com.training.bloggingsite.services.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

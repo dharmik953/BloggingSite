@@ -15,13 +15,13 @@ public class CategoryController {
     @Autowired
     CategoryService categoryService;
 
-    @PostMapping("saveCategory")
+    @PostMapping("admin/addSubcategory")
     @ResponseBody
     public Category saveCategory(@RequestBody Category category) {
         return categoryService.addCategory(category);
     }
 
-    @PostMapping("addSubCategory")
+    @PostMapping("admin/addSubcategory/{id}")
     public Category addSubCategory(@RequestBody Category category){
         return categoryService.addSubCategory(category);
     }

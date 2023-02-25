@@ -35,7 +35,6 @@ public class Category {
     private Set<Category> subCategories = new HashSet<>();
 
 
-
     public long getCategoryId() {
         return categoryId;
     }
