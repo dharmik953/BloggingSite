@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>View Sub Categories | Blogging</title>
+    <style>
+        table,tr,td{
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+
+<a th:href="@{/admin/add-subcategory(id=${param.id})}">Add Sub Category</a>
+
+<table>
+
+    <tr>
+        <td><b>Sub Category</b></td>
+        <td colspan="2"><b>Action</b></td>
+    </tr>
+
+    <tr th:each="category: ${categories}">
+        <td><a th:href="@{/admin/view-subcategories(id=${category.categoryId})}" th:text="${category.categoryName}"></a></td>
+        <td><a th:href="@{/admin/delete-category(id=${category.categoryId})}">delete</a></td>
+    </tr>
+</table>
+
+<a th:href="@{/admin/home}">Back</a>-->
+</body>
+</html>
