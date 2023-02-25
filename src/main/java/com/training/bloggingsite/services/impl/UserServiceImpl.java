@@ -1,6 +1,5 @@
 package com.training.bloggingsite.services.impl;
 
-import com.training.bloggingsite.dtos.RoleDto;
 import com.training.bloggingsite.dtos.UserDto;
 import com.training.bloggingsite.entities.Role;
 import com.training.bloggingsite.entities.User;
@@ -8,16 +7,15 @@ import com.training.bloggingsite.exceptions.UserEmailAlreadyExistsException;
 import com.training.bloggingsite.repositories.RoleRepository;
 import com.training.bloggingsite.repositories.UserRepository;
 import com.training.bloggingsite.services.interfaces.UserService;
-import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
+
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -28,8 +26,6 @@ public class UserServiceImpl implements UserService {
     @Autowired
     RoleRepository roleRepository;
 
-    @Autowired
-    ModelMapper modelMapper;
 
     private Logger logger = LoggerFactory.getLogger(RoleServiceImpl.class);
 
@@ -38,7 +34,7 @@ public class UserServiceImpl implements UserService {
         User user = this.userRepository.findByEmail(userDto.getEmail());
         if(user==null){
 
-            User userToBeInserted = modelMapper.map(userDto,User.class);
+            User userToBeInserted = toUser(userDto);
             Role role = this.roleRepository.findByRole("USER");
             Set<Role> roleSet = new HashSet<>();
             roleSet.add(role);
@@ -56,7 +52,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserDto> getAllUsers() {
         List<User> users = this.userRepository.findAll();
-        List<UserDto> userDtos = users.stream().map((user)->modelMapper.map(user,UserDto.class)).collect(Collectors.toList());
+        List<UserDto> userDtos = new ArrayList<>();
+        for (User user : users){
+            userDtos.add(toUserDto(user));
+        }
         logger.info("Users fetched : "+userDtos);
         return userDtos;
     }
@@ -70,15 +69,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto getUserById(long id) {
         User user = this.userRepository.findById(id).get();
-        UserDto userDto =  modelMapper.map(user,UserDto.class);
-        logger.info("User fetched by id :"+userDto);
+        UserDto userDto =  toUserDto(user);
+        logger.info("User fetched by id :"+userDto+userDto.getId());
         return userDto;
     }
 
     @Override
     public UserDto getUserByEmail(String email) {
         User user = this.userRepository.findByEmail(email);
-        UserDto userDto =  modelMapper.map(user,UserDto.class);
+        UserDto userDto =  toUserDto(user);
         logger.info("User fetched by email :"+userDto);
         return userDto;
     }

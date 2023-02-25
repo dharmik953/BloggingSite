@@ -1,8 +1,12 @@
 package com.training.bloggingsite.dtos;
 
+import jakarta.validation.constraints.NotBlank;
+
 public class RoleDto {
 
     private int id;
+
+    @NotBlank(message = "Role cannot be Blank !!")
     private String role;
 
     @Override

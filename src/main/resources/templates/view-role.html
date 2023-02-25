@@ -23,9 +23,10 @@
         <tr th:each="role: ${roles}">
             <td th:text="${role.role}" />
             <td><a th:href="@{/admin/delete-role(role=${role.id})}"/>delete</td>
-            <td><a th:href="@{/admin/update-role(role=${role.id})}"/>update</td>
         </tr>
-
     </table>
+
+    <a th:href="@{/admin/home}">Back</a>-->
+
 </body>
 </html>
