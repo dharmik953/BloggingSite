@@ -1,5 +1,6 @@
 package com.training.bloggingsite.exceptions;
 
+import com.training.bloggingsite.dtos.CategoryDto;
 import com.training.bloggingsite.dtos.RoleDto;
 import com.training.bloggingsite.dtos.UserDto;
 import org.springframework.ui.Model;
@@ -21,6 +22,12 @@ public class GlobalExceptionHandling {
         model.addAttribute("error",e.getMessage());
         model.addAttribute("userData",new UserDto());
         return "register-user";
+    }
+    @ExceptionHandler(value = CategoryAlreadyExistsException.class)
+    public String CategoryAlreadyExistsExceptionHandler(Model model,CategoryAlreadyExistsException e){
+        model.addAttribute("error",e.getMessage());
+        model.addAttribute("categoryData",new CategoryDto());
+        return "add-category";
     }
 
 }

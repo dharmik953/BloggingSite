@@ -1,6 +1,5 @@
 package com.training.bloggingsite.contolleres;
 
-import com.training.bloggingsite.dtos.RoleDto;
 import com.training.bloggingsite.dtos.UserDto;
 import com.training.bloggingsite.services.interfaces.RoleService;
 import com.training.bloggingsite.services.interfaces.UserService;

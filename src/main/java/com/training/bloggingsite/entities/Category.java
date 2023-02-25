@@ -16,10 +16,6 @@ public class Category {
     @Column(name = "category_id")
     private long categoryId;
 
-//    @ElementCollection(fetch = FetchType.EAGER)
-////    @CollectionTable(name = "subcategory", joinColumns = @JoinColumn(name = "category_id"))
-//    private List<SubCategory> subCategory = new ArrayList<>();
-////    private Set<String> subCategory = new HashSet<String>();
     private String categoryName;
 
     @CreationTimestamp
@@ -28,13 +24,8 @@ public class Category {
     @UpdateTimestamp
     private LocalDateTime updateDateTime;
 
-    @ManyToOne
+    @ManyToOne()
     private Category parentCategory;
-
-    @OneToMany(mappedBy = "parentCategory")
-    private Set<Category> subCategories = new HashSet<>();
-
-
 
     public long getCategoryId() {
         return categoryId;
@@ -76,28 +67,15 @@ public class Category {
         this.parentCategory = parentCategory;
     }
 
-    public Set<Category> getSubCategories() {
-        return subCategories;
-    }
-
-    public void setSubCategories(Set<Category> subCategories) {
-        this.subCategories = subCategories;
-    }
-
-    public Category(long categoryId, String categoryName, LocalDateTime createDateTime, LocalDateTime updateDateTime, Category parentCategory, Set<Category> subCategories) {
+    public Category(long categoryId, String categoryName, LocalDateTime createDateTime, LocalDateTime updateDateTime, Category parentCategory) {
         this.categoryId = categoryId;
         this.categoryName = categoryName;
         this.createDateTime = createDateTime;
         this.updateDateTime = updateDateTime;
         this.parentCategory = parentCategory;
-        this.subCategories = subCategories;
     }
 
     public Category() {
     }
 
-    //    @ElementCollection(fetch = FetchType.EAGER)
-////    @CollectionTable(name = "subcategory", joinColumns = @JoinColumn(name = "category_id"))
-//    private List<SubCategory> subCategory = new ArrayList<>();
-//    private Set<String> subCategory = new HashSet<String>();
 }
