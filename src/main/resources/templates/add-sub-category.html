@@ -5,13 +5,12 @@
     <title>Add Sub-Category | Blogging</title>
 </head>
 <body>
-<form th:object="${roleData}" method="post" th:action="@{/admin/add-role-save}">
-    <label class="form-label">Role :</label>
-    <input type="hidden" th:field="*{id}">
-    <input placeholder="Enter the Role" th:field="*{role}" type="text"/>
+<form th:object="${categoryData}" method="post" th:action="@{/admin/add-subcategory-save(id=${parentId})}">
+    <label class="form-label">Sub-Category :</label>
+    <input placeholder="Enter the Sub-Category" th:field="*{categoryName}" type="text"/>
     <input type="submit">
 </form>
-<a th:href="@{/admin/view-role}">View Roles</a>
+<a th:href="@{/admin/view-categories}">View Categories</a>
 <p th:if="${error}" th:text="${error}" style="color: red"/>
 
 </body>

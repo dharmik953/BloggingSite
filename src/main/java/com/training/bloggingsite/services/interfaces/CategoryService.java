@@ -9,20 +9,15 @@ public interface CategoryService {
     default Category toCategory(CategoryDto categoryDto){
         return new Category(
                 categoryDto.getCategoryId(),
-                categoryDto.getCategoryName(),
-                categoryDto.getUpdateDateTime(),
-                categoryDto.getCreateDateTime(),
-                categoryDto.getParentCategory()
+                categoryDto.getCategoryName()
         );
     }
 
     default CategoryDto toCategoryDto(Category category){
         return new CategoryDto(
                 category.getCategoryId(),
-                category.getCategoryName(),
-                category.getParentCategory(),
-                category.getCreateDateTime(),
-                category.getUpdateDateTime());
+                category.getCategoryName()
+        );
     }
 
     public CategoryDto addCategory(CategoryDto category);
@@ -33,7 +28,7 @@ public interface CategoryService {
 
     public CategoryDto getCategoryById(long id);
 
-    public CategoryDto addSubCategory(CategoryDto categoryName);
+    public CategoryDto addSubCategory(long parentId,CategoryDto categoryDto);
 
     public List<CategoryDto> getCategoryByParent(CategoryDto categoryDto);
 }

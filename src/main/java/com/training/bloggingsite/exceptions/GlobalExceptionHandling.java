@@ -7,6 +7,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import java.sql.SQLNonTransientException;
+
 @ControllerAdvice
 public class GlobalExceptionHandling {
 
@@ -29,5 +31,12 @@ public class GlobalExceptionHandling {
         model.addAttribute("categoryData",new CategoryDto());
         return "add-category";
     }
-
+    @ExceptionHandler(value = SubCategoryAlreadyExistsException.class)
+    public String subCategoryAlreadyExistsExceptionHandler(Model model,SubCategoryAlreadyExistsException e){
+        model.addAttribute("error",e.getMessage());
+        CategoryDto categoryDto = new CategoryDto();
+        model.addAttribute("categoryData",categoryDto);
+        model.addAttribute("parentId",e.getParentId());
+        return "add-sub-category";
+    }
 }

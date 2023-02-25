@@ -2,22 +2,16 @@ package com.training.bloggingsite.services.impl;
 
 import com.training.bloggingsite.dtos.CategoryDto;
 import com.training.bloggingsite.entities.Category;
-import com.training.bloggingsite.entities.Role;
 import com.training.bloggingsite.exceptions.CategoryAlreadyExistsException;
-import com.training.bloggingsite.exceptions.RoleAlreadyExistsException;
+import com.training.bloggingsite.exceptions.SubCategoryAlreadyExistsException;
 import com.training.bloggingsite.repositories.CategoryRepositories;
 import com.training.bloggingsite.services.interfaces.CategoryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-
-import static java.util.Objects.isNull;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
@@ -65,8 +59,20 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public CategoryDto addSubCategory(CategoryDto categoryName) {
-        return null;
+    public CategoryDto addSubCategory(long parentId,CategoryDto categoryDto) {
+
+        Category check =this.categoryRepositories.findByCategoryName(categoryDto.getCategoryName());
+
+        if(check==null) {
+            Category parentCategory = this.categoryRepositories.findById(parentId).get();
+            Category subCategory = toCategory(categoryDto);
+            subCategory.setParentCategory(parentCategory);
+            this.categoryRepositories.save(subCategory);
+            return categoryDto;
+        }
+        else{
+            throw new SubCategoryAlreadyExistsException(categoryDto.getCategoryName(),parentId);
+        }
     }
 
     @Override
