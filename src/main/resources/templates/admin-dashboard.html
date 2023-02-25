@@ -5,6 +5,7 @@
     <title>Welcome Admin</title>
 </head>
 <body>
+    <h1>Welcome </h1><h1 th:text="${name}"></h1>
     <div style="height: 100px;width: 100px;border: 1px solid black">
         <a th:href="@{/admin/view-role}">View Roles</a> <br>
         <a th:href="@{/admin/user/view-users}">View Users</a>

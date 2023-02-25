@@ -31,6 +31,7 @@ public class UserHandler implements AuthenticationSuccessHandler {
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         for (GrantedAuthority grantedAuthority : authorities) {
             if (grantedAuthority.getAuthority().equals("USER")) {
+
                 redirectUrl = "/user/home";
                 break;
             } else if (grantedAuthority.getAuthority().equals("ADMIN")) {
