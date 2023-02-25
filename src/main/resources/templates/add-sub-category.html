@@ -1,30 +1,18 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <title>SubCategory</title>
+    <meta charset="UTF-8">
+    <title>Add Sub-Category | Blogging</title>
 </head>
 <body>
-<div>
+<form th:object="${roleData}" method="post" th:action="@{/admin/add-role-save}">
+    <label class="form-label">Role :</label>
+    <input type="hidden" th:field="*{id}">
+    <input placeholder="Enter the Role" th:field="*{role}" type="text"/>
+    <input type="submit">
+</form>
+<a th:href="@{/admin/view-role}">View Roles</a>
+<p th:if="${error}" th:text="${error}" style="color: red"/>
 
-  <h3>SubCategory List</h3>
-  <a th:href="@{/admin/addSubcategory/{id}(id=${subcategories[0].getCategory().getCategoryId()})}">Add SubCategory</a>
-  <table border="1">
-    <thead>
-    <tr>
-      <th>SubCategory Name</th>
-      <th>Actions</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="count : ${subcategories}">
-      <td> <a th:href="@{/admin/AllProducts/{id}(id=${count.getSubcategoryId()})}" th:text="${count.getSubcategoryName()}">
-      </a><td>
-      <a th:href="@{/admin/SubCategory/Update/{id}(id=${count.getSubcategoryId()})}">Update</a>
-      <a  th:href="@{/admin/SubCategory/delete/{id}(id=${count.getSubcategoryId()})}">Delete</a>
-    </td>
-    </tr>
-
-    </tbody>
-  </table>
-</div>
 </body>
+</html>

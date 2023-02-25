@@ -13,9 +13,6 @@
     </form>
     <a th:href="@{/admin/view-role}">View Roles</a>
     <p th:if="${error}" th:text="${error}" style="color: red"/>
-    <ul>
 
-        <li th:each="err : ${#fields.allErrors()}" th:text="${err}" />
-    </ul>
 </body>
 </html>

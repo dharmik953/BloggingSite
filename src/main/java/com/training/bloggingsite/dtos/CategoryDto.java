@@ -1,6 +1,8 @@
 package com.training.bloggingsite.dtos;
 
 import com.training.bloggingsite.entities.Category;
+import jakarta.validation.constraints.NotBlank;
+import org.springframework.lang.NonNull;
 
 import java.time.LocalDateTime;
 import java.util.Set;
@@ -8,13 +10,14 @@ import java.util.Set;
 
 public class CategoryDto {
     private long categoryId;
+
+    @NotBlank
     private String categoryName;
     private Category parentCategory;
 
     private LocalDateTime createDateTime;
 
     private LocalDateTime updateDateTime;
-    private Set<Category> subCategories;
 
     @Override
     public String toString() {
@@ -24,25 +27,17 @@ public class CategoryDto {
                 ", parentCategory=" + parentCategory +
                 ", createDateTime=" + createDateTime +
                 ", updateDateTime=" + updateDateTime +
-                ", subCategories=" + subCategories +
                 '}';
     }
 
-    public Set<Category> getSubCategories() {
-        return subCategories;
-    }
+    public CategoryDto(){}
 
-    public void setSubCategories(Set<Category> subCategories) {
-        this.subCategories = subCategories;
-    }
-
-    public CategoryDto(long categoryId, String categoryName, Category parentCategory, LocalDateTime createDateTime, LocalDateTime updateDateTime, Set<Category> subCategories) {
+    public CategoryDto(long categoryId, String categoryName, Category parentCategory, LocalDateTime createDateTime, LocalDateTime updateDateTime) {
         this.categoryId = categoryId;
         this.categoryName = categoryName;
         this.parentCategory = parentCategory;
         this.createDateTime = createDateTime;
         this.updateDateTime = updateDateTime;
-        this.subCategories = subCategories;
     }
 
     public long getCategoryId() {
@@ -83,8 +78,5 @@ public class CategoryDto {
 
     public void setUpdateDateTime(LocalDateTime updateDateTime) {
         this.updateDateTime = updateDateTime;
-    }
-
-    public CategoryDto() {
     }
 }

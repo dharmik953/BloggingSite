@@ -12,8 +12,7 @@ public interface CategoryService {
                 categoryDto.getCategoryName(),
                 categoryDto.getUpdateDateTime(),
                 categoryDto.getCreateDateTime(),
-                categoryDto.getParentCategory(),
-                categoryDto.getSubCategories()
+                categoryDto.getParentCategory()
         );
     }
 
@@ -23,17 +22,18 @@ public interface CategoryService {
                 category.getCategoryName(),
                 category.getParentCategory(),
                 category.getCreateDateTime(),
-                category.getUpdateDateTime(),
-                category.getSubCategories());
+                category.getUpdateDateTime());
     }
 
-    public Category addCategory(Category category);
+    public CategoryDto addCategory(CategoryDto category);
 
     public void deleteCategory(long id);
 
-    List<Category> getAllCategory();
+    List<CategoryDto> getAllCategory();
 
-    public Category getCategoryById(long id);
+    public CategoryDto getCategoryById(long id);
 
-    public Category addSubCategory(Category categoryName);
+    public CategoryDto addSubCategory(CategoryDto categoryName);
+
+    public List<CategoryDto> getCategoryByParent(CategoryDto categoryDto);
 }
