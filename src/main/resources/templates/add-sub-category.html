@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Sub-Category | Blogging</title>
+</head>
+<body>
+<form th:object="${categoryData}" method="post" th:action="@{/admin/add-subcategory-save(id=${parentId})}">
+    <label class="form-label">Sub-Category :</label>
+    <input placeholder="Enter the Sub-Category" th:field="*{categoryName}" type="text"/>
+    <input type="submit">
+</form>
+<a th:href="@{/admin/view-categories}">View Categories</a>
+<p th:if="${error}" th:text="${error}" style="color: red"/>
+
+</body>
+</html>

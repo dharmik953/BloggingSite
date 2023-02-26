@@ -1,10 +1,13 @@
 package com.training.bloggingsite.exceptions;
 
+import com.training.bloggingsite.dtos.CategoryDto;
 import com.training.bloggingsite.dtos.RoleDto;
 import com.training.bloggingsite.dtos.UserDto;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+
+import java.sql.SQLNonTransientException;
 
 @ControllerAdvice
 public class GlobalExceptionHandling {
@@ -22,5 +25,18 @@ public class GlobalExceptionHandling {
         model.addAttribute("userData",new UserDto());
         return "register-user";
     }
-
+    @ExceptionHandler(value = CategoryAlreadyExistsException.class)
+    public String CategoryAlreadyExistsExceptionHandler(Model model,CategoryAlreadyExistsException e){
+        model.addAttribute("error",e.getMessage());
+        model.addAttribute("categoryData",new CategoryDto());
+        return "add-category";
+    }
+    @ExceptionHandler(value = SubCategoryAlreadyExistsException.class)
+    public String subCategoryAlreadyExistsExceptionHandler(Model model,SubCategoryAlreadyExistsException e){
+        model.addAttribute("error",e.getMessage());
+        CategoryDto categoryDto = new CategoryDto();
+        model.addAttribute("categoryData",categoryDto);
+        model.addAttribute("parentId",e.getParentId());
+        return "add-sub-category";
+    }
 }
