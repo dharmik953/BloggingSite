@@ -63,13 +63,28 @@ public class CategoryController {
         return "redirect:/admin/view-categories";
     }
 
-//    @GetMapping("/admin/add-subcategory")
-//    public ModelAndView getAddSubCategory(@RequestParam("id") long id){
-//        ModelAndView mav = new ModelAndView("add-category");
-//        CategoryDto categoryDto = new CategoryDto(id);
-//        mav.addObject("categoryData",categoryDto);
-//        return mav;
-//    }
+    @GetMapping("/admin/add-subcategory")
+    public ModelAndView getAddSubCategory(@RequestParam("id") long id){
+        ModelAndView mav = new ModelAndView("add-sub-category");
+        CategoryDto categoryDto = new CategoryDto();
+        mav.addObject("categoryData",categoryDto);
+        mav.addObject("parentId",id);
+        return mav;
+    }
+
+    @PostMapping("/admin/add-subcategory-save")
+    public String postAddSubCategory(@Valid @RequestParam("id") long parentId,
+                                     @ModelAttribute("categoryData") CategoryDto categoryDto
+                                        ,BindingResult result){
+
+        if(result.hasErrors()){
+            logger.error(result.toString());
+            return "redirect:/admin/view-categories";
+        }
+
+        this.categoryService.addSubCategory(parentId,categoryDto);
+        return "redirect:/admin/view-categories";
+    }
 
 
 

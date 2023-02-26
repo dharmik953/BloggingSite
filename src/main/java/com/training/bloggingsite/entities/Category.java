@@ -67,12 +67,9 @@ public class Category {
         this.parentCategory = parentCategory;
     }
 
-    public Category(long categoryId, String categoryName, LocalDateTime createDateTime, LocalDateTime updateDateTime, Category parentCategory) {
+    public Category(long categoryId, String categoryName) {
         this.categoryId = categoryId;
         this.categoryName = categoryName;
-        this.createDateTime = createDateTime;
-        this.updateDateTime = updateDateTime;
-        this.parentCategory = parentCategory;
     }
 
     public Category() {

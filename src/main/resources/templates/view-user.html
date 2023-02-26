@@ -19,8 +19,8 @@
         <td>Action</td>
     </tr>
 
-    <tr>
-        <td th:each="role:${user.roles}" th:text="${role.role}"></td>
+    <tr th:each="role:${user.roles}">
+        <td  th:text="${role.role}"></td>
         <td>
             <a th:href="@{/admin/user/delete-user-role(id=${user.id})}">delete</a>
         </td>
