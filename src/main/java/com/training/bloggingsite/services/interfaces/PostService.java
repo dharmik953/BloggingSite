@@ -1,5 +1,6 @@
 package com.training.bloggingsite.services.interfaces;
 
+import com.training.bloggingsite.dtos.PostDto;
 import com.training.bloggingsite.entities.Category;
 import com.training.bloggingsite.entities.Post;
 import com.training.bloggingsite.entities.User;
@@ -8,7 +9,7 @@ import java.util.List;
 
 public interface PostService {
 
-    Post savePost(User user, Post post);//save or update post
+    PostDto savePost(User user, PostDto post);//save or update post
 //    PostEditor updatePost();
 
 
@@ -17,14 +18,38 @@ public interface PostService {
 
    // String addPostTitle();//update or add title i
 
-    List<Post> getAllPost();
+    List<PostDto> getAllPost();
 
-    Post getPostByTitle(String title);
+    PostDto getPostByTitle(String title);
 
-    List<Post> getPostByCategory(Category category);
+    List<PostDto> getPostByCategory(Category category);
 
-    Post getPostById(Long id);
+    PostDto getPostById(Long id);
 
 
-    List<Post> getAllPostByUser(User user);
+    List<PostDto> getAllPostByUser(User user);
+
+
+
+    default PostDto toPostDto(Post post){
+        return new PostDto(
+          post.getId(),
+          post.getContent()  ,
+          post.getTitle(),
+          post.isVerified(),
+          post.getCreateDateTime(),
+          post.getUpdateDateTime()
+        );
+    }
+
+    default Post toPost(PostDto postDto){
+        return new Post(
+                postDto.getId(),
+                postDto.getContent(),
+                postDto.getTitle(),
+                postDto.isVerified(),
+                postDto.getCreateDateTime(),
+                postDto.getUpdateDateTime()
+        );
+    }
 }

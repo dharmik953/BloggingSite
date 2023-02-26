@@ -1,5 +1,7 @@
 package com.training.bloggingsite.services.impl;
 
+import com.training.bloggingsite.dtos.PostDto;
+import com.training.bloggingsite.dtos.UserDto;
 import com.training.bloggingsite.entities.Category;
 import com.training.bloggingsite.entities.Post;
 import com.training.bloggingsite.entities.User;
@@ -8,46 +10,61 @@ import com.training.bloggingsite.services.interfaces.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class PostImpl  implements PostService{
+public class PostImpl implements PostService {
     @Autowired
     PostRepository repository;
 
     @Override
-    public Post savePost(User user, Post post) {
-        return repository.save(post);
+    public PostDto savePost(User user, PostDto post) {
+
+        Post savePost = toPost(post);
+        repository.save(savePost);
+
+        return toPostDto(repository.save(savePost));
 
     }
 
 
     @Override
-    public List<Post> getAllPost() {
-        return repository.findAll();
+    public List<PostDto> getAllPost() {
+        List<PostDto> postDtos = new ArrayList<>();
+        List<Post> Allpost = repository.findAll();
+
+        for (Post p : Allpost)
+            postDtos.add(toPostDto(p));
+
+
+        return postDtos;
     }
 
     @Override
-    public Post getPostByTitle(String title) {
+    public PostDto getPostByTitle(String title) {
         return null;
     }
 
     @Override
-    public List<Post> getPostByCategory(Category category) {
+    public List<PostDto> getPostByCategory(Category category) {
         return null;
     }
 
     @Override
-    public Post getPostById(Long id) {
+    public PostDto getPostById(Long id) {
         return null;
     }
 
     @Override
-    public List<Post> getAllPostByUser(User user) {
-        Optional<Post> id = repository.findById(user.getId());
+    public List<PostDto> getAllPostByUser(User user) {
+        List<PostDto> postDtos = new ArrayList<>();
+        List<Post> id = repository.findById(user.getId()).stream().toList();
+        for (Post p : id)
+            postDtos.add(toPostDto(p));
 
-        return id.stream().toList();
+        return postDtos;
     }
 
 
