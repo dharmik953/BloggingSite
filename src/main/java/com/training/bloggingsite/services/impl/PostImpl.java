@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class PostImpl  implements PostService{
+public class PostImpl implements PostService {
     @Autowired
     PostRepository repository;
 
@@ -21,7 +21,6 @@ public class PostImpl  implements PostService{
         return repository.save(post);
 
     }
-
 
     @Override
     public List<Post> getAllPost() {
@@ -49,6 +48,4 @@ public class PostImpl  implements PostService{
 
         return id.stream().toList();
     }
-
-
 }

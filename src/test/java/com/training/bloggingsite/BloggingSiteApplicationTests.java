@@ -1,16 +1,25 @@
 package com.training.bloggingsite;
 
+import com.training.bloggingsite.entities.Comment;
 import com.training.bloggingsite.entities.Post;
+import com.training.bloggingsite.repositories.CommentRepositories;
 import com.training.bloggingsite.repositories.PostRepository;
-import com.training.bloggingsite.services.interfaces.PostService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.time.LocalDateTime;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
 class BloggingSiteApplicationTests {
     @Autowired
     PostRepository postRepository;
+
+    @Autowired
+    CommentRepositories commentRepositories;
+
    // @Test
     void findAllPOstwithPOstTable() {
         Post post=new Post();
@@ -21,8 +30,26 @@ class BloggingSiteApplicationTests {
       //  post.
         postRepository.save(post);
         Post post1 = postRepository.findById(1l).get();
-        org.junit.jupiter.api.Assertions.assertNotNull(post1);
+        assertNotNull(post1);
 
+    }
+
+    @Test
+    void saveCommentByPost() {
+        Post post = new Post();
+        Long postId = post.getId();
+        Comment comment = new Comment();
+        comment.setCommentContent("this is comment body");
+        comment.setId(12L);
+        comment.setCreateDateTime(LocalDateTime.now());
+        comment.setVerified(true);
+        comment.setUpdateDateTime(LocalDateTime.now());
+        comment.setPostId(4L);
+
+        commentRepositories.save(comment);
+//        List<Comment> comment1 = commentRepositories.findCommentByPostId();
+//        Optional<Comment> comment1 = commentRepositories.findById(comment.getCommentId());
+        assertNotNull(comment);
     }
 
 }

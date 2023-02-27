@@ -1,7 +1,6 @@
 package com.training.bloggingsite.contolleres;
 
 import com.training.bloggingsite.dtos.CategoryDto;
-import com.training.bloggingsite.entities.Category;
 import com.training.bloggingsite.services.interfaces.CategoryService;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
@@ -85,7 +84,5 @@ public class CategoryController {
         this.categoryService.addSubCategory(parentId,categoryDto);
         return "redirect:/admin/view-categories";
     }
-
-
 
 }

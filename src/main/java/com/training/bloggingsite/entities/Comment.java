@@ -12,7 +12,7 @@ public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "column_id")
-    private long commentId;
+    private long id;
 
     private boolean isVerified = false;
 
@@ -23,20 +23,27 @@ public class Comment {
     private LocalDateTime updateDateTime;
     private String commentContent;
 
-    public Comment(long commentId, boolean isVerified, LocalDateTime createDateTime, LocalDateTime updateDateTime, String commentContent) {
-        this.commentId = commentId;
-        this.isVerified = isVerified;
-        this.createDateTime = createDateTime;
-        this.updateDateTime = updateDateTime;
-        this.commentContent = commentContent;
+    private Long postId;
+    private Long userId;
+
+    @Override
+    public String toString() {
+        return "Comment{" +
+                "commentId=" + id +
+                ", isVerified=" + isVerified +
+                ", createDateTime=" + createDateTime +
+                ", updateDateTime=" + updateDateTime +
+                ", commentContent='" + commentContent + '\'' +
+                ", postId=" + postId +
+                '}';
     }
 
-    public long getCommentId() {
-        return commentId;
+    public long getId() {
+        return id;
     }
 
-    public void setCommentId(long commentId) {
-        this.commentId = commentId;
+    public void setId(long commentId) {
+        this.id = commentId;
     }
 
     public boolean isVerified() {
@@ -69,5 +76,21 @@ public class Comment {
 
     public void setCommentContent(String commentContent) {
         this.commentContent = commentContent;
+    }
+
+    public Comment() {
+    }
+
+    public Comment(long id, boolean isVerified, LocalDateTime createDateTime, LocalDateTime updateDateTime, String commentContent) {
+        this.id = id;
+        this.isVerified = isVerified;
+        this.createDateTime = createDateTime;
+        this.updateDateTime = updateDateTime;
+        this.commentContent = commentContent;
+    }
+
+    public void setPostId(Long postId) {
+        Post post = new Post();
+        post.setId(postId);
     }
 }
