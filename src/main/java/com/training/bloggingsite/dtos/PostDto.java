@@ -6,9 +6,11 @@ public class PostDto {
     Long id;
     String content;
     String title;
-    boolean isVerified;
+    boolean isVerified=true;
     LocalDateTime createDateTime;
     LocalDateTime updateDateTime;
+    public PostDto(){}
+
     public PostDto(Long id, String content, String title, boolean isVerified, LocalDateTime createDateTime, LocalDateTime updateDateTime) {
         this.id = id;
         this.content = content;
@@ -17,7 +19,6 @@ public class PostDto {
         this.createDateTime = createDateTime;
         this.updateDateTime = updateDateTime;
     }
-
     public Long getId() {
         return id;
     }
@@ -67,4 +68,15 @@ public class PostDto {
     }
 
 
+    @Override
+    public String toString() {
+        return "PostDto{" +
+                "id=" + id +
+                ", content='" + content + '\'' +
+                ", title='" + title + '\'' +
+                ", isVerified=" + isVerified +
+                ", createDateTime=" + createDateTime +
+                ", updateDateTime=" + updateDateTime +
+                '}';
+    }
 }

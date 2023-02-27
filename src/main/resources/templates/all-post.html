@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome User</title>
+</head>
+<body>
+<div>
+
+
+
+    <div th:each="pd: ${postDto}">
+        <div style="border: 2px aqua solid; box-shadow: 6px 6px 6px grey;margin-bottom: 20px;">
+           <p style="text-indent: 3em">
+               <a th:href="'post/'+ ${pd.id}"> <span th:text="${pd.title}"></span></a>
+           </p>
+        </div><!--- each time new post with borders --->
+
+    </div><!----- for each ------->
+
+</div>
+</body>
+</html>

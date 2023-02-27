@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface PostService {
 
-    PostDto savePost(User user, PostDto post);//save or update post
+    PostDto savePost(PostDto post);//save or update post//done
 //    PostEditor updatePost();
 
 
@@ -18,9 +18,9 @@ public interface PostService {
 
    // String addPostTitle();//update or add title i
 
-    List<PostDto> getAllPost();
+    List<PostDto> getAllPost();     //done
 
-    PostDto getPostByTitle(String title);
+    //PostDto getPostByTitle(String title);
 
     List<PostDto> getPostByCategory(Category category);
 
@@ -29,7 +29,7 @@ public interface PostService {
 
     List<PostDto> getAllPostByUser(User user);
 
-
+ //   List<PostDto> getAllVerifiedPost();
 
     default PostDto toPostDto(Post post){
         return new PostDto(
@@ -44,7 +44,7 @@ public interface PostService {
 
     default Post toPost(PostDto postDto){
         return new Post(
-                postDto.getId(),
+            postDto.getId(),
                 postDto.getContent(),
                 postDto.getTitle(),
                 postDto.isVerified(),

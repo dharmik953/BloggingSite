@@ -19,8 +19,11 @@ public class PostImpl implements PostService {
     @Autowired
     PostRepository repository;
 
+
+    //toBeadded
+    //public PostDto savePost( User user,PostDto post) {
     @Override
-    public PostDto savePost(User user, PostDto post) {
+    public PostDto savePost( PostDto post) {
 
         Post savePost = toPost(post);
         repository.save(savePost);
@@ -38,14 +41,11 @@ public class PostImpl implements PostService {
         for (Post p : Allpost)
             postDtos.add(toPostDto(p));
 
-
         return postDtos;
     }
 
-    @Override
-    public PostDto getPostByTitle(String title) {
-        return null;
-    }
+   /* @Override
+    public PostDto getPostByTitle(String title) { return toPostDto(repository.findPostByTitle(title)); }*/
 
     @Override
     public List<PostDto> getPostByCategory(Category category) {
@@ -54,7 +54,7 @@ public class PostImpl implements PostService {
 
     @Override
     public PostDto getPostById(Long id) {
-        return null;
+        return toPostDto(repository.getReferenceById(id));
     }
 
     @Override
@@ -66,6 +66,16 @@ public class PostImpl implements PostService {
 
         return postDtos;
     }
+
+  /*  @Override
+    public List<PostDto> getAllVerifiedPost() {
+        List<PostDto> postDtos=new ArrayList<>();
+        List<Post> verifiedList=repository.findByVerifiedIsTrue();
+        for(Post p:verifiedList)
+            postDtos.add(toPostDto(p));
+
+        return  postDtos;
+    }*/
 
 
 }

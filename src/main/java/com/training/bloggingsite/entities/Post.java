@@ -29,7 +29,8 @@ public class Post {
     private String content;
     private String title;
     @Column(name = "isPostVerifiedByAdmin")
-    private boolean isVerified=false;
+    private boolean isVerified=true;
+
 
     @CreationTimestamp
     @Column(name="Created_At")
