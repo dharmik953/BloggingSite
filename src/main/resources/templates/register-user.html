@@ -40,6 +40,8 @@
             <td><input type="submit" value="Register"> <input type="reset" value="Reset"></td>
         </tr>
         <p th:if="${error}" th:text="${error}" style="color: red"/>
+    </form>
 </table>
+
 <span>Already have an account <a th:href="@{/login}">Login here</a></span></body>
 </html>

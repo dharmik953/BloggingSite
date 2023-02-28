@@ -7,20 +7,20 @@ public class RoleDto {
     private int id;
 
     @NotBlank(message = "Role cannot be Blank !!")
-    private String role;
+    private String name;
 
     @Override
     public String toString() {
-        return "RoleDto{" +
-                "role='" + role + '\'' +
+        return "{" +
+                "role='" + name + '\'' +
                 '}';
     }
 
     public RoleDto(){}
 
-    public RoleDto(int id, String role) {
+    public RoleDto(int id, String name) {
         this.id = id;
-        this.role = role;
+        this.name = name;
     }
 
     public int getId() {
@@ -31,11 +31,11 @@ public class RoleDto {
         this.id = id;
     }
 
-    public String getRole() {
-        return role;
+    public String getName() {
+        return name;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setName(String name) {
+        this.name = name;
     }
 }

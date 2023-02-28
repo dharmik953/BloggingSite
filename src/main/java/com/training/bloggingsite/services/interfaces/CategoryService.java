@@ -8,15 +8,15 @@ import java.util.List;
 public interface CategoryService {
     default Category toCategory(CategoryDto categoryDto){
         return new Category(
-                categoryDto.getCategoryId(),
-                categoryDto.getCategoryName()
+                categoryDto.getId(),
+                categoryDto.getName()
         );
     }
 
     default CategoryDto toCategoryDto(Category category){
         return new CategoryDto(
-                category.getCategoryId(),
-                category.getCategoryName()
+                category.getId(),
+                category.getName()
         );
     }
 

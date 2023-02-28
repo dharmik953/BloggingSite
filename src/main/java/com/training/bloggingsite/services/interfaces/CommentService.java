@@ -10,28 +10,28 @@ public interface CommentService {
 
     public void deleteComment(long id);
 
-    List<Comment> getCommentByUser(long userId);
-    List<Comment> getCommentByPost();
-    List<Comment> getVerifiedComments();
-    List<Comment> getUnverifiedComments();
+    List<CommentDto> getCommentByUser(long userId);
+    List<CommentDto> getCommentByPost(long postId);
+    List<CommentDto> getVerifiedComments();
+    List<CommentDto> getUnverifiedComments();
 
-    default Comment toCategory(CommentDto commentDto){
+    default Comment toComment(CommentDto commentDto){
         return new Comment(
-                commentDto.getCommentId(),
-                commentDto.isVerified(),
-                commentDto.getUpdateDateTime(),
-                commentDto.getCreateDateTime(),
-                commentDto.getCommentContent()
+                commentDto.getIdDto(),
+                commentDto.isVerifiedCommentDto(),
+                commentDto.getCreateDateTimeCommentDto(),
+                commentDto.getUpdateDateTimeCommentDto(),
+                commentDto.getNameDto()
         );
     }
 
-    default CommentDto toCategoryDto(Comment comment){
+    default CommentDto toCommentDto(Comment comment){
         return new CommentDto(
-                comment.getCommentId(),
+                comment.getId(),
                 comment.isVerified(),
                 comment.getUpdateDateTime(),
                 comment.getCreateDateTime(),
-                comment.getCommentContent()
+                comment.getName()
         );
     }
 }

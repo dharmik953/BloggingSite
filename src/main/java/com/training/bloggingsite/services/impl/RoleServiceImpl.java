@@ -5,6 +5,7 @@ import com.training.bloggingsite.entities.Role;
 import com.training.bloggingsite.exceptions.RoleAlreadyExistsException;
 import com.training.bloggingsite.repositories.RoleRepository;
 import com.training.bloggingsite.services.interfaces.RoleService;
+import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,18 +23,18 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public RoleDto addRole(RoleDto roleDto) {
-
-        Role check= this.roleRepository.findByRole(roleDto.getRole());
+        Role check= this.roleRepository.findByName(roleDto.getName());
 
         if(check==null) {
             Role roleToBeInserted = toRole(roleDto);
-            roleToBeInserted.setRole(roleToBeInserted.getRole().toUpperCase());
+            System.out.println(roleToBeInserted);
+            roleToBeInserted.setName(roleToBeInserted.getName().toUpperCase());
             this.roleRepository.save(roleToBeInserted);
             logger.info("Role Added :" + roleDto);
             return roleDto;
         }
         else{
-            throw new RoleAlreadyExistsException(roleDto.getRole().toUpperCase());
+            throw new RoleAlreadyExistsException(roleDto.getName().toUpperCase());
         }
     }
 
@@ -64,7 +65,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public RoleDto getRole(String roleDto){
-        Role role = this.roleRepository.findByRole(roleDto);
+        Role role = this.roleRepository.findByName(roleDto);
         RoleDto roleDtoData = toRoleDto(role);
         return roleDtoData;
     }

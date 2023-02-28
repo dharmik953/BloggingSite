@@ -47,7 +47,7 @@ public class PostController {
 
         ModelAndView mav = new ModelAndView("all-post");
 
-
+     //   logger.info(postDto.toString() + "added logger");
 
         mav.addObject("postDto", postDto);
         System.out.println(postDto + "view Mapped");
@@ -72,15 +72,17 @@ public class PostController {
    ModelAndView modelAndView=new ModelAndView("post-editor");
    modelAndView.addObject("postdto",post);
    return  modelAndView;
+
     }
 
 //would be called automatically
     @PostMapping("user/save-post")
     public ResponseEntity<PostDto> saveThePost(@ModelAttribute  PostDto post){
         //service.savePost(service.toPostDto(post));
-        logger.info(post.toString());
+
+        System.out.println("saved post");
         service.savePost(post);
-      //     return ResponseEntity.ok(service.savePost(service.toPostDto(post)));
+        //   return ResponseEntity.ok(service.savePost(service.toPostDto(post)));
     return  null;
     }
 

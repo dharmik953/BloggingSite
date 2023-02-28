@@ -21,7 +21,7 @@
         </tr>
 
         <tr th:each="role: ${roles}">
-            <td th:text="${role.role}" />
+            <td th:text="${role.name}" />
             <td><a th:href="@{/admin/delete-role(role=${role.id})}"/>delete</td>
         </tr>
     </table>

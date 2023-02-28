@@ -27,9 +27,8 @@ public class SecurityConfig {
                         authorize.requestMatchers("/register/**").permitAll()
                                 .requestMatchers("/").permitAll()
                                 .requestMatchers("/home").permitAll()
-                                .requestMatchers("/admin/**").hasAnyAuthority("ADMIN")
-                                .requestMatchers("/user/**").hasAnyAuthority("USER","ADMIN")
-
+                                .requestMatchers("/admin/**").hasAuthority("ADMIN")
+                                .requestMatchers("/user/**").hasAuthority("USER")
                 ).formLogin(
                         form -> form
                                 .loginPage("/login")

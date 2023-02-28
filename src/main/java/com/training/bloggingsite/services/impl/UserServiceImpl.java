@@ -34,8 +34,8 @@ public class UserServiceImpl implements UserService {
         User user = this.userRepository.findByEmail(userDto.getEmail());
         if(user==null){
 
-            User userToBeInserted = toUser(userDto);
-            Role role = this.roleRepository.findByRole("USER");
+            User userToBeInserted = UserService.toUser(userDto);
+            Role role = this.roleRepository.findByName("USER");
             Set<Role> roleSet = new HashSet<>();
             roleSet.add(role);
             userToBeInserted.setRoles(roleSet);
@@ -54,7 +54,7 @@ public class UserServiceImpl implements UserService {
         List<User> users = this.userRepository.findAll();
         List<UserDto> userDtos = new ArrayList<>();
         for (User user : users){
-            userDtos.add(toUserDto(user));
+            userDtos.add(UserService.toUserDto(user));
         }
         logger.info("Users fetched : "+userDtos);
         return userDtos;
@@ -69,7 +69,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto getUserById(long id) {
         User user = this.userRepository.findById(id).get();
-        UserDto userDto =  toUserDto(user);
+        UserDto userDto =  UserService.toUserDto(user);
         logger.info("User fetched by id :"+userDto+userDto.getId());
         return userDto;
     }
@@ -77,7 +77,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto getUserByEmail(String email) {
         User user = this.userRepository.findByEmail(email);
-        UserDto userDto =  toUserDto(user);
+        UserDto userDto =  UserService.toUserDto(user);
         logger.info("User fetched by email :"+userDto);
         return userDto;
     }

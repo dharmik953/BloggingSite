@@ -20,8 +20,8 @@
   </tr>
 
   <tr th:each="category: ${categories}">
-      <td><a th:href="@{/admin/view-subcategories(id=${category.categoryId})}" th:text="${category.categoryName}"></a></td>
-      <td><a th:href="@{/admin/delete-category(id=${category.categoryId})}">delete</a></td>
+      <td><a th:href="@{/admin/view-subcategories(id=${category.id})}" th:text="${category.name}"></a></td>
+      <td><a th:href="@{/admin/delete-category(id=${category.id})}">delete</a></td>
   </tr>
 </table>
 
