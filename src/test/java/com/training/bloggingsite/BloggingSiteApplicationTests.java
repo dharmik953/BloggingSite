@@ -39,7 +39,7 @@ class BloggingSiteApplicationTests {
         Post post = new Post();
         Long postId = post.getId();
         Comment comment = new Comment();
-        comment.setCommentContent("this is comment body");
+        comment.setName("this is comment body");
         comment.setId(12L);
         comment.setCreateDateTime(LocalDateTime.now());
         comment.setVerified(true);

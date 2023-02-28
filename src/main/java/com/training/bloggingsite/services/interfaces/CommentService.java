@@ -17,11 +17,11 @@ public interface CommentService {
 
     default Comment toComment(CommentDto commentDto){
         return new Comment(
-                commentDto.getCommentIdDto(),
+                commentDto.getIdDto(),
                 commentDto.isVerifiedCommentDto(),
                 commentDto.getCreateDateTimeCommentDto(),
                 commentDto.getUpdateDateTimeCommentDto(),
-                commentDto.getCommentContentDto()
+                commentDto.getNameDto()
         );
     }
 
@@ -31,7 +31,7 @@ public interface CommentService {
                 comment.isVerified(),
                 comment.getUpdateDateTime(),
                 comment.getCreateDateTime(),
-                comment.getCommentContent()
+                comment.getName()
         );
     }
 }

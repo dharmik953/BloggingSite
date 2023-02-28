@@ -42,7 +42,6 @@ public class UserController {
 
     @PostMapping("/register/save")
     public String postRegisterUser(@Valid @ModelAttribute("userData")UserDto userDto, BindingResult result){
-
         if(result.hasErrors()){
             logger.error(String.valueOf(result));
             return "redirect:/register";
