@@ -10,6 +10,7 @@ import com.training.bloggingsite.services.interfaces.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -59,6 +60,7 @@ public class PostImpl implements PostService {
 
     @Override
     public List<PostDto> getAllPostByUser(User user) {
+
         List<PostDto> postDtos = new ArrayList<>();
         List<Post> id = repository.findById(user.getId()).stream().toList();
         for (Post p : id)
