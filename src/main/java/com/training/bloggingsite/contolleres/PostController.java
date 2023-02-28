@@ -1,90 +1,80 @@
 package com.training.bloggingsite.contolleres;
 
 import com.training.bloggingsite.dtos.PostDto;
-import com.training.bloggingsite.entities.Post;
+import com.training.bloggingsite.dtos.UserDto;
 import com.training.bloggingsite.services.interfaces.PostService;
+import com.training.bloggingsite.services.interfaces.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.query.JSqlParserUtils;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.security.Principal;
 import java.util.List;
 
 //comment
 @Controller
 public class PostController {
+
     @Autowired
-    PostService service;
+    PostService postService;
+
+    @Autowired
+    UserService userService;
 
 
     Logger logger = LoggerFactory.getLogger(PostController.class);
 
+    @GetMapping("admin/delete-post")
+    public String delterPost(@RequestParam("id") long id){
+        this.postService.deletePost(id);
+        return "redirect:/admin/all-post";
+    }
+
     @GetMapping("admin/all-post")
     public ModelAndView getAllPost3() {
-        List<PostDto> postDto = this.service.getAllPost();
-
-        ModelAndView mav = new ModelAndView("all-post");
-
-        logger.info(postDto.toString() + "added logger");
-
-        mav.addObject("postDto", postDto);
-        System.out.println(postDto + "view Mapped");
+        List<PostDto> postDto = this.postService.getAllPost();
+        ModelAndView mav = new ModelAndView("admin-view-all-post");
+        mav.addObject("postData", postDto);
         return mav;
     }
 
     @GetMapping("user/all-post")
     public ModelAndView getAllPost() {
-        //TobeAdded   with veried post ONly
-        // List<PostDto> postDto = service.getAllVerifiedPost();
-        List<PostDto> postDto = this.service.getAllPost();
-
-        ModelAndView mav = new ModelAndView("all-post");
-
-     //   logger.info(postDto.toString() + "added logger");
-
-        mav.addObject("postDto", postDto);
-        System.out.println(postDto + "view Mapped");
+        List<PostDto> postDto = this.postService.getAllPost();
+        ModelAndView mav = new ModelAndView("/");
+        mav.addObject("postData", postDto);
         return mav;
-
     }
-
-    //TobeAdded for the admin
 
     @GetMapping("user/post/{postId}")
     public ModelAndView getPostBYPostId(@PathVariable Long postId) {
-        ModelAndView mav = new ModelAndView("display-post");
-        PostDto postDto = service.getPostById(postId);
+        ModelAndView mav = new ModelAndView("view-post");
+        PostDto postDto = postService.getPostById(postId);
         mav.addObject("postid", postDto);
         return mav;
     }
 
-
-   @GetMapping("user/add-post")
-    public ModelAndView addPost(){
-   PostDto post=new PostDto();
-   ModelAndView modelAndView=new ModelAndView("post-editor");
-   modelAndView.addObject("postdto",post);
-   return  modelAndView;
-
+    @GetMapping("user/add-post")
+    public ModelAndView addPost() {
+        PostDto post = new PostDto();
+        ModelAndView modelAndView = new ModelAndView("add-post");
+        modelAndView.addObject("postdto", post);
+        return modelAndView;
     }
 
-//would be called automatically
     @PostMapping("user/save-post")
-    public ResponseEntity<PostDto> saveThePost(@ModelAttribute  PostDto post){
-        //service.savePost(service.toPostDto(post));
-
-        System.out.println("saved post");
-        service.savePost(post);
-        //   return ResponseEntity.ok(service.savePost(service.toPostDto(post)));
-    return  null;
+    public String saveThePost(@ModelAttribute PostDto post, Principal principal) {
+        UserDto userDto = this.userService.getUserByEmail(principal.getName());
+        return this.postService.savePost(post, userDto);
     }
 
+    @GetMapping("/admin/post/verification")
+    public String updateVerification(@RequestParam("postId") long postId,@RequestParam  ("isVerified") boolean isVerified){
+        this.postService.updateVerification(postId,isVerified);
+        return "redirect:/admin/all-post";
+    }
 
 }
