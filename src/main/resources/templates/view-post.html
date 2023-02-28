@@ -1,0 +1,19 @@
+<html>
+<head>
+    <title th:text="${postid.title}"></title>
+</head>
+
+<div>
+    <h1 th:text="${postid.title}"></h1>
+</div>
+<hr/>
+
+
+<div>
+    <p th:text="${postid.content}"></p>
+</div>
+
+
+<a th:href="@{/admin/all-post}">Back-></a>
+
+</html>

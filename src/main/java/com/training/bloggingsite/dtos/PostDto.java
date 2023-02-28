@@ -1,60 +1,34 @@
-package com.training.bloggingsite.entities;
-
-import jakarta.persistence.*;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
+package com.training.bloggingsite.dtos;
 
 import java.time.LocalDateTime;
 
-@Entity
-public class Post {
+public class PostDto {
+    long id;
+    String title;
+    String content;
+    boolean isVerified=true;
+    LocalDateTime createDateTime;
+    LocalDateTime updateDateTime;
+    UserDto userDto;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    public PostDto(){}
 
-    private String title;
-
-    @Lob
-    @Column(name = "content",columnDefinition = "TEXT")
-    private String content;
-
-    private boolean isVerified;
-
-    @CreationTimestamp
-    private LocalDateTime createDateTime;
-
-    @UpdateTimestamp
-    private LocalDateTime updateDateTime;
-
-    @ManyToOne()
-    User user;
-
-    public Post(){}
-
-    public Post(long id, String title, String content, boolean isVerified, LocalDateTime createDateTime, LocalDateTime updateDateTime) {
+    public PostDto(long id, String title, String content, boolean isVerified, LocalDateTime createDateTime, LocalDateTime updateDateTime, UserDto userDto) {
         this.id = id;
         this.title = title;
         this.content = content;
         this.isVerified = isVerified;
         this.createDateTime = createDateTime;
         this.updateDateTime = updateDateTime;
+        this.userDto = userDto;
     }
 
     public long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     public String getContent() {
@@ -63,6 +37,14 @@ public class Post {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public boolean isVerified() {
@@ -89,12 +71,20 @@ public class Post {
         this.updateDateTime = updateDateTime;
     }
 
-    public User getUser() {
-        return user;
+    public UserDto getUserDto() {
+        return userDto;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserDto(UserDto userDto) {
+        this.userDto = userDto;
     }
 
+    @Override
+    public String toString() {
+        return "{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", content='" + content + '\'' +
+                '}';
+    }
 }

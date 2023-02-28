@@ -1,5 +1,7 @@
 package com.training.bloggingsite.services.interfaces;
 
+import com.training.bloggingsite.dtos.PostDto;
+import com.training.bloggingsite.dtos.UserDto;
 import com.training.bloggingsite.entities.Category;
 import com.training.bloggingsite.entities.Post;
 import com.training.bloggingsite.entities.User;
@@ -8,23 +10,41 @@ import java.util.List;
 
 public interface PostService {
 
-    Post savePost(User user, Post post);//save or update post
-//    PostEditor updatePost();
+    String savePost(PostDto post, UserDto userDto);
 
+    List<PostDto> getAllPost();
 
-    //TOBEAdded
-    //Category addCategory(Category category,);//add category thorough DTO
+    List<PostDto> getPostByCategory(Category category);
 
-   // String addPostTitle();//update or add title i
+    PostDto getPostById(Long id);
 
-    List<Post> getAllPost();
+    List<PostDto> getAllPostByUser(User user);
 
-    Post getPostByTitle(String title);
+    void deletePost(long id);
 
-    List<Post> getPostByCategory(Category category);
+    void updateVerification(long postId, boolean isVerified);
 
-    Post getPostById(Long id);
+    default PostDto toPostDto(Post post) {
+        return new PostDto(
+                post.getId(),
+                post.getTitle(),
+                post.getContent(),
+                post.isVerified(),
+                post.getCreateDateTime(),
+                post.getUpdateDateTime(),
+                UserService.toUserDto(post.getUser())
+        );
+    }
 
+    default Post toPost(PostDto postDto) {
+        return new Post(
+                postDto.getId(),
+                postDto.getTitle(),
+                postDto.getContent(),
+                postDto.isVerified(),
+                postDto.getCreateDateTime(),
+                postDto.getUpdateDateTime()
+        );
+    }
 
-    List<Post> getAllPostByUser(User user);
 }
