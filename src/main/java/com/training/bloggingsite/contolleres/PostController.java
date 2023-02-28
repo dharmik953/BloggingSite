@@ -28,13 +28,13 @@ public class PostController {
     Logger logger = LoggerFactory.getLogger(PostController.class);
 
     @GetMapping("admin/delete-post")
-    public String delterPost(@RequestParam("id") long id){
+    public String deletePost(@RequestParam("id") long id) {
         this.postService.deletePost(id);
         return "redirect:/admin/all-post";
     }
 
     @GetMapping("admin/all-post")
-    public ModelAndView getAllPost3() {
+    public ModelAndView getAllPostForAdmin() {
         List<PostDto> postDto = this.postService.getAllPost();
         ModelAndView mav = new ModelAndView("admin-view-all-post");
         mav.addObject("postData", postDto);
@@ -42,9 +42,11 @@ public class PostController {
     }
 
     @GetMapping("user/all-post")
-    public ModelAndView getAllPost() {
-        List<PostDto> postDto = this.postService.getAllPost();
-        ModelAndView mav = new ModelAndView("/");
+    public ModelAndView getAllPostForUser() {
+        List<PostDto> postDto = postService.getAllVerifiedPost();
+        //this.postService.getAllPost().stream().
+        // filter(PostDto::isVerified).collect(Collectors.toList());
+        ModelAndView mav = new ModelAndView("user-view-all-post");
         mav.addObject("postData", postDto);
         return mav;
     }
@@ -71,10 +73,23 @@ public class PostController {
         return this.postService.savePost(post, userDto);
     }
 
+
     @GetMapping("/admin/post/verification")
-    public String updateVerification(@RequestParam("postId") long postId,@RequestParam  ("isVerified") boolean isVerified){
-        this.postService.updateVerification(postId,isVerified);
+    public String updateVerification(@RequestParam("postId") long postId, @RequestParam("isVerified") boolean isVerified) {
+        this.postService.updateVerification(postId, isVerified);
         return "redirect:/admin/all-post";
+    }
+
+    @GetMapping("user/my-post")
+    public ModelAndView getPostByUserId(Principal principal) {
+        UserDto userDto = userService.getUserByEmail(principal.getName());
+        List<PostDto> postDto = postService.getAllPostByUser(UserService.toUser(userDto));
+                //postService.getAllPost().stream().
+                //filter(s->s.getId()==UserService.toUser(userDto).getId()).toList();
+        ModelAndView modelAndView = new ModelAndView("user-view-all-post");
+        modelAndView.addObject("postData", postDto);
+
+        return modelAndView;
     }
 
 }

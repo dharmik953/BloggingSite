@@ -4,23 +4,27 @@ import java.sql.Clob;
 import java.time.LocalDateTime;
 
 public class PostDto {
-    Long id;
-    String content;
+    long id;
     String title;
+    String content;
     boolean isVerified=true;
     LocalDateTime createDateTime;
     LocalDateTime updateDateTime;
+    UserDto userDto;
+
     public PostDto(){}
 
-    public PostDto(Long id, String content, String title, boolean isVerified, LocalDateTime createDateTime, LocalDateTime updateDateTime) {
+    public PostDto(long id, String title, String content, boolean isVerified, LocalDateTime createDateTime, LocalDateTime updateDateTime, UserDto userDto) {
         this.id = id;
-        this.content = content;
         this.title = title;
+        this.content = content;
         this.isVerified = isVerified;
         this.createDateTime = createDateTime;
         this.updateDateTime = updateDateTime;
+        this.userDto = userDto;
     }
-    public Long getId() {
+
+    public long getId() {
         return id;
     }
 
@@ -68,16 +72,20 @@ public class PostDto {
         this.updateDateTime = updateDateTime;
     }
 
+    public UserDto getUserDto() {
+        return userDto;
+    }
+
+    public void setUserDto(UserDto userDto) {
+        this.userDto = userDto;
+    }
 
     @Override
     public String toString() {
-        return "PostDto{" +
+        return "{" +
                 "id=" + id +
-                ", content='" + content + '\'' +
                 ", title='" + title + '\'' +
-                ", isVerified=" + isVerified +
-                ", createDateTime=" + createDateTime +
-                ", updateDateTime=" + updateDateTime +
+                ", content='" + content + '\'' +
                 '}';
     }
 }

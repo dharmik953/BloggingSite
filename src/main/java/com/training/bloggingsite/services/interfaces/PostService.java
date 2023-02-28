@@ -18,6 +18,8 @@ public interface PostService {
 
     PostDto getPostById(Long id);
 
+    List<PostDto> getAllVerifiedPost();
+
     List<PostDto> getAllPostByUser(User user);
 
     void deletePost(long id);
@@ -36,7 +38,7 @@ public interface PostService {
         );
     }
 
-    default Post toPost(PostDto postDto) {
+     default Post toPost(PostDto postDto) {
         return new Post(
                 postDto.getId(),
                 postDto.getTitle(),
@@ -46,5 +48,4 @@ public interface PostService {
                 postDto.getUpdateDateTime()
         );
     }
-
 }

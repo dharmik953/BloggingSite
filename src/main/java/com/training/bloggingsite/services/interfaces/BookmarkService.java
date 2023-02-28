@@ -8,8 +8,8 @@ import java.util.List;
 public interface BookmarkService {
 
    List<PostDto> getAllBookMarkedPost(UserDto userDto);
-   List<PostDto> deleteBookMarkedPost(UserDto userDto);
-   List<PostDto> addBookMarkedPost(UserDto userDto);
+     PostDto deleteBookMarkedPostByPostID(UserDto userDto);
+    void addBookMarkedPost(PostDto postDto,UserDto userDto);
 
 
 }

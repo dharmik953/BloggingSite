@@ -9,55 +9,44 @@ import java.time.LocalDateTime;
 
 @Entity
 public class Post {
-    public Post() {
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id=1l;
+    private long id;
 
-    public Post(Long id,String content, String title, boolean isVerified, LocalDateTime createDateTime, LocalDateTime updateDateTime) {
+    private String title;
+
+    @Lob
+    @Column(name = "content",columnDefinition = "TEXT")
+    private String content;
+
+    private boolean isVerified;
+
+    @CreationTimestamp
+    private LocalDateTime createDateTime;
+
+    @UpdateTimestamp
+    private LocalDateTime updateDateTime;
+
+    @ManyToOne()//Many post can have one User
+    User user;
+
+    public Post(){}
+
+    public Post(long id, String title, String content, boolean isVerified, LocalDateTime createDateTime, LocalDateTime updateDateTime) {
         this.id = id;
-        this.content = content;
         this.title = title;
+        this.content = content;
         this.isVerified = isVerified;
         this.createDateTime = createDateTime;
         this.updateDateTime = updateDateTime;
     }
 
-    @Lob
-    @Column(name = "content",columnDefinition = "CLOB")
-    private String content;
-    private String title;
-    @Column(name = "isPostVerifiedByAdmin")
-    private boolean isVerified;
-
-
-    @CreationTimestamp
-    @Column(name="Created_At")
-    private LocalDateTime createDateTime;
-
-    @UpdateTimestamp
-    @Column(name="Updated_On")
-    private LocalDateTime updateDateTime;
-
-
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
-    }
-
-    @Lob
-    public String getContent() {
-        return content;
-    }
-
-    @Lob
-    public void setContent(String content) {
-        this.content = content;
     }
 
     public String getTitle() {
@@ -66,6 +55,14 @@ public class Post {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public boolean isVerified() {
@@ -92,15 +89,13 @@ public class Post {
         this.updateDateTime = updateDateTime;
     }
 
-    @Override
-    public String toString() {
-        return "Post{" +
-                "id=" + id +
-                ", content='" + content + '\'' +
-                ", title='" + title + '\'' +
-                ", isVerified=" + isVerified +
-                ", createDateTime=" + createDateTime +
-                ", updateDateTime=" + updateDateTime +
-                '}';
+    public User getUser() {
+        return user;
     }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+
 }
