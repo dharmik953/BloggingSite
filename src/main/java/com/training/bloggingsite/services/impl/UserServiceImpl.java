@@ -35,7 +35,7 @@ public class UserServiceImpl implements UserService {
         if(user==null){
 
             User userToBeInserted = UserService.toUser(userDto);
-            Role role = this.roleRepository.findByRole("USER");
+            Role role = this.roleRepository.findByName("USER");
             Set<Role> roleSet = new HashSet<>();
             roleSet.add(role);
             userToBeInserted.setRoles(roleSet);

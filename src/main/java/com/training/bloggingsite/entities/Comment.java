@@ -1,13 +1,11 @@
 package com.training.bloggingsite.entities;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 
 @Entity
-public class Comment extends Connector{
+public class Comment extends BaseEntity {
 
     private boolean isVerified = false;
 
