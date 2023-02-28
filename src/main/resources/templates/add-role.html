@@ -8,7 +8,7 @@
     <form th:object="${roleData}" method="post" th:action="@{/admin/add-role-save}">
         <label class="form-label">Role :</label>
         <input type="hidden" th:field="*{id}">
-        <input placeholder="Enter the Role" th:field="*{role}" type="text"/>
+        <input placeholder="Enter the Role" th:field="*{name}" type="text"/>
         <input type="submit">
     </form>
     <a th:href="@{/admin/view-role}">View Roles</a>

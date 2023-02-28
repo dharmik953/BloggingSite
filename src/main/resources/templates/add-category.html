@@ -5,12 +5,12 @@
 <body>
 <form th:object="${categoryData}" method="post" th:action="@{/admin/add-category-save}">
     <label class="form-label">Category :</label>
-    <input type="hidden" th:field="*{categoryId}">
-    <input placeholder="Enter the Category" th:field="*{categoryName}" type="text"/>
+    <input type="hidden" th:field="*{id}">
+    <input placeholder="Enter the Category" th:field="*{name}" type="text"/>
     <input type="submit">
 </form>
 <a th:href="@{/admin/view-categories}">View Categories</a>
-<p th:if="${error}" th:text="${error}" style="color: red"/>
+<p th:if="${error}" th:text="${error}" style="color: red"></p>
 
 </body>
 </html>

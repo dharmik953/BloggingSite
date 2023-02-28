@@ -4,74 +4,74 @@ import java.time.LocalDateTime;
 
 public class CommentDto {
 
-    private long commentId;
+    private long IdDto;
 
-    private boolean isVerified = false;
+    private boolean isVerifiedCommentDto = false;
 
-    private LocalDateTime createDateTime;
+    private LocalDateTime createDateTimeCommentDto;
 
-    private LocalDateTime updateDateTime;
-    private String commentContent;
-
-    public CommentDto(long commentId, boolean isVerified, LocalDateTime createDateTime, LocalDateTime updateDateTime, String commentContent) {
-        this.commentId = commentId;
-        this.isVerified = isVerified;
-        this.createDateTime = createDateTime;
-        this.updateDateTime = updateDateTime;
-        this.commentContent = commentContent;
-    }
+    private LocalDateTime updateDateTimeCommentDto;
+    private String nameDto;
 
     @Override
     public String toString() {
         return "CommentDto{" +
-                "commentId=" + commentId +
-                ", isVerified=" + isVerified +
-                ", createDateTime=" + createDateTime +
-                ", updateDateTime=" + updateDateTime +
-                ", commentContent='" + commentContent + '\'' +
+                "commentIdDto=" + IdDto +
+                ", isVerifiedCommentDto=" + isVerifiedCommentDto +
+                ", createDateTimeCommentDto=" + createDateTimeCommentDto +
+                ", updateDateTimeCommentDto=" + updateDateTimeCommentDto +
+                ", commentContentDto='" + nameDto + '\'' +
                 '}';
     }
 
-    public long getCommentId() {
-        return commentId;
+    public long getIdDto() {
+        return IdDto;
     }
 
-    public void setCommentId(long commentId) {
-        this.commentId = commentId;
+    public void setIdDto(long idDto) {
+        this.IdDto = idDto;
     }
 
-    public boolean isVerified() {
-        return isVerified;
+    public boolean isVerifiedCommentDto() {
+        return isVerifiedCommentDto;
     }
 
-    public void setVerified(boolean verified) {
-        isVerified = verified;
+    public void setVerifiedCommentDto(boolean verifiedCommentDto) {
+        isVerifiedCommentDto = verifiedCommentDto;
     }
 
-    public LocalDateTime getCreateDateTime() {
-        return createDateTime;
+    public LocalDateTime getCreateDateTimeCommentDto() {
+        return createDateTimeCommentDto;
     }
 
-    public void setCreateDateTime(LocalDateTime createDateTime) {
-        this.createDateTime = createDateTime;
+    public void setCreateDateTimeCommentDto(LocalDateTime createDateTimeCommentDto) {
+        this.createDateTimeCommentDto = createDateTimeCommentDto;
     }
 
-    public LocalDateTime getUpdateDateTime() {
-        return updateDateTime;
+    public LocalDateTime getUpdateDateTimeCommentDto() {
+        return updateDateTimeCommentDto;
     }
 
-    public void setUpdateDateTime(LocalDateTime updateDateTime) {
-        this.updateDateTime = updateDateTime;
+    public void setUpdateDateTimeCommentDto(LocalDateTime updateDateTimeCommentDto) {
+        this.updateDateTimeCommentDto = updateDateTimeCommentDto;
     }
 
-    public String getCommentContent() {
-        return commentContent;
+    public String getNameDto() {
+        return nameDto;
     }
 
-    public void setCommentContent(String commentContent) {
-        this.commentContent = commentContent;
+    public void setNameDto(String nameDto) {
+        this.nameDto = nameDto;
     }
 
     public CommentDto() {
+    }
+
+    public CommentDto(long IdDto, boolean isVerifiedCommentDto, LocalDateTime createDateTimeCommentDto, LocalDateTime updateDateTimeCommentDto, String nameDto) {
+        this.IdDto = IdDto;
+        this.isVerifiedCommentDto = isVerifiedCommentDto;
+        this.createDateTimeCommentDto = createDateTimeCommentDto;
+        this.updateDateTimeCommentDto = updateDateTimeCommentDto;
+        this.nameDto = nameDto;
     }
 }

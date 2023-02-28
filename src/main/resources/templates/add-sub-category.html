@@ -7,7 +7,7 @@
 <body>
 <form th:object="${categoryData}" method="post" th:action="@{/admin/add-subcategory-save(id=${parentId})}">
     <label class="form-label">Sub-Category :</label>
-    <input placeholder="Enter the Sub-Category" th:field="*{categoryName}" type="text"/>
+    <input placeholder="Enter the Sub-Category" th:field="*{name}" type="text"/>
     <input type="submit">
 </form>
 <a th:href="@{/admin/view-categories}">View Categories</a>

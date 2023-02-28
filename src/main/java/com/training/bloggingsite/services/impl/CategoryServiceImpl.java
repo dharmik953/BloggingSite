@@ -24,7 +24,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public CategoryDto addCategory(CategoryDto categoryDto) {
 
-        Category check =this.categoryRepositories.findByCategoryName(categoryDto.getCategoryName());
+        Category check =this.categoryRepositories.findByName(categoryDto.getName());
 
         if(check==null) {
             Category categoryToBeInserted = toCategory(categoryDto);
@@ -33,13 +33,14 @@ public class CategoryServiceImpl implements CategoryService {
             return categoryDto;
         }
         else{
-            throw new CategoryAlreadyExistsException(categoryDto.getCategoryName());
+            throw new CategoryAlreadyExistsException(categoryDto.getName());
         }
     }
 
     @Override
     public void deleteCategory(long id) {
         categoryRepositories.deleteById(id);
+        logger.info("Category deleted by  :" + id);
     }
 
     @Override
@@ -49,39 +50,45 @@ public class CategoryServiceImpl implements CategoryService {
         for(Category category : categories){
             categoryDtos.add(toCategoryDto(category));
         }
+        logger.info("Category fetched :" + categoryDtos);
         return categoryDtos;
     }
 
     @Override
     public CategoryDto getCategoryById(long id) {
         Category category = categoryRepositories.findById(id).get();
-        return toCategoryDto(category);
+        CategoryDto categoryDto = toCategoryDto(category);
+        logger.info("Category fetched by Id:" + categoryDto);
+        return categoryDto;
     }
 
     @Override
     public CategoryDto addSubCategory(long parentId,CategoryDto categoryDto) {
 
-        Category check =this.categoryRepositories.findByCategoryName(categoryDto.getCategoryName());
+        Category check =this.categoryRepositories.findByName(categoryDto.getName());
 
         if(check==null) {
             Category parentCategory = this.categoryRepositories.findById(parentId).get();
             Category subCategory = toCategory(categoryDto);
             subCategory.setParentCategory(parentCategory);
+            subCategory.setId(0);
             this.categoryRepositories.save(subCategory);
+            logger.info("Sub Category Added:" + subCategory);
             return categoryDto;
         }
         else{
-            throw new SubCategoryAlreadyExistsException(categoryDto.getCategoryName(),parentId);
+            throw new SubCategoryAlreadyExistsException(categoryDto.getName(),parentId);
         }
     }
 
     @Override
     public List<CategoryDto> getCategoryByParent(CategoryDto categoryDto) {
-        List<Category> categories = this.categoryRepositories.findCategoriesByParentCategoryCategoryId(categoryDto.getCategoryId());
+        List<Category> categories = this.categoryRepositories.findCategoriesByParentCategoryId(categoryDto.getId());
         List<CategoryDto> categoryDtos = new ArrayList<>();
         for (Category category : categories){
             categoryDtos.add(toCategoryDto(category));
         }
+        logger.info("Category fetched as parent :" + categoryDtos);
         return categoryDtos;
     }
 
