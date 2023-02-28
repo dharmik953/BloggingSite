@@ -30,7 +30,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<Comment> getCommentByUser(long userId) {
+    public List<CommentDto> getCommentByUser(long userId) {
         List<Comment> list = new ArrayList<>();
 //        for ()
 //        return repositories.findAllById(userId);
@@ -38,17 +38,17 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<Comment> getCommentByPost() {
+    public List<CommentDto> getCommentByPost(long postId) {
         return null;
     }
 
     @Override
-    public List<Comment> getVerifiedComments() {
+    public List<CommentDto> getVerifiedComments() {
         return null;
     }
 
     @Override
-    public List<Comment> getUnverifiedComments() {
+    public List<CommentDto> getUnverifiedComments() {
         return null;
     }
 
