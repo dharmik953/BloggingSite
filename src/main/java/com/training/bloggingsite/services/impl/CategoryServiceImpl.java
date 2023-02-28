@@ -4,7 +4,7 @@ import com.training.bloggingsite.dtos.CategoryDto;
 import com.training.bloggingsite.entities.Category;
 import com.training.bloggingsite.exceptions.CategoryAlreadyExistsException;
 import com.training.bloggingsite.exceptions.SubCategoryAlreadyExistsException;
-import com.training.bloggingsite.repositories.CategoryRepositories;
+import com.training.bloggingsite.repositories.CategoryRepository;
 import com.training.bloggingsite.services.interfaces.CategoryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +17,7 @@ import java.util.List;
 public class CategoryServiceImpl implements CategoryService {
 
     @Autowired
-    CategoryRepositories categoryRepositories;
+    CategoryRepository categoryRepositories;
 
     private Logger logger = LoggerFactory.getLogger(CategoryServiceImpl.class);
 

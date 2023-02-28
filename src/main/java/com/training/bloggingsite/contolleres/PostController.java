@@ -34,7 +34,7 @@ public class PostController {
     }
 
     @GetMapping("admin/all-post")
-    public ModelAndView getAllPost3() {
+    public ModelAndView getAllPostAdmin() {
         List<PostDto> postDto = this.postService.getAllPost();
         ModelAndView mav = new ModelAndView("admin-view-all-post");
         mav.addObject("postData", postDto);
@@ -42,9 +42,9 @@ public class PostController {
     }
 
     @GetMapping("user/all-post")
-    public ModelAndView getAllPost() {
-        List<PostDto> postDto = this.postService.getAllPost();
-        ModelAndView mav = new ModelAndView("/");
+    public ModelAndView getAllPostUser() {
+        List<PostDto> postDto = this.postService.getAllVerifiedPost();
+        ModelAndView mav = new ModelAndView("user-view-all-post");
         mav.addObject("postData", postDto);
         return mav;
     }

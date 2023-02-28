@@ -18,6 +18,8 @@ public interface PostService {
 
     PostDto getPostById(Long id);
 
+    List<PostDto> getAllVerifiedPost();
+
     List<PostDto> getAllPostByUser(User user);
 
     void deletePost(long id);
