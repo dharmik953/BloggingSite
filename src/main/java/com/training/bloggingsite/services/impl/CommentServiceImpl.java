@@ -1,7 +1,7 @@
 package com.training.bloggingsite.services.impl;
 
 import com.training.bloggingsite.entities.Comment;
-import com.training.bloggingsite.repositories.CommentRepositories;
+import com.training.bloggingsite.repositories.CommentRepository;
 import com.training.bloggingsite.services.interfaces.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,7 +13,7 @@ import java.util.List;
 public class CommentServiceImpl implements CommentService {
 
     @Autowired
-    CommentRepositories repositories;
+    CommentRepository repositories;
     @Override
     public Comment addComment(Comment comment) {
         return repositories.save(comment);

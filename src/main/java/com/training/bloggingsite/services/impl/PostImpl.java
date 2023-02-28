@@ -49,11 +49,9 @@ public class PostImpl implements PostService {
     public List<PostDto> getAllPost() {
         List<PostDto> postDtos = new ArrayList<>();
         List<Post> Allpost = postRepository.findAll();
-
         for (Post post : Allpost) {
             postDtos.add(toPostDto(post));
         }
-
         return postDtos;
     }
 
@@ -62,9 +60,21 @@ public class PostImpl implements PostService {
         return null;
     }
 
+
+
     @Override
     public PostDto getPostById(Long id) {
         return toPostDto(postRepository.getReferenceById(id));
+    }
+
+    @Override
+    public List<PostDto> getAllVerifiedPost() {
+        List<PostDto> postDtos = new ArrayList<>();
+        List<Post> Allpost = postRepository.findPostsByIsVerifiedTrue();
+        for (Post post : Allpost) {
+            postDtos.add(toPostDto(post));
+        }
+        return postDtos;
     }
 
     @Override
