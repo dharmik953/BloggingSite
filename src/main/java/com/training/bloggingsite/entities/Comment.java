@@ -1,43 +1,21 @@
 package com.training.bloggingsite.entities;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 
 @Entity
-public class Comment {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "column_id")
-    private long commentId;
+public class Comment extends BaseEntity {
 
     private boolean isVerified = false;
 
-    @CreationTimestamp
-    private LocalDateTime createDateTime;
+    private Long postId;
+    private Long userId;
 
-    @UpdateTimestamp
-    private LocalDateTime updateDateTime;
-    private String commentContent;
-
-    public Comment(long commentId, boolean isVerified, LocalDateTime createDateTime, LocalDateTime updateDateTime, String commentContent) {
-        this.commentId = commentId;
-        this.isVerified = isVerified;
-        this.createDateTime = createDateTime;
-        this.updateDateTime = updateDateTime;
-        this.commentContent = commentContent;
+    public Comment(long commentIdDto, boolean verifiedCommentDto, LocalDateTime createDateTimeCommentDto, LocalDateTime updateDateTimeCommentDto, String commentContentDto) {
+        super();
     }
 
-    public long getCommentId() {
-        return commentId;
-    }
-
-    public void setCommentId(long commentId) {
-        this.commentId = commentId;
-    }
 
     public boolean isVerified() {
         return isVerified;
@@ -47,27 +25,21 @@ public class Comment {
         isVerified = verified;
     }
 
-    public LocalDateTime getCreateDateTime() {
-        return createDateTime;
+
+    public Comment() {
     }
 
-    public void setCreateDateTime(LocalDateTime createDateTime) {
-        this.createDateTime = createDateTime;
+    @Override
+    public String toString() {
+        return "Comment{" +
+                "isVerified=" + isVerified +
+                ", postId=" + postId +
+                ", userId=" + userId +
+                '}';
     }
 
-    public LocalDateTime getUpdateDateTime() {
-        return updateDateTime;
-    }
-
-    public void setUpdateDateTime(LocalDateTime updateDateTime) {
-        this.updateDateTime = updateDateTime;
-    }
-
-    public String getCommentContent() {
-        return commentContent;
-    }
-
-    public void setCommentContent(String commentContent) {
-        this.commentContent = commentContent;
+    public void setPostId(Long postId) {
+        Post post = new Post();
+        post.setId(postId);
     }
 }

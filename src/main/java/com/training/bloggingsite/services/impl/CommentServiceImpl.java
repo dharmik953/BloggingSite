@@ -1,5 +1,6 @@
 package com.training.bloggingsite.services.impl;
 
+import com.training.bloggingsite.dtos.CommentDto;
 import com.training.bloggingsite.entities.Comment;
 import com.training.bloggingsite.repositories.CommentRepository;
 import com.training.bloggingsite.services.interfaces.CommentService;
@@ -14,6 +15,10 @@ public class CommentServiceImpl implements CommentService {
 
     @Autowired
     CommentRepository repositories;
+
+    List<CommentDto> verifiedComment = new ArrayList<>();
+    List<CommentDto> unVerifiedComment = new ArrayList<>();
+
     @Override
     public Comment addComment(Comment comment) {
         return repositories.save(comment);

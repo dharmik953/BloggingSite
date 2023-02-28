@@ -3,38 +3,38 @@ package com.training.bloggingsite.dtos;
 import jakarta.validation.constraints.NotBlank;
 
 public class CategoryDto {
-    private long categoryId;
+    private long Id;
 
     @NotBlank
-    private String categoryName;
+    private String name;
 
     public CategoryDto(){}
 
-    public CategoryDto(long categoryId, String categoryName) {
-        this.categoryId = categoryId;
-        this.categoryName = categoryName;
+    public CategoryDto(long Id, String name) {
+        this.Id = Id;
+        this.name = name;
     }
 
     @Override
     public String toString() {
-        return "CategoryDto{" +
-                "categoryName='" + categoryName + '\'' +
+        return "{" +
+                "categoryName='" + name + '\'' +
                 '}';
     }
 
-    public long getCategoryId() {
-        return categoryId;
+    public long getId() {
+        return Id;
     }
 
-    public void setCategoryId(long categoryId) {
-        this.categoryId = categoryId;
+    public void setId(long id) {
+        this.Id = id;
     }
 
-    public String getCategoryName() {
-        return categoryName;
+    public String getName() {
+        return name;
     }
 
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
+    public void setName(String name) {
+        this.name = name;
     }
 }

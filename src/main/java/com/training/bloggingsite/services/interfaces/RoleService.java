@@ -8,11 +8,11 @@ import java.util.List;
 public interface RoleService {
 
     default Role toRole(RoleDto roleDto){
-        return new Role(roleDto.getId(),roleDto.getRole());
+        return new Role(roleDto.getId(),roleDto.getName());
     }
 
     default RoleDto toRoleDto(Role role){
-        return new RoleDto(role.getId(), role.getRole());
+        return new RoleDto((int) role.getId(), role.getName());
     }
 
     public RoleDto addRole(RoleDto roleDto);

@@ -31,7 +31,7 @@ public class PostImpl implements PostService {
         Post postToBeInserted = toPost(post);
         postToBeInserted.setUser(user);
         List<Role> roles = user.getRoles().stream().toList();
-        if(roles.get(0).getRole().equals("ADMIN")){
+        if(roles.get(0).getName().equals("ADMIN")){
             postToBeInserted.setVerified(true);
             this.postRepository.save(postToBeInserted);
             logger.info("Post created as : " + postToBeInserted + "by "+userDto.getName());
