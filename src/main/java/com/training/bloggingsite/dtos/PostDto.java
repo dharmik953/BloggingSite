@@ -1,5 +1,6 @@
 package com.training.bloggingsite.dtos;
 
+import java.sql.Clob;
 import java.time.LocalDateTime;
 
 public class PostDto {

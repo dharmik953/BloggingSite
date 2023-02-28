@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.sql.Clob;
 import java.time.LocalDateTime;
 
 @Entity
@@ -15,7 +16,7 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id=1l;
 
-    public Post(Long id, String content, String title, boolean isVerified, LocalDateTime createDateTime, LocalDateTime updateDateTime) {
+    public Post(Long id,String content, String title, boolean isVerified, LocalDateTime createDateTime, LocalDateTime updateDateTime) {
         this.id = id;
         this.content = content;
         this.title = title;
@@ -25,11 +26,11 @@ public class Post {
     }
 
     @Lob
-    @Column(name = "content")
+    @Column(name = "content",columnDefinition = "CLOB")
     private String content;
     private String title;
     @Column(name = "isPostVerifiedByAdmin")
-    private boolean isVerified=true;
+    private boolean isVerified;
 
 
     @CreationTimestamp
@@ -49,10 +50,12 @@ public class Post {
         this.id = id;
     }
 
+    @Lob
     public String getContent() {
         return content;
     }
 
+    @Lob
     public void setContent(String content) {
         this.content = content;
     }

@@ -6,6 +6,7 @@ import com.training.bloggingsite.services.interfaces.PostService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.query.JSqlParserUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -79,7 +80,7 @@ public class PostController {
     public ResponseEntity<PostDto> saveThePost(@ModelAttribute  PostDto post){
         //service.savePost(service.toPostDto(post));
 
-
+        System.out.println("saved post");
         service.savePost(post);
         //   return ResponseEntity.ok(service.savePost(service.toPostDto(post)));
     return  null;

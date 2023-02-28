@@ -16,7 +16,7 @@ class BloggingSiteApplicationTests {
         Post post=new Post();
         post.setId(1l);
         post.setTitle("buygyuyu");
-        post.setContent("uhiuiueiinwo");
+        //post.setContent("uhiuiueiinwo");
         post.setVerified(false);
       //  post.
         postRepository.save(post);
