@@ -6,17 +6,17 @@ import java.util.List;
 
 public interface CategoryService {
 
-    public CategoryDto addCategory(CategoryDto category);
+    CategoryDto addCategory(CategoryDto category);
 
-    public void deleteCategory(long id);
+    void deleteCategory(long id);
 
     List<CategoryDto> findAllCategory();
 
-    public CategoryDto findCategoryById(long id);
+    CategoryDto findCategoryById(long id);
 
-    public CategoryDto addSubCategory(long parentId,CategoryDto categoryDto);
+    CategoryDto addSubCategory(long parentId, CategoryDto categoryDto);
 
-    public List<CategoryDto> findCategoryByParent(CategoryDto categoryDto);
+    List<CategoryDto> findCategoryByParent(CategoryDto categoryDto);
 
     List<CategoryDto> findAllCategoryIncludeChildren();
 }

@@ -68,12 +68,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteUser(long id) {
-        this.userRepository.deleteById(id);
-        logger.info("User Deleted with id :" + id);
-    }
-
-    @Override
     public UserDto findUserById(long id) {
         User user = this.userRepository.findById(id).get();
         if (user == null) {

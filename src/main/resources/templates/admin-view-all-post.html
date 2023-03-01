@@ -9,7 +9,7 @@
     <div th:each="postData: ${postData}">
         <div style="border: 2px aqua solid; box-shadow: 6px 6px 6px grey;margin-bottom: 20px;">
            <p style="text-indent: 3em">
-               <a th:href="@{/user/post/{postId}(postId=${postData.id})}"> <span th:text="${postData.title}"></span></a>
+               <a th:href="@{/admin/post/{postId}(postId=${postData.id})}"> <span th:text="${postData.title}"></span></a>
            </p>
             <a th:text="${postData.isVerified} ? 'Un-Verify Post' : 'Verify Post'" th:href="@{/admin/post/verification(postId=${postData.id},isVerified=${postData.isVerified})}"></a> <br>
             <br><br>

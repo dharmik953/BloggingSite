@@ -25,7 +25,7 @@ import java.util.List;
 
 @Service
 @Transactional
-public class PostImpl implements PostService {
+public class PostServiceImpl implements PostService {
 
     @Autowired
     PostRepository postRepository;
@@ -36,7 +36,7 @@ public class PostImpl implements PostService {
     @Autowired
     CategoryRepository categoryRepository;
 
-    Logger logger = LoggerFactory.getLogger(PostImpl.class);
+    Logger logger = LoggerFactory.getLogger(PostServiceImpl.class);
 
     @Override
     public String savePost(PostDto post, String userEmail, String categoryName) {
@@ -48,13 +48,16 @@ public class PostImpl implements PostService {
         List<Role> roles = user.getRoles().stream().toList();
         if(roles.get(0).getName().equals(DefaultValue.ADMIN)){
             postToBeInserted.setVerified(true);
+            this.postRepository.save(postToBeInserted);
+            logger.info("Post created as : " + postToBeInserted.getTitle() + " by "+user.getName());
+            return "redirect:/admin/home";
         }
         else {
             postToBeInserted.setVerified(false);
+            this.postRepository.save(postToBeInserted);
+            logger.info("Post created as : " + postToBeInserted.getTitle() + " by "+user.getName());
+            return "redirect:/user/home";
         }
-        this.postRepository.save(postToBeInserted);
-        logger.info("Post created as : " + postToBeInserted + "by "+user.getName());
-        return "redirect:/admin/home";
     }
 
     @Override
@@ -65,11 +68,6 @@ public class PostImpl implements PostService {
             postDtos.add(PostConvertor.toPostDto(post));
         }
         return postDtos;
-    }
-
-    @Override
-    public List<PostDto> getPostByCategory(Category category) {
-        return null;
     }
 
     @Override
@@ -113,22 +111,10 @@ public class PostImpl implements PostService {
     @Override
     public Page<Post> findPaginatedPost(int pageNo, int pageSize) {
         Pageable pageable=PageRequest.of(pageNo-1,pageSize);
-
-
         return this.postRepository.findAll(pageable);
     }
 
-    /*@Override
-    public Page<Post> findPaginatedPost(Pageable pageable) {
-        int pageNumber = 1;
-        int pageSize = 3;
-    Pageable pageableObject= PageRequest.of(pageNumber,pageSize);
-    Page<Post> paginatedPost=postRepository.findAll(pageable);
 
-    List<Post> listOfPost=paginatedPost.getContent();
-
-        return null;
-    }*/
 
 
 

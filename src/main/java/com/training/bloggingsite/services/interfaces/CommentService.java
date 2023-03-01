@@ -6,14 +6,12 @@ import com.training.bloggingsite.entities.Comment;
 import java.util.List;
 
 public interface CommentService {
-    void addComment(CommentDto comment,long postId,String userEmail);
 
-    public void deleteComment(long id);
+    String addComment(CommentDto comment,long postId,String userEmail);
 
-    List<CommentDto> getCommentByUser(long userId);
-    List<CommentDto> getCommentByPost(long postId);
-    List<CommentDto> getVerifiedComments();
-    List<CommentDto> getUnverifiedComments();
+    List<CommentDto> findCommentByPostVerified(long postId);
 
+    List<CommentDto> findAllPost(long postId);
 
+    void updateVerification(long commentId, boolean isVerified);
 }

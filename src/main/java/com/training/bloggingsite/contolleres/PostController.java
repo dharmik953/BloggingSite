@@ -4,11 +4,8 @@ import com.training.bloggingsite.dtos.CategoryDto;
 import com.training.bloggingsite.dtos.CommentDto;
 import com.training.bloggingsite.dtos.PostDto;
 import com.training.bloggingsite.dtos.UserDto;
-import com.training.bloggingsite.services.interfaces.CategoryService;
+import com.training.bloggingsite.services.interfaces.*;
 import com.training.bloggingsite.entities.Post;
-import com.training.bloggingsite.services.interfaces.BookmarkService;
-import com.training.bloggingsite.services.interfaces.PostService;
-import com.training.bloggingsite.services.interfaces.UserService;
 import com.training.bloggingsite.utils.UserConvertor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,13 +24,18 @@ public class PostController {
 
     @Autowired
     PostService postService;
+
     @Autowired
     BookmarkService bookmarkService;
+
     @Autowired
     UserService userService;
+
     @Autowired
     CategoryService categoryService;
 
+    @Autowired
+    CommentService commentService;
 
     Logger logger = LoggerFactory.getLogger(PostController.class);
 
@@ -60,26 +62,23 @@ public class PostController {
     @GetMapping("user/all-post")
     public ModelAndView getAllPostForUser() {
         List<PostDto> postDto = postService.getAllVerifiedPost();
-        //this.postService.getAllPost().stream().
-        // filter(PostDto::isVerified).collect(Collectors.toList());
         ModelAndView mav = new ModelAndView("user-view-all-post");
         mav.addObject("postData", postDto);
         return mav;
     }
 
     @GetMapping("user/post/{postId}")
-
-    public ModelAndView getPostBYPostId(@PathVariable long postId,Principal principal) {
-        ModelAndView mav = new ModelAndView("view-post");
-        PostDto postDto = postService.getPostById(postId);
+    public ModelAndView getPostByPostIdUser(@PathVariable long postId,Principal principal) {
+        ModelAndView mav = new ModelAndView("view-post-user");
+        PostDto postDto = this.postService.getPostById(postId);
+        List<CommentDto> commentDtos = this.commentService.findCommentByPostVerified(postId);
+        System.out.println("Comments :"+commentDtos);
         mav.addObject("userEmail",principal.getName());
         mav.addObject("commentDto",new CommentDto());
         mav.addObject("postDto", postDto);
-
- 
         mav.addObject("postid", postDto);
+        mav.addObject("commentList", commentDtos);
         UserDto userDto = userService.findUserByEmail(principal.getName());
-
         boolean isBookMarked = false;
         List<PostDto> bookMarkedPostsList = bookmarkService.getAllBookMarkedPost(userDto);
         for (PostDto bookmarkpost : bookMarkedPostsList) {
@@ -89,7 +88,29 @@ public class PostController {
             }
         }
         mav.addObject("isBookMarked", isBookMarked);
+        return mav;
+    }
 
+    @GetMapping("admin/post/{postId}")
+    public ModelAndView getPostByPostIdAdmin(@PathVariable long postId,Principal principal) {
+        ModelAndView mav = new ModelAndView("view-post-admin");
+        List<CommentDto> commentDtos = this.commentService.findAllPost(postId);
+        PostDto postDto = postService.getPostById(postId);
+        mav.addObject("userEmail",principal.getName());
+        mav.addObject("commentDto",new CommentDto());
+        mav.addObject("postDto", postDto);
+        mav.addObject("postid", postDto);
+        mav.addObject("commentList", commentDtos);
+        UserDto userDto = userService.findUserByEmail(principal.getName());
+        boolean isBookMarked = false;
+        List<PostDto> bookMarkedPostsList = bookmarkService.getAllBookMarkedPost(userDto);
+        for (PostDto bookmarkpost : bookMarkedPostsList) {
+            if (bookmarkpost.getId() == postId) {
+                isBookMarked = true;
+                break;
+            }
+        }
+        mav.addObject("isBookMarked", isBookMarked);
         return mav;
     }
 
@@ -108,7 +129,6 @@ public class PostController {
     public String saveThePost(@ModelAttribute PostDto post, Principal principal) {
         return this.postService.savePost(post, principal.getName(),post.getCategoryDto().getName());
     }
-
 
     @GetMapping("/admin/post/verification")
     public String updateVerification(@RequestParam("postId") long postId, @RequestParam("isVerified") boolean isVerified) {
@@ -131,7 +151,6 @@ public class PostController {
         List<PostDto> postDto = postService.getAllPostByUser(UserConvertor.toUser(userDto));
         ModelAndView modelAndView = new ModelAndView("admin-view-all-my-post");
         modelAndView.addObject("postData", postDto);
-
         return modelAndView;
     }
 
@@ -140,7 +159,6 @@ public class PostController {
     public ModelAndView displayPaginatedPosts(@RequestParam("pageNo") int pageNo) {
         Page<Post> paginatedPostList = postService.findPaginatedPost(pageNo, 10);
         Page<Post> postList = postService.findPaginatedPost(pageNo, 10);
-
         ModelAndView modelAndView = new ModelAndView("user-view-all-post");
         modelAndView.addObject("currentPage", pageNo);
         modelAndView.addObject("totalPages", paginatedPostList.getTotalPages());
