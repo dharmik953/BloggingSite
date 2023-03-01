@@ -12,6 +12,9 @@ import com.training.bloggingsite.services.interfaces.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
@@ -107,6 +110,28 @@ public class PostImpl implements PostService {
         logger.info("Post verified as : " + !isVerified + "for id "+post.getId());
 
     }
+
+    @Override
+    public Page<Post> findPaginatedPost(int pageNo, int pageSize) {
+        Pageable pageable=PageRequest.of(pageNo-1,pageSize);
+
+
+        return this.postRepository.findAll(pageable);
+    }
+
+    /*@Override
+    public Page<Post> findPaginatedPost(Pageable pageable) {
+        int pageNumber = 1;
+        int pageSize = 3;
+    Pageable pageableObject= PageRequest.of(pageNumber,pageSize);
+    Page<Post> paginatedPost=postRepository.findAll(pageable);
+
+    List<Post> listOfPost=paginatedPost.getContent();
+
+        return null;
+    }*/
+
+
 
 
 }

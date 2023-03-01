@@ -5,6 +5,8 @@ import com.training.bloggingsite.dtos.UserDto;
 import com.training.bloggingsite.entities.Category;
 import com.training.bloggingsite.entities.Post;
 import com.training.bloggingsite.entities.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -48,4 +50,7 @@ public interface PostService {
                 postDto.getUpdateDateTime()
         );
     }
+
+
+    Page<Post> findPaginatedPost(int pageNo,int pageSize);
 }

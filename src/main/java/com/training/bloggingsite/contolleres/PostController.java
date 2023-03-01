@@ -2,12 +2,14 @@ package com.training.bloggingsite.contolleres;
 
 import com.training.bloggingsite.dtos.PostDto;
 import com.training.bloggingsite.dtos.UserDto;
+import com.training.bloggingsite.entities.Post;
 import com.training.bloggingsite.services.interfaces.BookmarkService;
 import com.training.bloggingsite.services.interfaces.PostService;
 import com.training.bloggingsite.services.interfaces.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -54,21 +56,21 @@ public class PostController {
     }
 
     @GetMapping("user/post/{postId}")
-    public ModelAndView getPostBYPostId(@PathVariable Long postId,Principal principal) {
+    public ModelAndView getPostBYPostId(@PathVariable Long postId, Principal principal) {
         ModelAndView mav = new ModelAndView("view-post");
         PostDto postDto = postService.getPostById(postId);
         mav.addObject("postid", postDto);
         UserDto userDto = userService.getUserByEmail(principal.getName());
 
-        boolean isBookMarked=false;
-        List<PostDto> bookMarkedPostsList=bookmarkService.getAllBookMarkedPost(userDto);
-        for(PostDto bookmarkpost: bookMarkedPostsList){
-            if(bookmarkpost.getId()==postId) {
+        boolean isBookMarked = false;
+        List<PostDto> bookMarkedPostsList = bookmarkService.getAllBookMarkedPost(userDto);
+        for (PostDto bookmarkpost : bookMarkedPostsList) {
+            if (bookmarkpost.getId() == postId) {
                 isBookMarked = true;
                 break;
             }
         }
-        mav.addObject("isBookMarked",isBookMarked);
+        mav.addObject("isBookMarked", isBookMarked);
         return mav;
     }
 
@@ -97,12 +99,27 @@ public class PostController {
     public ModelAndView getPostByUserId(Principal principal) {
         UserDto userDto = userService.getUserByEmail(principal.getName());
         List<PostDto> postDto = postService.getAllPostByUser(UserService.toUser(userDto));
-                //postService.getAllPost().stream().
-                //filter(s->s.getId()==UserService.toUser(userDto).getId()).toList();
+        //postService.getAllPost().stream().
+        //filter(s->s.getId()==UserService.toUser(userDto).getId()).toList();
         ModelAndView modelAndView = new ModelAndView("user-view-all-post");
         modelAndView.addObject("postData", postDto);
 
         return modelAndView;
+    }
+
+
+    @GetMapping("user/all-post/a")
+    public ModelAndView displayPaginatedPosts(@RequestParam("pageNo") int pageNo) {
+        Page<Post> paginatedPostList = postService.findPaginatedPost(pageNo, 10);
+        Page<Post> postList = postService.findPaginatedPost(pageNo, 10);
+
+        ModelAndView modelAndView = new ModelAndView("user-view-all-post");
+        modelAndView.addObject("currentPage", pageNo);
+        modelAndView.addObject("totalPages", paginatedPostList.getTotalPages());
+        modelAndView.addObject("totalItems", paginatedPostList.getTotalElements());
+        modelAndView.addObject("currentPage", postList);
+        return modelAndView;
+
     }
 
 }

@@ -14,13 +14,14 @@
     Posted By : <b th:text="${postData.userDto.name}"></b>
   </div>
 </div>
-<!--               BookMarkSection
-<div th:each="postDataByBookmar: ${postDataByBookmark}" >
-&lt;!&ndash;    <a th:text="${postData.isVerified} ? 'Un-Verify Post' : 'Verify Post'" th:href="@{/admin/post/verification(postId=${postData.id},isVerified=${postData.isVerified})}"></a> <br>&ndash;&gt;
 
-    <a th:text="${postDataByBookmar.title==}?"></a>
+<div>
+    <a href="#" th:text="Previous"></a>
+    <a href="#" th:text="Next"></a>
+</div>
 
-</div>-->
+
+
 
 <a th:href="@{/user/home}">Back-></a>
 </body>
