@@ -1,13 +1,9 @@
 package com.training.bloggingsite.services.interfaces;
 
 import com.training.bloggingsite.dtos.PostDto;
-import com.training.bloggingsite.entities.Category;
 import com.training.bloggingsite.entities.Post;
 import com.training.bloggingsite.entities.User;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import com.training.bloggingsite.utils.CategoryConvertor;
-import com.training.bloggingsite.utils.UserConvertor;
 
 import java.util.List;
 
@@ -15,13 +11,13 @@ public interface PostService {
 
     String savePost(PostDto post, String userEmail, String categoryName);
 
-    List<PostDto> getAllPost();
+    List<PostDto> findAllPost();
 
-    PostDto getPostById(Long id);
+    PostDto findPostById(long id);
 
-    List<PostDto> getAllVerifiedPost();
+    List<PostDto> findAllVerifiedPost();
 
-    List<PostDto> getAllPostByUser(User user);
+    List<PostDto> findAllPostByUser(User user);
 
     void deletePost(long id);
 

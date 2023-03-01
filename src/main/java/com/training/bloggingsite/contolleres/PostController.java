@@ -53,7 +53,7 @@ public class PostController {
 
     @GetMapping("admin/all-post")
     public ModelAndView getAllPostForAdmin() {
-        List<PostDto> postDto = this.postService.getAllPost();
+        List<PostDto> postDto = this.postService.findAllPost();
         ModelAndView mav = new ModelAndView("admin-view-all-post");
         mav.addObject("postData", postDto);
         return mav;
@@ -61,7 +61,7 @@ public class PostController {
 
     @GetMapping("user/all-post")
     public ModelAndView getAllPostForUser() {
-        List<PostDto> postDto = postService.getAllVerifiedPost();
+        List<PostDto> postDto = postService.findAllVerifiedPost();
         ModelAndView mav = new ModelAndView("user-view-all-post");
         mav.addObject("postData", postDto);
         return mav;
@@ -70,7 +70,7 @@ public class PostController {
     @GetMapping("user/post/{postId}")
     public ModelAndView getPostByPostIdUser(@PathVariable long postId,Principal principal) {
         ModelAndView mav = new ModelAndView("view-post-user");
-        PostDto postDto = this.postService.getPostById(postId);
+        PostDto postDto = this.postService.findPostById(postId);
         List<CommentDto> commentDtos = this.commentService.findCommentByPostVerified(postId);
         System.out.println("Comments :"+commentDtos);
         mav.addObject("userEmail",principal.getName());
@@ -94,8 +94,8 @@ public class PostController {
     @GetMapping("admin/post/{postId}")
     public ModelAndView getPostByPostIdAdmin(@PathVariable long postId,Principal principal) {
         ModelAndView mav = new ModelAndView("view-post-admin");
-        List<CommentDto> commentDtos = this.commentService.findAllPost(postId);
-        PostDto postDto = postService.getPostById(postId);
+        List<CommentDto> commentDtos = this.commentService.findAllPostById(postId);
+        PostDto postDto = postService.findPostById(postId);
         mav.addObject("userEmail",principal.getName());
         mav.addObject("commentDto",new CommentDto());
         mav.addObject("postDto", postDto);
@@ -139,7 +139,7 @@ public class PostController {
     @GetMapping("user/my-post")
     public ModelAndView getUserPost(Principal principal) {
         UserDto userDto = userService.findUserByEmail(principal.getName());
-        List<PostDto> postDto = postService.getAllPostByUser(UserConvertor.toUser(userDto));
+        List<PostDto> postDto = postService.findAllPostByUser(UserConvertor.toUser(userDto));
         ModelAndView modelAndView = new ModelAndView("user-view-all-my-post");
         modelAndView.addObject("postData", postDto);
         return modelAndView;
@@ -148,7 +148,7 @@ public class PostController {
     @GetMapping("admin/my-post")
     public ModelAndView getAdminPost(Principal principal) {
         UserDto userDto = userService.findUserByEmail(principal.getName());
-        List<PostDto> postDto = postService.getAllPostByUser(UserConvertor.toUser(userDto));
+        List<PostDto> postDto = postService.findAllPostByUser(UserConvertor.toUser(userDto));
         ModelAndView modelAndView = new ModelAndView("admin-view-all-my-post");
         modelAndView.addObject("postData", postDto);
         return modelAndView;

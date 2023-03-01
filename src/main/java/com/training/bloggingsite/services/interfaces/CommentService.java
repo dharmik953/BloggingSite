@@ -11,7 +11,7 @@ public interface CommentService {
 
     List<CommentDto> findCommentByPostVerified(long postId);
 
-    List<CommentDto> findAllPost(long postId);
+    List<CommentDto> findAllPostById(long postId);
 
     void updateVerification(long commentId, boolean isVerified);
 }

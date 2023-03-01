@@ -69,8 +69,8 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<CommentDto> findAllPost(long postId) {
-        List<Comment> comments = this.commentRepository.findAll();
+    public List<CommentDto> findAllPostById(long postId) {
+        List<Comment> comments = this.commentRepository.findAllByPostId(postId);
         List<CommentDto> commentDtos = new ArrayList<>();
         for(Comment comment : comments){
             commentDtos.add(CommentConverter.toCommentDto(comment));

@@ -61,7 +61,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<PostDto> getAllPost() {
+    public List<PostDto> findAllPost() {
         List<PostDto> postDtos = new ArrayList<>();
         List<Post> Allpost = postRepository.findAll();
         for (Post post : Allpost) {
@@ -71,12 +71,12 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public PostDto getPostById(Long id) {
+    public PostDto findPostById(long id) {
         return PostConvertor.toPostDto(postRepository.getReferenceById(id));
     }
 
     @Override
-    public List<PostDto> getAllVerifiedPost() {
+    public List<PostDto> findAllVerifiedPost() {
         List<PostDto> postDtos = new ArrayList<>();
         List<Post> Allpost = postRepository.findPostsByIsVerifiedTrue();
         for (Post post : Allpost) {
@@ -86,7 +86,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<PostDto> getAllPostByUser(User user) {
+    public List<PostDto> findAllPostByUser(User user) {
 
         List<PostDto> postDtos = new ArrayList<>();
         List<Post> postByUserId = postRepository.findPostByUser(user);

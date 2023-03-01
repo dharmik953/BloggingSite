@@ -6,28 +6,25 @@
 </head>
 <body>
 <div th:each="postData: ${postData}">
-  <div style="border: 2px aqua solid; box-shadow: 6px 6px 6px grey;margin-bottom: 20px;">
-    <p style="text-indent: 3em">
-      <a th:href="@{/user/post/{postId}(postId=${postData.id})}"> <span th:text="${postData.title}"></span></a>
-    </p>
-    <br><br><br><br>
-    Posted By : <b th:text="${postData.userDto.name}"></b>
-  </div>
+    <div style="border: 2px aqua solid; box-shadow: 6px 6px 6px grey;margin-bottom: 20px;">
+        <p style="text-indent: 3em">
+            <a th:href="@{/user/post/{postId}(postId=${postData.id})}"> <span th:text="${postData.title}"></span></a>
+        </p>
+        <br><br>
+        Posted By : <b th:text="${postData.userDto.name}"></b> <br>
+        Category : <b th:text="${postData.categoryDto.name}"></b>
+    </div>
 </div>
-
 
 
 <div>
     <a th:href="@{/user/home}">Back-></a>
 
-<div>
-    <a href="#" th:text="Previous"></a>
-    <a href="#" th:text="Next"></a>
+    <div>
+        <a href="#" th:text="Previous"></a>
+        <a href="#" th:text="Next"></a>
 
-</div>
-
-
-
+    </div>
 
 
 </body>

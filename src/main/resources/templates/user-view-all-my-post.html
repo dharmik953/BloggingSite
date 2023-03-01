@@ -11,8 +11,9 @@
       <a th:href="@{/user/post/{postId}(postId=${postData.id})}"> <span th:text="${postData.title}"></span></a>
     </p>
       <a  th:href="@{/user/delete-mypost(id=${postData.id})}">Delete Post</a>
-    <br><br><br><br>
-    Posted By : <b th:text="${postData.userDto.name}"></b>
+    <br><br>
+    Posted By : <b th:text="${postData.userDto.name}"></b> <br>
+    Category : <b th:text="${postData.categoryDto.name}"></b>
   </div>
 </div>
 <div>

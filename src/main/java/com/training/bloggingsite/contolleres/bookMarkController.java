@@ -8,7 +8,6 @@ import com.training.bloggingsite.services.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -55,9 +54,9 @@ public class bookMarkController {
 
         UserDto userDto = userService.findUserByEmail(principal.getName());
         if(isBookMarked){
-            bookmarkService.deleteBookMarkedPostByPostID(userDto,postService.getPostById(postId));
+            bookmarkService.deleteBookMarkedPostByPostID(userDto,postService.findPostById(postId));
         }else
-            bookmarkService.addBookMarkedPost(postService.getPostById(postId),userDto);
+            bookmarkService.addBookMarkedPost(postService.findPostById(postId),userDto);
 
         return "redirect:/user/post/"+postId;
     }
