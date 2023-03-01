@@ -67,7 +67,7 @@ public class PostController {
 
     @PostMapping("user/save-post")
     public String saveThePost(@ModelAttribute PostDto post, Principal principal) {
-        UserDto userDto = this.userService.getUserByEmail(principal.getName());
+        UserDto userDto = this.userService.findUserByEmail(principal.getName());
         return this.postService.savePost(post, userDto);
     }
 

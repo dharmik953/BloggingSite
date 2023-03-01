@@ -8,7 +8,8 @@ import com.training.bloggingsite.entities.Role;
 import com.training.bloggingsite.entities.User;
 import com.training.bloggingsite.repositories.PostRepository;
 import com.training.bloggingsite.services.interfaces.PostService;
-import com.training.bloggingsite.services.interfaces.UserService;
+import com.training.bloggingsite.utils.UserConvertor;
+import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Transactional
 public class PostImpl implements PostService {
 
     @Autowired
@@ -27,7 +29,7 @@ public class PostImpl implements PostService {
 
     @Override
     public String savePost( PostDto post,UserDto userDto) {
-        User user = UserService.toUser(userDto);
+        User user = UserConvertor.toUser(userDto);
         Post postToBeInserted = toPost(post);
         postToBeInserted.setUser(user);
         List<Role> roles = user.getRoles().stream().toList();
@@ -91,17 +93,13 @@ public class PostImpl implements PostService {
     public void deletePost(long id) {
         this.postRepository.deleteById(id);
         logger.info("Post Deleted with id  : " + id);
-
     }
 
     @Override
     public void updateVerification(long postId, boolean isVerified) {
         Post post = this.postRepository.findById(postId).get();
-        post.setVerified(!isVerified);
-        this.postRepository.save(post);
-
-        logger.info("Post verified as : " + !isVerified + "for id "+post.getId());
-
+        this.postRepository.updateVerificationStatus(postId,!isVerified);
+        logger.info("Post verified as : " + !isVerified + " for id "+post.getId());
     }
 
 
