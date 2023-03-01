@@ -26,27 +26,4 @@ public interface PostService {
     void deletePost(long id);
 
     void updateVerification(long postId, boolean isVerified);
-
-    default PostDto toPostDto(Post post) {
-        return new PostDto(
-                post.getId(),
-                post.getTitle(),
-                post.getContent(),
-                post.isVerified(),
-                post.getCreateDateTime(),
-                post.getUpdateDateTime(),
-                UserConvertor.toUserDto(post.getUser()), CategoryConvertor.toCategoryDto(post.getCategory())
-        );
-    }
-
-     default Post toPost(PostDto postDto) {
-        return new Post(
-                postDto.getId(),
-                postDto.getTitle(),
-                postDto.getContent(),
-                postDto.isVerified(),
-                postDto.getCreateDateTime(),
-                postDto.getUpdateDateTime()
-        );
-    }
 }
