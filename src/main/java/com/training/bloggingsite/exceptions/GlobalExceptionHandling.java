@@ -9,6 +9,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import java.sql.SQLIntegrityConstraintViolationException;
+import java.sql.SQLNonTransientException;
+
 @ControllerAdvice
 public class GlobalExceptionHandling {
 
@@ -49,6 +52,11 @@ public class GlobalExceptionHandling {
     @ExceptionHandler(value = RoleNotFoundException.class)
     public void roleNotFoundExceptionHandler(){
         logger.error("Role not found");
+    }
+
+    @ExceptionHandler(value = SQLIntegrityConstraintViolationException.class)
+    public void SQLIntegrityConstraintViolationExceptionHandling(SQLIntegrityConstraintViolationException e){
+        logger.error("Cannot Delete because "+e.getMessage());
     }
 
 }

@@ -8,6 +8,7 @@ import com.training.bloggingsite.repositories.BookMarkRepository;
 import com.training.bloggingsite.services.interfaces.BookmarkService;
 import com.training.bloggingsite.services.interfaces.PostService;
 import com.training.bloggingsite.services.interfaces.UserService;
+import com.training.bloggingsite.utils.PostConvertor;
 import com.training.bloggingsite.utils.UserConvertor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -53,7 +54,7 @@ public class BookmarkImpl implements BookmarkService {
 
         BookMark bookMark=new BookMark();
         bookMark.setUser(UserConvertor.toUser(userDto));
-        bookMark.setPost(postService.toPost(postDto));
+        bookMark.setPost(PostConvertor.toPost(postDto));
 
         bookMarkRepository.save(bookMark);
 

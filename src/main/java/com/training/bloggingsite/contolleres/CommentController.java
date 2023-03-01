@@ -1,7 +1,11 @@
 package com.training.bloggingsite.contolleres;
 
 import com.training.bloggingsite.dtos.CommentDto;
+import com.training.bloggingsite.dtos.PostDto;
+import com.training.bloggingsite.dtos.UserDto;
 import com.training.bloggingsite.services.interfaces.CommentService;
+import com.training.bloggingsite.services.interfaces.PostService;
+import com.training.bloggingsite.services.interfaces.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +21,7 @@ public class CommentController {
 
     @Autowired
     CommentService commentService;
+
     Logger logger = LoggerFactory.getLogger(CommentController.class);
 
     public void getVerifiedComment(){
@@ -32,10 +37,10 @@ public class CommentController {
         List<CommentDto> verifiedCommentList = this.commentService.getCommentByUser(userId);
     }
 
-    @PostMapping("/user/save/comment")
-    public String saveComment(@RequestParam("postId") long postId, @RequestParam("userId") long userId,
-                              @ModelAttribute("CommentDto") CommentDto commentDto) {
-        this.commentService.addComment(commentDto);
+    @PostMapping("/user/save-comment")
+    public String saveComment(@ModelAttribute("CommentDto") CommentDto commentDto,@RequestParam("postId") long postId
+            ,@RequestParam("userEmail") String userEmail) {
+        this.commentService.addComment(commentDto,postId,userEmail);
         return "redirect:/user/post/"+postId;
     }
 
