@@ -100,5 +100,16 @@ public class CategoryServiceImpl implements CategoryService {
         return categoryDtos;
     }
 
+    @Override
+    public List<CategoryDto> findAllCategoryIncludeChildren() {
+        List<Category> categories = this.categoryRepositories.findAll();
+        List<CategoryDto> categoryDtos = new ArrayList<>();
+        for (Category category : categories){
+            categoryDtos.add(CategoryConvertor.toCategoryDto(category));
+        }
+        logger.info("Category fetched as all :" + categoryDtos);
+        return categoryDtos;
+    }
+
 
 }

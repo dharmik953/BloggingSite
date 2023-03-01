@@ -17,4 +17,6 @@ public interface CategoryService {
     public CategoryDto addSubCategory(long parentId,CategoryDto categoryDto);
 
     public List<CategoryDto> findCategoryByParent(CategoryDto categoryDto);
+
+    List<CategoryDto> findAllCategoryIncludeChildren();
 }
