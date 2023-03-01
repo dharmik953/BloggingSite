@@ -1,7 +1,9 @@
 package com.training.bloggingsite.contolleres;
 
+import com.training.bloggingsite.dtos.CategoryDto;
 import com.training.bloggingsite.dtos.PostDto;
 import com.training.bloggingsite.dtos.UserDto;
+import com.training.bloggingsite.services.interfaces.CategoryService;
 import com.training.bloggingsite.services.interfaces.PostService;
 import com.training.bloggingsite.services.interfaces.UserService;
 import com.training.bloggingsite.utils.UserConvertor;
@@ -24,6 +26,8 @@ public class PostController {
 
     @Autowired
     UserService userService;
+    @Autowired
+    CategoryService categoryService;
 
 
     Logger logger = LoggerFactory.getLogger(PostController.class);
@@ -68,18 +72,19 @@ public class PostController {
 
     @GetMapping("user/add-post")
     public ModelAndView addPost() {
-        PostDto post = new PostDto();
+        PostDto postDto = new PostDto();
+        CategoryDto categoryDto = new CategoryDto();
         ModelAndView modelAndView = new ModelAndView("add-post");
-        modelAndView.addObject("postdto", post);
+        modelAndView.addObject("postdto", postDto);
+        List<CategoryDto> categoryDtos = this.categoryService.findAllCategoryIncludeChildren();
+        modelAndView.addObject("categories",categoryDtos);
         return modelAndView;
     }
 
     @PostMapping("user/save-post")
     public String saveThePost(@ModelAttribute PostDto post, Principal principal) {
-        UserDto userDto = this.userService.findUserByEmail(principal.getName());
-        return this.postService.savePost(post, userDto);
+        return this.postService.savePost(post, principal.getName(),post.getCategoryDto().getName());
     }
-
 
     @GetMapping("/admin/post/verification")
     public String updateVerification(@RequestParam("postId") long postId, @RequestParam("isVerified") boolean isVerified) {

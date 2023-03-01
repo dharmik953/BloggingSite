@@ -12,9 +12,19 @@ public class PostDto {
     LocalDateTime updateDateTime;
     UserDto userDto;
 
+    public CategoryDto getCategoryDto() {
+        return categoryDto;
+    }
+
+    public void setCategoryDto(CategoryDto categoryDto) {
+        this.categoryDto = categoryDto;
+    }
+
+    CategoryDto categoryDto;
+
     public PostDto(){}
 
-    public PostDto(long id, String title, String content, boolean isVerified, LocalDateTime createDateTime, LocalDateTime updateDateTime, UserDto userDto) {
+    public PostDto(long id, String title, String content, boolean isVerified, LocalDateTime createDateTime, LocalDateTime updateDateTime, UserDto userDto, CategoryDto categoryDto) {
         this.id = id;
         this.title = title;
         this.content = content;
@@ -22,6 +32,7 @@ public class PostDto {
         this.createDateTime = createDateTime;
         this.updateDateTime = updateDateTime;
         this.userDto = userDto;
+        this.categoryDto = categoryDto;
     }
 
     public long getId() {

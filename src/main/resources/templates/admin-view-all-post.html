@@ -12,8 +12,10 @@
                <a th:href="@{/user/post/{postId}(postId=${postData.id})}"> <span th:text="${postData.title}"></span></a>
            </p>
             <a th:text="${postData.isVerified} ? 'Un-Verify Post' : 'Verify Post'" th:href="@{/admin/post/verification(postId=${postData.id},isVerified=${postData.isVerified})}"></a> <br>
-            <br><br><br><br>
-            Posted By : <b th:text="${postData.userDto.name}"></b>
+            <a  th:href="@{/admin/delete-post(id=${postData.id})}">Delete Post</a>
+            <br><br>
+            Posted By : <b th:text="${postData.userDto.name}"></b> <br>
+            Category : <b th:text="${postData.categoryDto.name}"></b>
         </div>
     </div>
     <a th:href="@{/admin/home}">Back-></a>
