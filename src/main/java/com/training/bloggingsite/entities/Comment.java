@@ -15,8 +15,6 @@ public class Comment extends BaseEntity {
     public Comment(long commentIdDto, boolean verifiedCommentDto, LocalDateTime createDateTimeCommentDto, LocalDateTime updateDateTimeCommentDto, String commentContentDto) {
         super();
     }
-
-
     public boolean isVerified() {
         return isVerified;
     }
@@ -41,5 +39,17 @@ public class Comment extends BaseEntity {
     public void setPostId(Long postId) {
         Post post = new Post();
         post.setId(postId);
+    }
+
+    public Long getPostId() {
+        return postId;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 }

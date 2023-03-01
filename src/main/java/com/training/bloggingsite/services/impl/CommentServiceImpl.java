@@ -32,9 +32,8 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public List<CommentDto> getCommentByUser(long userId) {
         List<Comment> list = new ArrayList<>();
-//        for ()
-//        return repositories.findAllById(userId);
         return null;
+//        return toCommentDto(list.add((Comment) repositories.findByUserId(userId)));
     }
 
     @Override

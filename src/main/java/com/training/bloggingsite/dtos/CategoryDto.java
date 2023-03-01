@@ -1,11 +1,13 @@
 package com.training.bloggingsite.dtos;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 public class CategoryDto {
     private long Id;
 
     @NotBlank
+    @Size(max = 30)
     private String name;
 
     public CategoryDto(){}

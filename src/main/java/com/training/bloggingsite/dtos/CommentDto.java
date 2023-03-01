@@ -1,5 +1,7 @@
 package com.training.bloggingsite.dtos;
 
+import jakarta.validation.constraints.Size;
+
 import java.time.LocalDateTime;
 
 public class CommentDto {
@@ -11,6 +13,7 @@ public class CommentDto {
     private LocalDateTime createDateTimeCommentDto;
 
     private LocalDateTime updateDateTimeCommentDto;
+    @Size(max = 255)
     private String nameDto;
 
     @Override
