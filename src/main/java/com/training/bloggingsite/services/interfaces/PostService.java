@@ -29,6 +29,7 @@ public interface PostService {
 
     void updateVerification(long postId, boolean isVerified);
 
+
     default PostDto toPostDto(Post post) {
         return new PostDto(
                 post.getId(),
@@ -54,4 +55,5 @@ public interface PostService {
 
 
     Page<Post> findPaginatedPost(int pageNo,int pageSize);
+
 }

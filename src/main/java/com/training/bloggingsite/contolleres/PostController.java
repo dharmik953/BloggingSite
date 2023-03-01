@@ -1,6 +1,7 @@
 package com.training.bloggingsite.contolleres;
 
 import com.training.bloggingsite.dtos.CategoryDto;
+import com.training.bloggingsite.dtos.CommentDto;
 import com.training.bloggingsite.dtos.PostDto;
 import com.training.bloggingsite.dtos.UserDto;
 import com.training.bloggingsite.services.interfaces.CategoryService;
@@ -61,9 +62,15 @@ public class PostController {
     }
 
     @GetMapping("user/post/{postId}")
-    public ModelAndView getPostBYPostId(@PathVariable Long postId, Principal principal) {
+
+    public ModelAndView getPostBYPostId(@PathVariable long postId,Principal principal) {
         ModelAndView mav = new ModelAndView("view-post");
         PostDto postDto = postService.getPostById(postId);
+        mav.addObject("userEmail",principal.getName());
+        mav.addObject("commentDto",new CommentDto());
+        mav.addObject("postDto", postDto);
+
+ 
         mav.addObject("postid", postDto);
         UserDto userDto = userService.findUserByEmail(principal.getName());
 
@@ -76,6 +83,7 @@ public class PostController {
             }
         }
         mav.addObject("isBookMarked", isBookMarked);
+
         return mav;
     }
 

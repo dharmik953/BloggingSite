@@ -1,10 +1,10 @@
 <html>
 <head>
-    <title th:text="${postid.title}"></title>
+    <title th:text="${postDto.title}"></title>
 </head>
 
 <div>
-    <h1 th:text="${postid.title}"></h1>
+    <h1 th:text="${postDto.title}"></h1>
 </div>
 <hr>
 <p>
@@ -23,8 +23,15 @@ th:href="@{/admin/post/verification(postId=${postData.id},isVerified=${postData.
 
 
 <div>
-    <p th:text="${postid.content}"></p>
+    <p th:text="${postDto.content}"></p>
 </div>
+
+<form th:object="${commentDto}" method="post" th:action="@{/user/save-comment(postId=${postDto.id},userEmail=${userEmail})}">
+    Add Comment : <label>
+    <textarea rows="20" cols="30" style="width: 400px; height: 110px;" th:field="*{content}"></textarea>
+    <input type="submit">
+</label>
+</form>
 
 
 

@@ -7,21 +7,19 @@ public class CommentConverter {
 
     public static Comment toComment(CommentDto commentDto){
         return new Comment(
-                commentDto.getIdDto(),
-                commentDto.isVerifiedCommentDto(),
-                commentDto.getCreateDateTimeCommentDto(),
-                commentDto.getUpdateDateTimeCommentDto(),
-                commentDto.getNameDto()
+               commentDto.getId(),
+                commentDto.getContent(),commentDto.isVerified(),
+                UserConvertor.toUser(commentDto.getUserDto()),
+                PostConvertor.toPost(commentDto.getPostDto()), commentDto.getCreateDateTime(), commentDto.getUpdateDateTime()
         );
     }
 
     public static CommentDto toCommentDto(Comment comment){
         return new CommentDto(
-                comment.getId(),
-                comment.isVerified(),
-                comment.getUpdateDateTime(),
-                comment.getCreateDateTime(),
-                comment.getName()
+              comment.getId(),
+                comment.getContent(),
+                UserConvertor.toUserDto(comment.getUser()),
+                PostConvertor.toPostDto(comment.getPost()), comment.isVerified(), comment.getCreatedDateTime(), comment.getUpdatedDateTime()
         );
     }
 }
