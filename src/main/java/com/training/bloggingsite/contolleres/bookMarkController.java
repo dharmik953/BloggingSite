@@ -28,7 +28,7 @@ public class bookMarkController {
     @GetMapping("user/all-bookmarked-post")
         public ModelAndView findAllBookmarkedPostUser(Principal principal){
             ModelAndView modelAndView=new ModelAndView("user-view-all-post");
-        UserDto userDto = userService.getUserByEmail(principal.getName());
+        UserDto userDto = userService.findUserByEmail(principal.getName());
         List<PostDto> postDataByBookmark=bookmarkService.getAllBookMarkedPost(userDto);
             modelAndView.addObject("postData",postDataByBookmark);
             return modelAndView;
@@ -37,7 +37,7 @@ public class bookMarkController {
     @GetMapping("admin/all-bookmarked-post")
     public ModelAndView findAllBookmarkedPostAdmin(Principal principal){
         ModelAndView modelAndView=new ModelAndView("admin-view-all-post");
-        UserDto userDto = userService.getUserByEmail(principal.getName());
+        UserDto userDto = userService.findUserByEmail(principal.getName());
         List<PostDto> postDataByBookmark=bookmarkService.getAllBookMarkedPost(userDto);
 
         System.out.println("Book mark : "+postDataByBookmark);
@@ -53,7 +53,7 @@ public class bookMarkController {
                                        @RequestParam boolean isBookMarked,
     Principal principal){
 
-        UserDto userDto = userService.getUserByEmail(principal.getName());
+        UserDto userDto = userService.findUserByEmail(principal.getName());
         if(isBookMarked){
             bookmarkService.deleteBookMarkedPostByPostID(userDto,postService.getPostById(postId));
         }else

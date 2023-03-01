@@ -65,7 +65,7 @@ public class PostController {
         ModelAndView mav = new ModelAndView("view-post");
         PostDto postDto = postService.getPostById(postId);
         mav.addObject("postid", postDto);
-        UserDto userDto = userService.getUserByEmail(principal.getName());
+        UserDto userDto = userService.findUserByEmail(principal.getName());
 
         boolean isBookMarked = false;
         List<PostDto> bookMarkedPostsList = bookmarkService.getAllBookMarkedPost(userDto);
