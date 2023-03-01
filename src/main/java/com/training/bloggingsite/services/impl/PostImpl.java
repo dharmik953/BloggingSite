@@ -45,19 +45,14 @@ public class PostImpl implements PostService {
         List<Role> roles = user.getRoles().stream().toList();
         if(roles.get(0).getName().equals(DefaultValue.ADMIN)){
             postToBeInserted.setVerified(true);
-            this.postRepository.save(postToBeInserted);
-            logger.info("Post created as : " + postToBeInserted + "by "+user.getName());
-            return "redirect:/admin/home";
         }
         else {
             postToBeInserted.setVerified(false);
-            this.postRepository.save(postToBeInserted);
-            logger.info("Post created as : " + postToBeInserted + "by "+user.getName());
-            return "redirect:/user/home";
         }
+        this.postRepository.save(postToBeInserted);
+        logger.info("Post created as : " + postToBeInserted + "by "+user.getName());
+        return "redirect:/admin/home";
     }
-
-
 
     @Override
     public List<PostDto> getAllPost() {
@@ -73,8 +68,6 @@ public class PostImpl implements PostService {
     public List<PostDto> getPostByCategory(Category category) {
         return null;
     }
-
-
 
     @Override
     public PostDto getPostById(Long id) {

@@ -1,6 +1,7 @@
 package com.training.bloggingsite.contolleres;
 
 import com.training.bloggingsite.dtos.CategoryDto;
+import com.training.bloggingsite.dtos.CommentDto;
 import com.training.bloggingsite.dtos.PostDto;
 import com.training.bloggingsite.dtos.UserDto;
 import com.training.bloggingsite.services.interfaces.CategoryService;
@@ -55,12 +56,14 @@ public class PostController {
         mav.addObject("postData", postDto);
         return mav;
     }
-//git commit
+
     @GetMapping("user/post/{postId}")
-    public ModelAndView getPostBYPostId(@PathVariable Long postId) {
+    public ModelAndView getPostBYPostId(@PathVariable long postId,Principal principal) {
         ModelAndView mav = new ModelAndView("view-post");
         PostDto postDto = postService.getPostById(postId);
-        mav.addObject("postid", postDto);
+        mav.addObject("userEmail",principal.getName());
+        mav.addObject("commentDto",new CommentDto());
+        mav.addObject("postDto", postDto);
         return mav;
     }
 

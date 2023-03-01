@@ -7,7 +7,7 @@ public class PostDto {
     long id;
     String title;
     String content;
-    boolean isVerified=true;
+    boolean isVerified;
     LocalDateTime createDateTime;
     LocalDateTime updateDateTime;
     UserDto userDto;
