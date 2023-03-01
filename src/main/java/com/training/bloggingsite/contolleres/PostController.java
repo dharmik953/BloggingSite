@@ -2,6 +2,7 @@ package com.training.bloggingsite.contolleres;
 
 import com.training.bloggingsite.dtos.PostDto;
 import com.training.bloggingsite.dtos.UserDto;
+import com.training.bloggingsite.services.interfaces.BookmarkService;
 import com.training.bloggingsite.services.interfaces.PostService;
 import com.training.bloggingsite.services.interfaces.UserService;
 import org.slf4j.Logger;
@@ -20,7 +21,8 @@ public class PostController {
 
     @Autowired
     PostService postService;
-
+    @Autowired
+    BookmarkService bookmarkService;
     @Autowired
     UserService userService;
 
@@ -52,10 +54,21 @@ public class PostController {
     }
 
     @GetMapping("user/post/{postId}")
-    public ModelAndView getPostBYPostId(@PathVariable Long postId) {
+    public ModelAndView getPostBYPostId(@PathVariable Long postId,Principal principal) {
         ModelAndView mav = new ModelAndView("view-post");
         PostDto postDto = postService.getPostById(postId);
         mav.addObject("postid", postDto);
+        UserDto userDto = userService.getUserByEmail(principal.getName());
+
+        boolean isBookMarked=false;
+        List<PostDto> bookMarkedPostsList=bookmarkService.getAllBookMarkedPost(userDto);
+        for(PostDto bookmarkpost: bookMarkedPostsList){
+            if(bookmarkpost.getId()==postId) {
+                isBookMarked = true;
+                break;
+            }
+        }
+        mav.addObject("isBookMarked",isBookMarked);
         return mav;
     }
 

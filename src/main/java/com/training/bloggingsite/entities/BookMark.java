@@ -12,7 +12,7 @@ public class BookMark  {
     long id;//post id //TOBEADDED
 
     @OneToOne()//one bookmark can have many post
-    private Post post;
+     Post post;
 
     public User getUser() {
         return user;
@@ -21,8 +21,7 @@ public class BookMark  {
     public void setUser(User user) {
         this.user = user;
     }
-
-    @OneToOne
+    @OneToOne//one Bookmark can have many user
     User user;
 
     public BookMark() {
