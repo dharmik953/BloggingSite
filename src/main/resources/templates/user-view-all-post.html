@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>View Posts User</title>
@@ -10,17 +10,19 @@
     <p style="text-indent: 3em">
       <a th:href="@{/user/post/{postId}(postId=${postData.id})}"> <span th:text="${postData.title}"></span></a>
     </p>
-    <br><br>
-    Posted By : <b th:text="${postData.userDto.name}"></b> <br>
-    Category : <b th:text="${postData.categoryDto.name}"></b>
+    <br><br><br><br>
+    Posted By : <b th:text="${postData.userDto.name}"></b>
   </div>
 </div>
-<div sec:authorize="hasRole('ADMIN')">
-    <a th:href="@{/user/home}">Back-></a>
+
+<div>
+    <a href="#" th:text="Previous"></a>
+    <a href="#" th:text="Next"></a>
 </div>
 
-<div sec:authorize="hasRole('USER')">
-    <a th:href="@{/user/home}">Back-></a>
-</div>
+
+
+
+<a th:href="@{/user/home}">Back-></a>
 </body>
 </html>
