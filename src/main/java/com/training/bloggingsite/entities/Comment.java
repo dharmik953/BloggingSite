@@ -9,14 +9,15 @@ public class Comment extends BaseEntity {
 
     private boolean isVerified = false;
 
-    private Long postId;
-    private Long userId;
+    @ManyToOne
+    private Post post;
+    @ManyToOne
+    private User user;
+
 
     public Comment(long commentIdDto, boolean verifiedCommentDto, LocalDateTime createDateTimeCommentDto, LocalDateTime updateDateTimeCommentDto, String commentContentDto) {
         super();
     }
-
-
     public boolean isVerified() {
         return isVerified;
     }
@@ -33,13 +34,24 @@ public class Comment extends BaseEntity {
     public String toString() {
         return "Comment{" +
                 "isVerified=" + isVerified +
-                ", postId=" + postId +
-                ", userId=" + userId +
+                ", postId=" + post +
+                ", userId=" + user +
                 '}';
     }
 
-    public void setPostId(Long postId) {
-        Post post = new Post();
-        post.setId(postId);
+    public Post getPost() {
+        return post;
+    }
+
+    public void setPost(Post post) {
+        this.post = post;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

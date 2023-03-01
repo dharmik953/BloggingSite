@@ -30,6 +30,9 @@ public class Post {
     @ManyToOne()//Many post can have one User
     User user;
 
+    @ManyToOne
+    Category category;
+
     public Post(){}
 
     public Post(long id, String title, String content, boolean isVerified, LocalDateTime createDateTime, LocalDateTime updateDateTime) {
@@ -97,5 +100,11 @@ public class Post {
         this.user = user;
     }
 
+    public Category getCategory() {
+        return category;
+    }
 
+    public void setCategory(Category category) {
+        this.category = category;
+    }
 }

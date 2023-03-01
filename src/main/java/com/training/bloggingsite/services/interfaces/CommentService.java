@@ -6,7 +6,7 @@ import com.training.bloggingsite.entities.Comment;
 import java.util.List;
 
 public interface CommentService {
-    Comment addComment(Comment comment);
+    void addComment(CommentDto comment);
 
     public void deleteComment(long id);
 
@@ -14,16 +14,6 @@ public interface CommentService {
     List<CommentDto> getCommentByPost(long postId);
     List<CommentDto> getVerifiedComments();
     List<CommentDto> getUnverifiedComments();
-
-    default Comment toComment(CommentDto commentDto){
-        return new Comment(
-                commentDto.getIdDto(),
-                commentDto.isVerifiedCommentDto(),
-                commentDto.getCreateDateTimeCommentDto(),
-                commentDto.getUpdateDateTimeCommentDto(),
-                commentDto.getNameDto()
-        );
-    }
 
     default CommentDto toCommentDto(Comment comment){
         return new CommentDto(
