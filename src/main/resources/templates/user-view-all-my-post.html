@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>View Posts User</title>
+    <title>View My Post</title>
 </head>
 <body>
 <div th:each="postData: ${postData}">
@@ -10,25 +10,14 @@
     <p style="text-indent: 3em">
       <a th:href="@{/user/post/{postId}(postId=${postData.id})}"> <span th:text="${postData.title}"></span></a>
     </p>
+      <a  th:href="@{/user/delete-mypost(id=${postData.id})}">Delete Post</a>
     <br><br><br><br>
     Posted By : <b th:text="${postData.userDto.name}"></b>
   </div>
 </div>
-
-
-
 <div>
-    <a th:href="@{/user/home}">Back-></a>
-
-<div>
-    <a href="#" th:text="Previous"></a>
-    <a href="#" th:text="Next"></a>
-
+  <a th:href="@{/user/home}">Back-></a>
 </div>
-
-
-
-
 
 </body>
 </html>

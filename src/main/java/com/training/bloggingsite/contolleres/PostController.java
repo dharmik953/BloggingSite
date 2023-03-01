@@ -37,10 +37,16 @@ public class PostController {
 
     Logger logger = LoggerFactory.getLogger(PostController.class);
 
-    @GetMapping("admin/delete-post")
-    public String deletePost(@RequestParam("id") long id) {
+    @GetMapping("admin/delete-mypost")
+    public String deleteMyPostAdmin(@RequestParam("id") long id) {
         this.postService.deletePost(id);
-        return "redirect:/admin/all-post";
+        return "redirect:/admin/my-post";
+    }
+
+    @GetMapping("user/delete-mypost")
+    public String deleteMyPostUser(@RequestParam("id") long id) {
+        this.postService.deletePost(id);
+        return "redirect:/user/my-post";
     }
 
     @GetMapping("admin/all-post")
@@ -111,12 +117,19 @@ public class PostController {
     }
 
     @GetMapping("user/my-post")
-    public ModelAndView getPostByUserId(Principal principal) {
-       //postService.getAllPost().stream().
-        //filter(s->s.getId()==UserService.toUser(userDto).getId()).toList();
+    public ModelAndView getUserPost(Principal principal) {
         UserDto userDto = userService.findUserByEmail(principal.getName());
         List<PostDto> postDto = postService.getAllPostByUser(UserConvertor.toUser(userDto));
-        ModelAndView modelAndView = new ModelAndView("user-view-all-post");
+        ModelAndView modelAndView = new ModelAndView("user-view-all-my-post");
+        modelAndView.addObject("postData", postDto);
+        return modelAndView;
+    }
+
+    @GetMapping("admin/my-post")
+    public ModelAndView getAdminPost(Principal principal) {
+        UserDto userDto = userService.findUserByEmail(principal.getName());
+        List<PostDto> postDto = postService.getAllPostByUser(UserConvertor.toUser(userDto));
+        ModelAndView modelAndView = new ModelAndView("admin-view-all-my-post");
         modelAndView.addObject("postData", postDto);
 
         return modelAndView;
