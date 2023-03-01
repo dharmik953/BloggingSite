@@ -3,37 +3,41 @@
       xmlns="http://www.w3.org/1999/html">
 <head>
     <title> POST </title>
+
+
 </head>
 <body bgcolor="aqua">
 <
 <div>
-    <center>
+    <center></x>
         <h1>Add Post</h1>
     </center>
 
-    <form th:object="${postdto}" th:action="@{/user/save-post}" method="POST">
+    <form  th:object="${postdto}" th:action="@{/user/save-post}" method="POST">
         <input type="text"
                style="border: 2px solid black;
                         display: block; width:97%; height: 60px;
                         box-shadow: 2px 2px 4px grey; margin: 10px;
-                        margin-end: 40px" placeholder="enter the title for the post"
-
-               th:field="*{title}"
+                        margin-end: 40px"  placeholder="enter the title for the post"
+required
+              th:field="*{title}"
         />
 
         <textarea
-                th:field="*{content}"
+    th:field="*{content}"
                 style="display: block; width:97%; height: 500px;
                       box-shadow: 2px 2px 4px grey; margin: 10px;
                       margin-end: 40px; font-size: 20px" placeholder="enter the post content here"
-                required>
+        required>
+
+
         </textarea>
         <p><input type="submit" value="Submit"/>
             <input type="reset" value="Clear"/></p>
 
 
     </form>
-    <a onclick="history.back()">Back</a>
+<a  onclick="history.back()">Back</a>
 </div>
 </body>
 

@@ -4,11 +4,11 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.sql.Clob;
 import java.time.LocalDateTime;
 
 @Entity
 public class Post {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -27,7 +27,7 @@ public class Post {
     @UpdateTimestamp
     private LocalDateTime updateDateTime;
 
-    @ManyToOne()
+    @ManyToOne()//Many post can have one User
     User user;
 
     public Post(){}
@@ -96,5 +96,6 @@ public class Post {
     public void setUser(User user) {
         this.user = user;
     }
+
 
 }

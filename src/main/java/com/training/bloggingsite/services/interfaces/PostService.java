@@ -38,7 +38,7 @@ public interface PostService {
         );
     }
 
-    default Post toPost(PostDto postDto) {
+     default Post toPost(PostDto postDto) {
         return new Post(
                 postDto.getId(),
                 postDto.getTitle(),
@@ -48,5 +48,4 @@ public interface PostService {
                 postDto.getUpdateDateTime()
         );
     }
-
 }
