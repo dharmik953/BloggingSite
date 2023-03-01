@@ -48,7 +48,7 @@ public class PostController {
         mav.addObject("postData", postDto);
         return mav;
     }
-
+//git commit
     @GetMapping("user/post/{postId}")
     public ModelAndView getPostBYPostId(@PathVariable Long postId) {
         ModelAndView mav = new ModelAndView("view-post");
