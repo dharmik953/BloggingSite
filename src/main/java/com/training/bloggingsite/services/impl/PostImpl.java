@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,7 +35,7 @@ public class PostImpl implements PostService {
         postToBeInserted.setUser(user);
         List<Role> roles = user.getRoles().stream().toList();
         if(roles.get(0).getName().equals("ADMIN")){
-            postToBeInserted.setVerified(true);
+            postToBeInserted.setVerified(true);//why
             this.postRepository.save(postToBeInserted);
             logger.info("Post created as : " + postToBeInserted + "by "+userDto.getName());
             return "redirect:/admin/home";
@@ -46,6 +47,8 @@ public class PostImpl implements PostService {
             return "redirect:/user/home";
         }
     }
+
+
 
     @Override
     public List<PostDto> getAllPost() {
@@ -81,10 +84,11 @@ public class PostImpl implements PostService {
 
     @Override
     public List<PostDto> getAllPostByUser(User user) {
+
         List<PostDto> postDtos = new ArrayList<>();
-        List<Post> id = postRepository.findById(user.getId()).stream().toList();
-        for (Post p : id)
-            postDtos.add(toPostDto(p));
+        List<Post> postByUserId = postRepository.findPostByUser(user);
+        for (Post post : postByUserId)
+            postDtos.add(toPostDto(post));
 
         return postDtos;
     }
