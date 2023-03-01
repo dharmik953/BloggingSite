@@ -106,7 +106,7 @@ public class UserServiceImpl implements UserService {
 
         roleSet.add(roleToInsert);
         user.setRoles(roleSet);
-        logger.info("User " + user.getName() + " changed as " + role + ".");
+        logger.info("User " + user.getName() + " changed as " + roleToInsert.getName() + ".");
         this.userRepository.save(user);
     }
 
