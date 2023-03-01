@@ -1,23 +1,61 @@
 package com.training.bloggingsite.entities;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 
 @Entity
-public class Comment extends BaseEntity {
+public class Comment  {
 
-    private boolean isVerified = false;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    long Id;
+
+    String content;
+
+    boolean isVerified;
 
     @ManyToOne
-    private Post post;
+    User user;
+
     @ManyToOne
-    private User user;
+    Post post;
 
+    @CreationTimestamp
+    LocalDateTime createdDateTime;
 
-    public Comment(long commentIdDto, boolean verifiedCommentDto, LocalDateTime createDateTimeCommentDto, LocalDateTime updateDateTimeCommentDto, String commentContentDto) {
-        super();
+    @UpdateTimestamp
+    LocalDateTime updatedDateTime;
+
+    public Comment(){}
+    public Comment(long id, String content, boolean isVerified, User user, Post post, LocalDateTime createdDateTime, LocalDateTime updatedDateTime) {
+        Id = id;
+        this.content = content;
+        this.isVerified = isVerified;
+        this.user = user;
+        this.post = post;
+        this.createdDateTime = createdDateTime;
+        this.updatedDateTime = updatedDateTime;
     }
+
+    public long getId() {
+        return Id;
+    }
+
+    public void setId(long id) {
+        Id = id;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
     public boolean isVerified() {
         return isVerified;
     }
@@ -26,17 +64,12 @@ public class Comment extends BaseEntity {
         isVerified = verified;
     }
 
-
-    public Comment() {
+    public User getUser() {
+        return user;
     }
 
-    @Override
-    public String toString() {
-        return "Comment{" +
-                "isVerified=" + isVerified +
-                ", postId=" + post +
-                ", userId=" + user +
-                '}';
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Post getPost() {
@@ -47,11 +80,19 @@ public class Comment extends BaseEntity {
         this.post = post;
     }
 
-    public User getUser() {
-        return user;
+    public LocalDateTime getCreatedDateTime() {
+        return createdDateTime;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setCreatedDateTime(LocalDateTime createdDateTime) {
+        this.createdDateTime = createdDateTime;
+    }
+
+    public LocalDateTime getUpdatedDateTime() {
+        return updatedDateTime;
+    }
+
+    public void setUpdatedDateTime(LocalDateTime updatedDateTime) {
+        this.updatedDateTime = updatedDateTime;
     }
 }

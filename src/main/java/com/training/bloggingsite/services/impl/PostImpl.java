@@ -10,10 +10,14 @@ import com.training.bloggingsite.repositories.PostRepository;
 import com.training.bloggingsite.repositories.UserRepository;
 import com.training.bloggingsite.services.interfaces.PostService;
 import com.training.bloggingsite.utils.DefaultValue;
+import com.training.bloggingsite.utils.PostConvertor;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -38,32 +42,27 @@ public class PostImpl implements PostService {
     public String savePost(PostDto post, String userEmail, String categoryName) {
         User user = this.userRepository.findByEmail(userEmail);
         Category category = this.categoryRepository.findByName(categoryName);
-        Post postToBeInserted = toPost(post);
+        Post postToBeInserted = PostConvertor.toPost(post);
         postToBeInserted.setCategory(category);
         postToBeInserted.setUser(user);
         List<Role> roles = user.getRoles().stream().toList();
         if(roles.get(0).getName().equals(DefaultValue.ADMIN)){
             postToBeInserted.setVerified(true);
-            this.postRepository.save(postToBeInserted);
-            logger.info("Post created as : " + postToBeInserted + "by "+user.getName());
-            return "redirect:/admin/home";
         }
         else {
             postToBeInserted.setVerified(false);
-            this.postRepository.save(postToBeInserted);
-            logger.info("Post created as : " + postToBeInserted + "by "+user.getName());
-            return "redirect:/user/home";
         }
+        this.postRepository.save(postToBeInserted);
+        logger.info("Post created as : " + postToBeInserted + "by "+user.getName());
+        return "redirect:/admin/home";
     }
-
-
 
     @Override
     public List<PostDto> getAllPost() {
         List<PostDto> postDtos = new ArrayList<>();
         List<Post> Allpost = postRepository.findAll();
         for (Post post : Allpost) {
-            postDtos.add(toPostDto(post));
+            postDtos.add(PostConvertor.toPostDto(post));
         }
         return postDtos;
     }
@@ -73,11 +72,9 @@ public class PostImpl implements PostService {
         return null;
     }
 
-
-
     @Override
     public PostDto getPostById(Long id) {
-        return toPostDto(postRepository.getReferenceById(id));
+        return PostConvertor.toPostDto(postRepository.getReferenceById(id));
     }
 
     @Override
@@ -85,7 +82,7 @@ public class PostImpl implements PostService {
         List<PostDto> postDtos = new ArrayList<>();
         List<Post> Allpost = postRepository.findPostsByIsVerifiedTrue();
         for (Post post : Allpost) {
-            postDtos.add(toPostDto(post));
+            postDtos.add(PostConvertor.toPostDto(post));
         }
         return postDtos;
     }
@@ -96,8 +93,7 @@ public class PostImpl implements PostService {
         List<PostDto> postDtos = new ArrayList<>();
         List<Post> postByUserId = postRepository.findPostByUser(user);
         for (Post post : postByUserId)
-            postDtos.add(toPostDto(post));
-
+            postDtos.add(PostConvertor.toPostDto(post));
         return postDtos;
     }
 
@@ -113,6 +109,28 @@ public class PostImpl implements PostService {
         this.postRepository.updateVerificationStatus(postId,!isVerified);
         logger.info("Post verified as : " + !isVerified + " for id "+post.getId());
     }
+
+    @Override
+    public Page<Post> findPaginatedPost(int pageNo, int pageSize) {
+        Pageable pageable=PageRequest.of(pageNo-1,pageSize);
+
+
+        return this.postRepository.findAll(pageable);
+    }
+
+    /*@Override
+    public Page<Post> findPaginatedPost(Pageable pageable) {
+        int pageNumber = 1;
+        int pageSize = 3;
+    Pageable pageableObject= PageRequest.of(pageNumber,pageSize);
+    Page<Post> paginatedPost=postRepository.findAll(pageable);
+
+    List<Post> listOfPost=paginatedPost.getContent();
+
+        return null;
+    }*/
+
+
 
 
 }

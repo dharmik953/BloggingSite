@@ -4,6 +4,8 @@ import com.training.bloggingsite.dtos.PostDto;
 import com.training.bloggingsite.entities.Category;
 import com.training.bloggingsite.entities.Post;
 import com.training.bloggingsite.entities.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import com.training.bloggingsite.utils.CategoryConvertor;
 import com.training.bloggingsite.utils.UserConvertor;
 
@@ -27,6 +29,7 @@ public interface PostService {
 
     void updateVerification(long postId, boolean isVerified);
 
+
     default PostDto toPostDto(Post post) {
         return new PostDto(
                 post.getId(),
@@ -49,4 +52,8 @@ public interface PostService {
                 postDto.getUpdateDateTime()
         );
     }
+
+
+    Page<Post> findPaginatedPost(int pageNo,int pageSize);
+
 }
