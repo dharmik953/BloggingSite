@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>View Posts User</title>
@@ -14,6 +14,12 @@
     Posted By : <b th:text="${postData.userDto.name}"></b>
   </div>
 </div>
-<a th:href="@{/user/home}">Back-></a>
+<div sec:authorize="hasRole('ADMIN')">
+    <a th:href="@{/user/home}">Back-></a>
+</div>
+
+<div sec:authorize="hasRole('USER')">
+    <a th:href="@{/user/home}">Back-></a>
+</div>
 </body>
 </html>
