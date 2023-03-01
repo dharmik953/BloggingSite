@@ -12,6 +12,7 @@ import com.training.bloggingsite.services.interfaces.PostService;
 import com.training.bloggingsite.utils.DefaultValue;
 import com.training.bloggingsite.utils.PostConvertor;
 import jakarta.transaction.Transactional;
+import org.hibernate.annotations.CreationTimestamp;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -111,26 +112,25 @@ public class PostImpl implements PostService {
     }
 
     @Override
-    public Page<Post> findPaginatedPost(int pageNo, int pageSize) {
+    public List<PostDto> findPaginatedPost(int pageNo, int pageSize) {
         Pageable pageable=PageRequest.of(pageNo-1,pageSize);
 
+        List<PostDto> postDtos=new ArrayList<>();
 
-        return this.postRepository.findAll(pageable);
+        List<Post> post=postRepository.findAll(pageable).getContent();
+                for(Post p: post)
+                {
+                postDtos.add(PostConvertor.toPostDto(p));
+                }
+
+                return postDtos;
     }
 
-    /*@Override
-    public Page<Post> findPaginatedPost(Pageable pageable) {
-        int pageNumber = 1;
-        int pageSize = 3;
-    Pageable pageableObject= PageRequest.of(pageNumber,pageSize);
-    Page<Post> paginatedPost=postRepository.findAll(pageable);
-
-    List<Post> listOfPost=paginatedPost.getContent();
-
-        return null;
-    }*/
-
-
+    @Override
+    public int findTotalPages(int pageNo, int pageSize) {
+        Pageable pageable=PageRequest.of(pageNo-1,pageSize);
+       return postRepository.findAll(pageable).getTotalPages();
+    }
 
 
 }

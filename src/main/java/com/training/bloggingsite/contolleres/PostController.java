@@ -60,8 +60,7 @@ public class PostController {
     @GetMapping("user/all-post")
     public ModelAndView getAllPostForUser() {
         List<PostDto> postDto = postService.getAllVerifiedPost();
-        //this.postService.getAllPost().stream().
-        // filter(PostDto::isVerified).collect(Collectors.toList());
+
         ModelAndView mav = new ModelAndView("user-view-all-post");
         mav.addObject("postData", postDto);
         return mav;
@@ -136,16 +135,19 @@ public class PostController {
     }
 
 
-    @GetMapping("user/all-post/a")
+    @GetMapping("user/post-all")
     public ModelAndView displayPaginatedPosts(@RequestParam("pageNo") int pageNo) {
-        Page<Post> paginatedPostList = postService.findPaginatedPost(pageNo, 10);
-        Page<Post> postList = postService.findPaginatedPost(pageNo, 10);
+
+        List<PostDto> postList=postService.findPaginatedPost(pageNo,5);
+
 
         ModelAndView modelAndView = new ModelAndView("user-view-all-post");
         modelAndView.addObject("currentPage", pageNo);
-        modelAndView.addObject("totalPages", paginatedPostList.getTotalPages());
-        modelAndView.addObject("totalItems", paginatedPostList.getTotalElements());
-        modelAndView.addObject("currentPage", postList);
+        modelAndView.addObject("totalPages", postService.findTotalPages(pageNo,5));
+
+        //modelAndView.addObject("totalItems", paginatedPostList.getTotalElements());
+        modelAndView.addObject("postData", postList);
+
         return modelAndView;
 
     }

@@ -16,15 +16,19 @@
 </div>
 
 
+Page Number: [[${currentPage}]]
+<br>
+<a th:if="${currentPage > 1}" th:href="@{'/user/post-all?pageNo=' + ${currentPage - 1}}">Previous</a>
+
+<a th:if="${currentPage < totalPages}" th:href="@{'/user/post-all?pageNo=' + ${currentPage + 1}}">Next</a>
+<span th:unless="${currentPage < totalPages}">Next</span>
+
+
 
 <div>
     <a th:href="@{/user/home}">Back-></a>
 
-<div>
-    <a href="#" th:text="Previous"></a>
-    <a href="#" th:text="Next"></a>
 
-</div>
 
 
 

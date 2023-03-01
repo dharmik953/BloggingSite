@@ -54,6 +54,6 @@ public interface PostService {
     }
 
 
-    Page<Post> findPaginatedPost(int pageNo,int pageSize);
-
+    List<PostDto> findPaginatedPost(int pageNo,int pageSize);
+    int findTotalPages(int pageNo,int pageSize);
 }
