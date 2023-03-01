@@ -1,11 +1,14 @@
 package com.training.bloggingsite.contolleres;
 
+import com.training.bloggingsite.dtos.CategoryDto;
 import com.training.bloggingsite.dtos.PostDto;
 import com.training.bloggingsite.dtos.UserDto;
+import com.training.bloggingsite.services.interfaces.CategoryService;
 import com.training.bloggingsite.entities.Post;
 import com.training.bloggingsite.services.interfaces.BookmarkService;
 import com.training.bloggingsite.services.interfaces.PostService;
 import com.training.bloggingsite.services.interfaces.UserService;
+import com.training.bloggingsite.utils.UserConvertor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +30,8 @@ public class PostController {
     BookmarkService bookmarkService;
     @Autowired
     UserService userService;
+    @Autowired
+    CategoryService categoryService;
 
 
     Logger logger = LoggerFactory.getLogger(PostController.class);
@@ -76,16 +81,18 @@ public class PostController {
 
     @GetMapping("user/add-post")
     public ModelAndView addPost() {
-        PostDto post = new PostDto();
+        PostDto postDto = new PostDto();
+        CategoryDto categoryDto = new CategoryDto();
         ModelAndView modelAndView = new ModelAndView("add-post");
-        modelAndView.addObject("postdto", post);
+        modelAndView.addObject("postdto", postDto);
+        List<CategoryDto> categoryDtos = this.categoryService.findAllCategoryIncludeChildren();
+        modelAndView.addObject("categories",categoryDtos);
         return modelAndView;
     }
 
     @PostMapping("user/save-post")
     public String saveThePost(@ModelAttribute PostDto post, Principal principal) {
-        UserDto userDto = this.userService.getUserByEmail(principal.getName());
-        return this.postService.savePost(post, userDto);
+        return this.postService.savePost(post, principal.getName(),post.getCategoryDto().getName());
     }
 
 
@@ -97,10 +104,10 @@ public class PostController {
 
     @GetMapping("user/my-post")
     public ModelAndView getPostByUserId(Principal principal) {
-        UserDto userDto = userService.getUserByEmail(principal.getName());
-        List<PostDto> postDto = postService.getAllPostByUser(UserService.toUser(userDto));
-        //postService.getAllPost().stream().
+       //postService.getAllPost().stream().
         //filter(s->s.getId()==UserService.toUser(userDto).getId()).toList();
+        UserDto userDto = userService.findUserByEmail(principal.getName());
+        List<PostDto> postDto = postService.getAllPostByUser(UserConvertor.toUser(userDto));
         ModelAndView modelAndView = new ModelAndView("user-view-all-post");
         modelAndView.addObject("postData", postDto);
 

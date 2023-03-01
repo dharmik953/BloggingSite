@@ -6,6 +6,7 @@
 <div>
     <h1 th:text="${postid.title}"></h1>
 </div>
+<hr>
 <p>
     <a th:text="${isBookMarked}?'remove Bookmarked':'Add Bookmark'"
    th:href="@{/user/post/change-bookmark-status(postId=${postid.id},isBookMarked=${isBookMarked}

@@ -27,8 +27,7 @@ public class RoleController {
     @GetMapping("admin/add-role")
     public ModelAndView getaddRole(){
         ModelAndView mav = new ModelAndView("add-role");
-        RoleDto roleDto = new RoleDto();
-        mav.addObject("roleData",roleDto);
+        mav.addObject("roleData",new RoleDto());
         return mav;
     }
 
@@ -45,7 +44,7 @@ public class RoleController {
 
     @GetMapping("admin/view-role")
     public ModelAndView viewRoleList(){
-        List<RoleDto> roles = this.roleService.getAllRoles();
+        List<RoleDto> roles = this.roleService.findAllRoles();
         ModelAndView mav = new ModelAndView("view-role");
         mav.addObject("roles",roles);
         return mav;

@@ -1,9 +1,12 @@
 package com.training.bloggingsite.services.impl;
 
+import com.training.bloggingsite.contolleres.CommentController;
 import com.training.bloggingsite.dtos.CommentDto;
 import com.training.bloggingsite.entities.Comment;
 import com.training.bloggingsite.repositories.CommentRepository;
 import com.training.bloggingsite.services.interfaces.CommentService;
+import com.training.bloggingsite.utils.CategoryConvertor;
+import com.training.bloggingsite.utils.CommentConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,26 +17,25 @@ import java.util.List;
 public class CommentServiceImpl implements CommentService {
 
     @Autowired
-    CommentRepository repositories;
+    CommentRepository commentRepository;
 
     List<CommentDto> verifiedComment = new ArrayList<>();
     List<CommentDto> unVerifiedComment = new ArrayList<>();
 
     @Override
-    public Comment addComment(Comment comment) {
-        return repositories.save(comment);
+    public void addComment(CommentDto comment) {
+        commentRepository.save(CommentConverter.toComment(comment));
     }
 
     @Override
     public void deleteComment(long id) {
-        repositories.deleteById(id);
+        commentRepository.deleteById(id);
     }
 
     @Override
     public List<CommentDto> getCommentByUser(long userId) {
         List<Comment> list = new ArrayList<>();
-//        for ()
-//        return repositories.findAllById(userId);
+//        return toCommentDto(list.add((Comment) repositories.findByUserId(userId)));
         return null;
     }
 

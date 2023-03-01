@@ -1,18 +1,19 @@
 package com.training.bloggingsite.services.interfaces;
 
 import com.training.bloggingsite.dtos.PostDto;
-import com.training.bloggingsite.dtos.UserDto;
 import com.training.bloggingsite.entities.Category;
 import com.training.bloggingsite.entities.Post;
 import com.training.bloggingsite.entities.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import com.training.bloggingsite.utils.CategoryConvertor;
+import com.training.bloggingsite.utils.UserConvertor;
 
 import java.util.List;
 
 public interface PostService {
 
-    String savePost(PostDto post, UserDto userDto);
+    String savePost(PostDto post, String userEmail, String categoryName);
 
     List<PostDto> getAllPost();
 
@@ -36,7 +37,7 @@ public interface PostService {
                 post.isVerified(),
                 post.getCreateDateTime(),
                 post.getUpdateDateTime(),
-                UserService.toUserDto(post.getUser())
+                UserConvertor.toUserDto(post.getUser()), CategoryConvertor.toCategoryDto(post.getCategory())
         );
     }
 
