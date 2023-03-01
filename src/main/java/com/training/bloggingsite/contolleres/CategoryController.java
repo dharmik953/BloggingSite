@@ -42,7 +42,7 @@ public class CategoryController {
     @GetMapping("admin/view-categories")
     public ModelAndView viewCategories(){
         ModelAndView mav = new ModelAndView("view-categories");
-        List<CategoryDto> categoryDtos = this.categoryService.getAllCategory();
+        List<CategoryDto> categoryDtos = this.categoryService.findAllCategory();
         mav.addObject("categories",categoryDtos);
         return mav;
     }
@@ -50,8 +50,8 @@ public class CategoryController {
     @GetMapping("admin/view-subcategories")
     public ModelAndView viewSubCategories(@RequestParam("id") long id){
         ModelAndView mav = new ModelAndView("view-subcategories");
-        CategoryDto categoryDto = this.categoryService.getCategoryById(id);
-        List<CategoryDto> categoryDtos = this.categoryService.getCategoryByParent(categoryDto);
+        CategoryDto categoryDto = this.categoryService.findCategoryById(id);
+        List<CategoryDto> categoryDtos = this.categoryService.findCategoryByParent(categoryDto);
         mav.addObject("categories",categoryDtos);
         return mav;
     }

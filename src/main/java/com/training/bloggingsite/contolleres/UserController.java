@@ -33,7 +33,7 @@ public class UserController {
 
     @GetMapping("/user/home")
     public String getUser(Principal principal, Model model){
-        UserDto userDto = this.userService.getUserByEmail(principal.getName());
+        UserDto userDto = this.userService.findUserByEmail(principal.getName());
         model.addAttribute("name",userDto.getName());
         return "user-dashboard";
     }

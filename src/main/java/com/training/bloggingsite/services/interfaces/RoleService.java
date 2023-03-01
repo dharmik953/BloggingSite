@@ -7,22 +7,14 @@ import java.util.List;
 
 public interface RoleService {
 
-    default Role toRole(RoleDto roleDto){
-        return new Role(roleDto.getId(),roleDto.getName());
-    }
-
-    default RoleDto toRoleDto(Role role){
-        return new RoleDto((int) role.getId(), role.getName());
-    }
-
     public RoleDto addRole(RoleDto roleDto);
 
-    public List<RoleDto> getAllRoles();
+    public List<RoleDto> findAllRoles();
 
     public void deleteRole(int id);
 
-    public RoleDto getRoleById(int id);
+    public RoleDto findRoleById(int id);
 
-    public RoleDto getRole(String role);
+    public RoleDto findRoleByName(String roleName);
 
 }

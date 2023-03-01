@@ -4,6 +4,7 @@ import com.training.bloggingsite.dtos.RoleDto;
 import com.training.bloggingsite.dtos.UserDto;
 import com.training.bloggingsite.services.interfaces.RoleService;
 import com.training.bloggingsite.services.interfaces.UserService;
+import com.training.bloggingsite.utils.DefaultValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,14 +26,14 @@ public class AdminController {
 
     @GetMapping("/admin/home")
     public String getAdmin(Principal principal, Model model){
-        UserDto userDto = this.userService.getUserByEmail(principal.getName());
+        UserDto userDto = this.userService.findUserByEmail(principal.getName());
         model.addAttribute("name",userDto.getName());
         return "admin-dashboard";
     }
 
-    @GetMapping("admin/user/view-users")
+    @GetMapping("/admin/user/view-users")
     public ModelAndView viewUserList(){
-        List<UserDto> users = this.userService.getAllUsers();
+        List<UserDto> users = this.userService.findAllUsers();
         ModelAndView mav = new ModelAndView("view-users");
         mav.addObject("users",users);
         return mav;
@@ -40,12 +41,18 @@ public class AdminController {
 
     @GetMapping("/admin/user/view")
     public ModelAndView viewUser(@RequestParam("id")long id){
-        UserDto userDto = this.userService.getUserById(id);
-        List<RoleDto> roles = this.roleService.getAllRoles();
+        UserDto userDto = this.userService.findUserById(id);
+        List<RoleDto> roles = this.roleService.findAllRoles();
         ModelAndView mav = new ModelAndView("view-user");
         mav.addObject("roles",roles);
         mav.addObject("user",userDto);
         return mav;
+    }
+
+    @GetMapping("/admin/user/update-role")
+    public String updateUserRole(@RequestParam("id") long id,@RequestParam("role") String role){
+        this.userService.updateUserRole(id,role);
+        return "redirect:/admin/user/view?id="+id;
     }
 
 }

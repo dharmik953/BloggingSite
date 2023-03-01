@@ -3,9 +3,11 @@ package com.training.bloggingsite.services.impl;
 import com.training.bloggingsite.dtos.CategoryDto;
 import com.training.bloggingsite.entities.Category;
 import com.training.bloggingsite.exceptions.CategoryAlreadyExistsException;
+import com.training.bloggingsite.exceptions.CategoryNotFoundException;
 import com.training.bloggingsite.exceptions.SubCategoryAlreadyExistsException;
 import com.training.bloggingsite.repositories.CategoryRepository;
 import com.training.bloggingsite.services.interfaces.CategoryService;
+import com.training.bloggingsite.utils.CategoryConvertor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,10 +26,10 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public CategoryDto addCategory(CategoryDto categoryDto) {
 
-        Category check =this.categoryRepositories.findByName(categoryDto.getName());
+        Category checkCategoryInDB =this.categoryRepositories.findByName(categoryDto.getName());
 
-        if(check==null) {
-            Category categoryToBeInserted = toCategory(categoryDto);
+        if(checkCategoryInDB==null) {
+            Category categoryToBeInserted = CategoryConvertor.toCategory(categoryDto);
             this.categoryRepositories.save(categoryToBeInserted);
             logger.info("Category Added :" + categoryDto);
             return categoryDto;
@@ -44,20 +46,26 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public List<CategoryDto> getAllCategory() {
+    public List<CategoryDto> findAllCategory() {
         List<Category> categories = this.categoryRepositories.findCategoriesByParentCategoryNull();
+        if(categories==null){
+            throw new CategoryNotFoundException();
+        }
         List<CategoryDto> categoryDtos = new ArrayList<>();
         for(Category category : categories){
-            categoryDtos.add(toCategoryDto(category));
+            categoryDtos.add(CategoryConvertor.toCategoryDto(category));
         }
         logger.info("Category fetched :" + categoryDtos);
         return categoryDtos;
     }
 
     @Override
-    public CategoryDto getCategoryById(long id) {
+    public CategoryDto findCategoryById(long id) {
         Category category = categoryRepositories.findById(id).get();
-        CategoryDto categoryDto = toCategoryDto(category);
+        if(category==null){
+            throw new CategoryNotFoundException();
+        }
+        CategoryDto categoryDto = CategoryConvertor.toCategoryDto(category);
         logger.info("Category fetched by Id:" + categoryDto);
         return categoryDto;
     }
@@ -65,11 +73,11 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public CategoryDto addSubCategory(long parentId,CategoryDto categoryDto) {
 
-        Category check =this.categoryRepositories.findByName(categoryDto.getName());
+        Category checkSubCategoryInDB =this.categoryRepositories.findByName(categoryDto.getName());
 
-        if(check==null) {
+        if(checkSubCategoryInDB==null) {
             Category parentCategory = this.categoryRepositories.findById(parentId).get();
-            Category subCategory = toCategory(categoryDto);
+            Category subCategory = CategoryConvertor.toCategory(categoryDto);
             subCategory.setParentCategory(parentCategory);
             subCategory.setId(0);
             this.categoryRepositories.save(subCategory);
@@ -82,11 +90,11 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public List<CategoryDto> getCategoryByParent(CategoryDto categoryDto) {
+    public List<CategoryDto> findCategoryByParent(CategoryDto categoryDto) {
         List<Category> categories = this.categoryRepositories.findCategoriesByParentCategoryId(categoryDto.getId());
         List<CategoryDto> categoryDtos = new ArrayList<>();
         for (Category category : categories){
-            categoryDtos.add(toCategoryDto(category));
+            categoryDtos.add(CategoryConvertor.toCategoryDto(category));
         }
         logger.info("Category fetched as parent :" + categoryDtos);
         return categoryDtos;
