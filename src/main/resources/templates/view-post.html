@@ -13,16 +13,6 @@
     <p th:text="${postid.content}"></p>
 </div>
 
-<!--<h3>Comments...</h3>-->
-<!--<div th:each="">-->
-
-<!--</div>-->
-<div sec:authorize="hasRole('ADMIN')">
-    <a th:href="@{/admin/all-post}">Back-></a>
-</div>
-
-<div sec:authorize="hasRole('USER')">
-    <a th:href="@{/user/all-post}">Back-></a>
-</div>
+<a  onclick="history.back()">Back-></a>
 
 </html>
