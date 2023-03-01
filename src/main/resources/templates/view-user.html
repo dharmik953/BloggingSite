@@ -22,7 +22,7 @@
     <tr th:each="role:${user.roles}">
         <td  th:text="${role.name}"></td>
         <td>
-            <a th:href="@{/admin/user/delete-user-role(id=${user.id})}">delete</a>
+            <a th:text="${role.name == 'ADMIN'} ? 'Change To USER' : 'Change To ADMIN'" th:href="@{/admin/user/update-role(id=${role.id},role=${role.name})}"></a>
         </td>
     </tr>
 

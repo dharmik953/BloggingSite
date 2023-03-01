@@ -1,4 +1,4 @@
-<html>
+<html xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <title th:text="${postid.title}"></title>
 </head>
@@ -11,9 +11,16 @@
     <p th:text="${postid.content}"></p>
 </div>
 
+<!--<h3>Comments...</h3>-->
+<!--<div th:each="">-->
 
-
+<!--</div>-->
+<div sec:authorize="hasRole('ADMIN')">
+    <a th:href="@{/admin/all-post}">Back-></a>
 </div>
-<a th:href="@{/admin/all-post}">Back-></a>
+
+<div sec:authorize="hasRole('USER')">
+    <a th:href="@{/user/all-post}">Back-></a>
+</div>
 
 </html>

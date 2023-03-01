@@ -9,7 +9,6 @@ import java.util.Set;
 @Table(name = "user")
 public class User extends BaseEntity{
 
-
     @Column(name = "email")
     private String email;
 

@@ -3,13 +3,15 @@ package com.training.bloggingsite.services.impl;
 import com.training.bloggingsite.dtos.RoleDto;
 import com.training.bloggingsite.entities.Role;
 import com.training.bloggingsite.exceptions.RoleAlreadyExistsException;
+import com.training.bloggingsite.exceptions.RoleNotFoundException;
 import com.training.bloggingsite.repositories.RoleRepository;
 import com.training.bloggingsite.services.interfaces.RoleService;
-import jakarta.transaction.Transactional;
+import com.training.bloggingsite.utils.RoleConvertor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,11 +25,10 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public RoleDto addRole(RoleDto roleDto) {
-        Role check= this.roleRepository.findByName(roleDto.getName());
+        Role checkRoleInDB= this.roleRepository.findByName(roleDto.getName());
 
-        if(check==null) {
-            Role roleToBeInserted = toRole(roleDto);
-            System.out.println(roleToBeInserted);
+        if(checkRoleInDB==null) {
+            Role roleToBeInserted = RoleConvertor.toRole(roleDto);
             roleToBeInserted.setName(roleToBeInserted.getName().toUpperCase());
             this.roleRepository.save(roleToBeInserted);
             logger.info("Role Added :" + roleDto);
@@ -39,11 +40,14 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public List<RoleDto> getAllRoles() {
+    public List<RoleDto> findAllRoles() {
          List<Role> roles = this.roleRepository.findAll();
+        if(roles==null){
+            throw new RoleNotFoundException();
+        }
          List<RoleDto> roleDtos = new ArrayList<>();
          for (Role role : roles){
-             roleDtos.add(toRoleDto(role));
+             roleDtos.add(RoleConvertor.toRoleDto(role));
          }
         logger.info("Roles Fetched :"+roleDtos);
          return roleDtos;
@@ -56,17 +60,23 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public RoleDto getRoleById(int id){
+    public RoleDto findRoleById(int id){
         Role role =  this.roleRepository.findById(id).get();
-        RoleDto roleDto = toRoleDto(role);
+        if(role==null){
+            throw new RoleNotFoundException();
+        }
+        RoleDto roleDto = RoleConvertor.toRoleDto(role);
         logger.info("Role fetched :"+roleDto);
         return roleDto;
     }
 
     @Override
-    public RoleDto getRole(String roleDto){
-        Role role = this.roleRepository.findByName(roleDto);
-        RoleDto roleDtoData = toRoleDto(role);
+    public RoleDto findRoleByName(String roleName){
+        Role role = this.roleRepository.findByName(roleName);
+        if(role==null){
+            throw new RoleNotFoundException();
+        }
+        RoleDto roleDtoData = RoleConvertor.toRoleDto(role);
         return roleDtoData;
     }
 

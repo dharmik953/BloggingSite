@@ -5,6 +5,7 @@ import com.training.bloggingsite.dtos.UserDto;
 import com.training.bloggingsite.entities.Category;
 import com.training.bloggingsite.entities.Post;
 import com.training.bloggingsite.entities.User;
+import com.training.bloggingsite.utils.UserConvertor;
 
 import java.util.List;
 
@@ -34,7 +35,7 @@ public interface PostService {
                 post.isVerified(),
                 post.getCreateDateTime(),
                 post.getUpdateDateTime(),
-                UserService.toUserDto(post.getUser())
+                UserConvertor.toUserDto(post.getUser())
         );
     }
 
