@@ -1,7 +1,6 @@
 package com.training.bloggingsite.dtos;
 
 import com.training.bloggingsite.entities.Role;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
@@ -21,7 +20,7 @@ public class UserDto {
     private String email;
 
     @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[\\$\\@]).{6,}$",
-            message = "Password must have atleast 6 character. " +
+            message = "Password must have at least 6 character. " +
             "Include : one Upper-case, one Lower-case, one Number and one Special Character (@ or $).")
     private String password;
 
