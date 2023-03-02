@@ -38,12 +38,7 @@ public class BookMarkController {
         ModelAndView modelAndView=new ModelAndView("admin-view-all-post");
         UserDto userDto = userService.findUserByEmail(principal.getName());
         List<PostDto> postDataByBookmark=bookmarkService.getAllBookMarkedPost(userDto);
-
-        System.out.println("Book mark : "+postDataByBookmark);
-        System.out.println("Book mark User : "+userDto);
-
         modelAndView.addObject("postData",postDataByBookmark);
-
         return modelAndView;
     }
 

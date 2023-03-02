@@ -160,9 +160,9 @@ public class PostController {
 
 
     @GetMapping("/admin/post/verification")
-    public String updateVerification(@RequestParam("postId") long postId, @RequestParam("isVerified") boolean isVerified) {
+    public String updateVerification(@RequestParam("postId") long postId, @RequestParam("isVerified") boolean isVerified,@RequestParam("pageNo")int pageNo) {
         this.postService.updateVerification(postId, isVerified);
-        return "redirect:/admin/all-post";
+        return "redirect:/admin/all-post?pageNo="+pageNo;
     }
 
     @GetMapping("user/my-post")
