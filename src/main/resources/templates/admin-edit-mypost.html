@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/html">
+<head>
+  <title> Edit Post </title>
+
+
+</head>
+<body bgcolor="aqua">
+<div>
+  <center>
+    <h1>Edit Post</h1>
+  </center>
+
+  <form th:object="${postdto}" th:action="@{/user/save-post}" method="POST">
+    <input type="hidden" th:field="${postdto.id}"/>
+    <input type="hidden" th:field="${postdto.createDateTime}"/>
+    <input type="text"
+           style="border: 2px solid black;
+                        display: block; width:97%; height: 60px;
+                        box-shadow: 2px 2px 4px grey; margin: 10px;
+                        margin-end: 40px" th:text=" ${postdto.title}"
+           required
+           th:field="*{title}"/>
+    <label for="category">category</label>
+    <select id="category" name="Category" th:field="*{categoryDto.name}">
+      <option th:each="category: ${categories}" th:value="${category.name}" th:text="${category.name}"></option>
+    </select>
+
+    <label>
+<textarea
+        th:text=" ${postdto.content}"
+        th:field="*{content}"
+        style="display: block; width:97%; height: 500px;
+              box-shadow: 2px 2px 4px grey; margin: 10px;
+              margin-end: 40px; font-size: 20px" placeholder="enter the post content here"
+        required>
+
+
+</textarea>
+    </label>
+    <p><input type="submit" value="Submit"/>
+      <input type="reset" value="Clear"/></p>
+
+  </form>
+  <a onclick="history.back()">Back</a>
+</div>
+</body>
+
+</html>
