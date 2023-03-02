@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>View Post Admin</title>
+    <script>
+        function submitFuc(){
+            document.getElementById("comment-form").submit();
+        }
+    </script>
+</head>
+<div>
+    <h1 th:text="${postDto.title}"></h1>
+</div>
+
+
+<p>
+    <a th:text="${isBookMarked}?'remove Bookmarked':'Add Bookmark'"
+       th:href="@{/admin/post/change-bookmark-status(postId=${postid.id},isBookMarked=${isBookMarked}
+   )}"
+    ></a>
+</p>
+<hr>
+<div>
+    <p th:text="${postDto.content}"></p>
+</div>
+<form th:object="${commentDto}" method="post"
+      th:action="@{/user/save-comment(postId=${postDto.id},userEmail=${userEmail})}">
+    Add Comment : <label>
+    <textarea rows="20" cols="30" style="width: 400px; height: 110px;" th:field="*{content}"></textarea>
+    <button value="submit" onclick="submitFuc()">Submit</button>
+</label>
+</form>
+<div>
+    <h3>Comments :</h3> <br>
+    <div th:each="comment: ${commentList}">
+        Comment By : <b th:text="${comment.userDto.name}"></b> <br>
+        Comment : <i th:text="${comment.content}"></i>
+        <br>
+        <a th:text="${comment.isVerified} ? 'Un-Verify Post' : 'Verify Post'" th:href="@{/admin/comment/verification(postId=${postDto.id},commentId=${comment.id},isVerified=${comment.isVerified})}"></a> <br>
+        <br>
+        <hr/>
+    </div>
+</div>
+<a onclick="history.back()">Back-></a>
+</html>

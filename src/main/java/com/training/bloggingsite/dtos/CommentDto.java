@@ -7,6 +7,8 @@ import java.time.LocalDateTime;
 public class CommentDto {
 
     private long Id;
+
+    @Size(min = 4,max = 100,message = "Please enter a valid comment.")
     private String content;
     private UserDto userDto;
     private PostDto postDto;

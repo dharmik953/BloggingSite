@@ -24,6 +24,7 @@ public class RoleController {
 
     Logger logger = LoggerFactory.getLogger(UserController.class);
 
+    // Add new Role.
     @GetMapping("admin/add-role")
     public ModelAndView getaddRole(){
         ModelAndView mav = new ModelAndView("add-role");
@@ -31,6 +32,7 @@ public class RoleController {
         return mav;
     }
 
+    // Save new Role to database.
     @PostMapping("admin/add-role-save")
     public String postAddRole(@Valid  @ModelAttribute("roleData") RoleDto roleDto, BindingResult
                               result){
@@ -42,6 +44,7 @@ public class RoleController {
         return "redirect:/admin/view-role";
     }
 
+    // Displaying all roles from database.
     @GetMapping("admin/view-role")
     public ModelAndView viewRoleList(){
         List<RoleDto> roles = this.roleService.findAllRoles();
@@ -50,6 +53,7 @@ public class RoleController {
         return mav;
     }
 
+    // Delete the selected role.
     @GetMapping("admin/delete-role")
     public String deleteRole(@RequestParam("role")int role){
         this.roleService.deleteRole(role);

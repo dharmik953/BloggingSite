@@ -7,9 +7,11 @@ import java.util.List;
 
 public interface BookmarkService {
 
-   List<PostDto> getAllBookMarkedPost(UserDto userDto);
-     PostDto deleteBookMarkedPostByPostID(UserDto userDto,PostDto postDto);
-    void addBookMarkedPost(PostDto postDto,UserDto userDto);
+    List<PostDto> getAllBookMarkedPost(UserDto userDto);
+
+    PostDto deleteBookMarkedPostByPostID(UserDto userDto, PostDto postDto);
+
+    void addBookMarkedPost(PostDto postDto, UserDto userDto);
 
 
 }

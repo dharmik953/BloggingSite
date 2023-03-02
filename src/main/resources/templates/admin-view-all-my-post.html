@@ -9,12 +9,13 @@
   <div th:each="postData: ${postData}">
     <div style="border: 2px aqua solid; box-shadow: 6px 6px 6px grey;margin-bottom: 20px;">
       <p style="text-indent: 3em">
-        <a th:href="@{/user/post/{postId}(postId=${postData.id})}"> <span th:text="${postData.title}"></span></a>
+        <a th:href="@{/admin/post/{postId}(postId=${postData.id})}"> <span th:text="${postData.title}"></span></a>
       </p>
-      <a  th:href="@{/admin/delete-mypost(id=${postData.id})}">Delete Post</a>
+      <a  th:href="@{/admin/delete-mypost(id=${postData.id})}">Delete Post</a> <br>
       <a  th:href="@{/admin/update-mypost(id=${postData.id})}">Update Post</a>
-      <br><br><br><br>
-      Posted By : <b th:text="${postData.userDto.name}"></b>
+      <br><br>
+      Posted By : <b th:text="${postData.userDto.name}"></b> <br>
+      Category : <b th:text="${postData.categoryDto.name}"></b>
     </div>
   </div>
   <a th:href="@{/admin/home}">Back-></a>
