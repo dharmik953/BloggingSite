@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -24,8 +25,13 @@ public class BookmarkImpl implements BookmarkService {
     @Autowired
     BookMarkRepository bookMarkRepository;
 
+
     @Autowired
     PostService postService;
+
+    @Autowired
+    UserService userService;
+
     @Override
     public List<PostDto> getAllBookMarkedPost(UserDto userDto) {
         List< BookMark > bookMarkList=bookMarkRepository.findAll().stream().
@@ -56,6 +62,16 @@ public class BookmarkImpl implements BookmarkService {
         bookMark.setPost(PostConvertor.toPost(postDto));
 
         bookMarkRepository.save(bookMark);
+
+    }
+
+    @Override
+    public void changeBookMarkStatus(long postId, boolean isBookMarked, Principal principal) {
+        UserDto userDto = userService.findUserByEmail(principal.getName());
+        if(isBookMarked){
+            this.deleteBookMarkedPostByPostID(userDto,postService.findPostById(postId));
+        }else
+            this.addBookMarkedPost(postService.findPostById(postId),userDto);
 
     }
 }
