@@ -15,7 +15,7 @@ import java.security.Principal;
 import java.util.List;
 
 @Controller
-public class bookMarkController {
+public class BookMarkController {
     @Autowired
     BookmarkService bookmarkService;
 
@@ -61,9 +61,4 @@ public class bookMarkController {
         return "redirect:/user/post/"+postId;
     }
 
-
-
-
-
-//?postId=2&isBookMarked=false
 }

@@ -99,6 +99,7 @@ public class PostController {
         mav.addObject("userEmail",principal.getName());
         mav.addObject("commentDto",new CommentDto());
         mav.addObject("postDto", postDto);
+
         mav.addObject("postid", postDto);
         mav.addObject("commentList", commentDtos);
         UserDto userDto = userService.findUserByEmail(principal.getName());
@@ -112,6 +113,29 @@ public class PostController {
         }
         mav.addObject("isBookMarked", isBookMarked);
         return mav;
+    }
+    @GetMapping("user/update-mypost")
+    public ModelAndView getEditPostUser(@RequestParam("id") long postId,Principal principal) {
+        System.out.println("entered in mthpd");
+        PostDto postDto = this.postService.getPostById(postId);
+        CategoryDto categoryDto = postDto.getCategoryDto();
+        ModelAndView modelAndView = new ModelAndView("user-edit-mypost");
+        modelAndView.addObject("postdto", postDto);
+        List<CategoryDto> categoryDtos = this.categoryService.findAllCategoryIncludeChildren();
+        modelAndView.addObject("categories",categoryDtos);
+        return modelAndView;
+    }
+
+    @GetMapping("admin/update-mypost")
+    public ModelAndView getEditPostAdmin(@RequestParam("id") long postId,Principal principal) {
+        System.out.println("entered in mthpd");
+        PostDto postDto = this.postService.getPostById(postId);
+        CategoryDto categoryDto = postDto.getCategoryDto();
+        ModelAndView modelAndView = new ModelAndView("admin-edit-mypost");
+        modelAndView.addObject("postdto", postDto);
+        List<CategoryDto> categoryDtos = this.categoryService.findAllCategoryIncludeChildren();
+        modelAndView.addObject("categories",categoryDtos);
+        return modelAndView;
     }
 
     @GetMapping("user/add-post")
@@ -129,6 +153,7 @@ public class PostController {
     public String saveThePost(@ModelAttribute PostDto post, Principal principal) {
         return this.postService.savePost(post, principal.getName(),post.getCategoryDto().getName());
     }
+
 
     @GetMapping("/admin/post/verification")
     public String updateVerification(@RequestParam("postId") long postId, @RequestParam("isVerified") boolean isVerified) {
@@ -155,15 +180,21 @@ public class PostController {
     }
 
 
-    @GetMapping("user/all-post/a")
+    @GetMapping("user/post-all")
     public ModelAndView displayPaginatedPosts(@RequestParam("pageNo") int pageNo) {
+
+        List<PostDto> postList=postService.findPaginatedPost(pageNo,5);
+
+
         Page<Post> paginatedPostList = postService.findPaginatedPost(pageNo, 10);
         Page<Post> postList = postService.findPaginatedPost(pageNo, 10);
         ModelAndView modelAndView = new ModelAndView("user-view-all-post");
         modelAndView.addObject("currentPage", pageNo);
-        modelAndView.addObject("totalPages", paginatedPostList.getTotalPages());
-        modelAndView.addObject("totalItems", paginatedPostList.getTotalElements());
-        modelAndView.addObject("currentPage", postList);
+        modelAndView.addObject("totalPages", postService.findTotalPages(pageNo,5));
+
+        //modelAndView.addObject("totalItems", paginatedPostList.getTotalElements());
+        modelAndView.addObject("postData", postList);
+
         return modelAndView;
 
     }
