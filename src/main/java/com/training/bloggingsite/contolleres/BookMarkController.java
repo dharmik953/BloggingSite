@@ -44,7 +44,6 @@ public class BookMarkController {
         return "redirect:/admin/post/"+postId;
     }
 
-    //==============================================USER=================================================//
 
     //View All BookMarked Post for USER
     @GetMapping("user/all-bookmarked-post")
