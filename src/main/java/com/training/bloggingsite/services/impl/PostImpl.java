@@ -49,7 +49,7 @@ public class PostImpl implements PostService {
         if(roles.get(0).getName().equals(DefaultValue.ADMIN)){
             postToBeInserted.setVerified(true);this.postRepository.save(postToBeInserted);
             logger.info("Post created as : " + postToBeInserted + "by "+user.getName());
-            return "redirect:/user/home";
+            return "redirect:/admin/home";
         }
         else {
             postToBeInserted.setVerified(false);

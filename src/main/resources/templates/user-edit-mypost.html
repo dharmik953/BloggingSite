@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns="http://www.w3.org/1999/html">
 <head>
-    <title> POST </title>
+    <title> Edit Post </title>
 
 
 </head>
@@ -14,6 +14,7 @@
 
     <form th:object="${postdto}" th:action="@{/user/save-post}" method="POST">
         <input type="hidden" th:field="${postdto.id}"/>
+        <input type="hidden" th:field="${postdto.createDateTime}"/>
         <input type="text"
                style="border: 2px solid black;
                         display: block; width:97%; height: 60px;

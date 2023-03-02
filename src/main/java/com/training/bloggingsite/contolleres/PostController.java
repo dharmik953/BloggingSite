@@ -102,6 +102,18 @@ public class PostController {
         return modelAndView;
     }
 
+    @GetMapping("admin/update-mypost")
+    public ModelAndView getEditPostAdmin(@RequestParam("id") long postId,Principal principal) {
+        System.out.println("entered in mthpd");
+        PostDto postDto = this.postService.getPostById(postId);
+        CategoryDto categoryDto = postDto.getCategoryDto();
+        ModelAndView modelAndView = new ModelAndView("admin-edit-mypost");
+        modelAndView.addObject("postdto", postDto);
+        List<CategoryDto> categoryDtos = this.categoryService.findAllCategoryIncludeChildren();
+        modelAndView.addObject("categories",categoryDtos);
+        return modelAndView;
+    }
+
     @GetMapping("user/add-post")
     public ModelAndView addPost() {
         PostDto postDto = new PostDto();
