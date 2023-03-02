@@ -60,7 +60,6 @@ public class PostController {
 
 
     @GetMapping("user/post/{postId}")
-
     public ModelAndView getPostBYPostId(@PathVariable long postId,Principal principal) {
         ModelAndView mav = new ModelAndView("view-post");
         PostDto postDto = postService.getPostById(postId);
@@ -68,7 +67,6 @@ public class PostController {
         mav.addObject("commentDto",new CommentDto());
         mav.addObject("postDto", postDto);
 
- 
         mav.addObject("postid", postDto);
         UserDto userDto = userService.findUserByEmail(principal.getName());
 
@@ -83,6 +81,29 @@ public class PostController {
         mav.addObject("isBookMarked", isBookMarked);
 
         return mav;
+    }
+    @GetMapping("user/update-mypost")
+    public ModelAndView getEditPostUser(@RequestParam("id") long postId,Principal principal) {
+        System.out.println("entered in mthpd");
+        PostDto postDto = this.postService.getPostById(postId);
+        CategoryDto categoryDto = postDto.getCategoryDto();
+        ModelAndView modelAndView = new ModelAndView("user-edit-mypost");
+        modelAndView.addObject("postdto", postDto);
+        List<CategoryDto> categoryDtos = this.categoryService.findAllCategoryIncludeChildren();
+        modelAndView.addObject("categories",categoryDtos);
+        return modelAndView;
+    }
+
+    @GetMapping("admin/update-mypost")
+    public ModelAndView getEditPostAdmin(@RequestParam("id") long postId,Principal principal) {
+        System.out.println("entered in mthpd");
+        PostDto postDto = this.postService.getPostById(postId);
+        CategoryDto categoryDto = postDto.getCategoryDto();
+        ModelAndView modelAndView = new ModelAndView("admin-edit-mypost");
+        modelAndView.addObject("postdto", postDto);
+        List<CategoryDto> categoryDtos = this.categoryService.findAllCategoryIncludeChildren();
+        modelAndView.addObject("categories",categoryDtos);
+        return modelAndView;
     }
 
     @GetMapping("user/add-post")

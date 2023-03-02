@@ -49,14 +49,17 @@ public class PostImpl implements PostService {
         postToBeInserted.setUser(user);
         List<Role> roles = user.getRoles().stream().toList();
         if(roles.get(0).getName().equals(DefaultValue.ADMIN)){
-            postToBeInserted.setVerified(true);
+            postToBeInserted.setVerified(true);this.postRepository.save(postToBeInserted);
+            logger.info("Post created as : " + postToBeInserted + "by "+user.getName());
+            return "redirect:/admin/home";
         }
         else {
             postToBeInserted.setVerified(false);
+            this.postRepository.save(postToBeInserted);
+            logger.info("Post created as : " + postToBeInserted + "by "+user.getName());
+            return "redirect:/user/home";
         }
-        this.postRepository.save(postToBeInserted);
-        logger.info("Post created as : " + postToBeInserted + "by "+user.getName());
-        return "redirect:/admin/home";
+
     }
 
     @Override
