@@ -16,7 +16,7 @@
 
 <p>
     <a th:text="${isBookMarked}?'remove Bookmarked':'Add Bookmark'"
-       th:href="@{/admin/post/change-bookmark-status(postId=${postid.id},isBookMarked=${isBookMarked}
+       th:href="@{/admin/post/change-bookmark-status(postId=${postDto.id},isBookMarked=${isBookMarked}
    )}"
     ></a>
 </p>

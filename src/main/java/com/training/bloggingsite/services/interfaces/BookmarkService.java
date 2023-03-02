@@ -13,5 +13,5 @@ public interface BookmarkService {
 
     void addBookMarkedPost(PostDto postDto, UserDto userDto);
 
-
+    boolean isBookMarked(UserDto userDto, long postId);
 }

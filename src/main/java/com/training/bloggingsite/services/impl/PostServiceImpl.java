@@ -63,28 +63,8 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<PostDto> findAllPost() {
-        List<PostDto> postDtos = new ArrayList<>();
-        List<Post> Allpost = postRepository.findAll();
-        for (Post post : Allpost) {
-            postDtos.add(PostConvertor.toPostDto(post));
-        }
-        return postDtos;
-    }
-
-    @Override
     public PostDto findPostById(long id) {
         return PostConvertor.toPostDto(postRepository.getReferenceById(id));
-    }
-
-    @Override
-    public List<PostDto> findAllVerifiedPost() {
-        List<PostDto> postDtos = new ArrayList<>();
-        List<Post> Allpost = postRepository.findPostsByIsVerifiedTrue();
-        for (Post post : Allpost) {
-            postDtos.add(PostConvertor.toPostDto(post));
-        }
-        return postDtos;
     }
 
     @Override
