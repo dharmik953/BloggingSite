@@ -11,7 +11,6 @@ import com.training.bloggingsite.utils.PostConvertor;
 import com.training.bloggingsite.utils.UserConvertor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +21,10 @@ public class BookmarkServiceImpl implements BookmarkService {
 
     @Autowired
     PostService postService;
+
+    @Autowired
+    UserService userService;
+
     @Override
     public List<PostDto> getAllBookMarkedPost(UserDto userDto) {
         List< BookMark > bookMarkList=bookMarkRepository.findAll().stream().
@@ -66,5 +69,15 @@ public class BookmarkServiceImpl implements BookmarkService {
             }
         }
         return isBookMarked;
+    }
+
+    @Override
+    public void changeBookMarkStatus(long postId, boolean isBookMarked, Principal principal) {
+        UserDto userDto = userService.findUserByEmail(principal.getName());
+        if(isBookMarked){
+            this.deleteBookMarkedPostByPostID(userDto,postService.findPostById(postId));
+        }else
+            this.addBookMarkedPost(postService.findPostById(postId),userDto);
+
     }
 }
