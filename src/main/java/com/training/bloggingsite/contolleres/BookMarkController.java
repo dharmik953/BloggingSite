@@ -26,7 +26,7 @@ public class BookMarkController {
     PostService postService;
     @GetMapping("user/all-bookmarked-post")
         public ModelAndView findAllBookmarkedPostUser(Principal principal){
-            ModelAndView modelAndView=new ModelAndView("user-view-all-post");
+        ModelAndView modelAndView=new ModelAndView("user-view-all-post");
         UserDto userDto = userService.findUserByEmail(principal.getName());
         List<PostDto> postDataByBookmark=bookmarkService.getAllBookMarkedPost(userDto);
             modelAndView.addObject("postData",postDataByBookmark);
@@ -50,7 +50,7 @@ public class BookMarkController {
     @GetMapping("user/post/change-bookmark-status")
     public String changeBookMarkStatusUser(@RequestParam long postId,
                                        @RequestParam boolean isBookMarked,
-    Principal principal){
+                                        Principal principal){
 
         UserDto userDto = userService.findUserByEmail(principal.getName());
         if(isBookMarked){

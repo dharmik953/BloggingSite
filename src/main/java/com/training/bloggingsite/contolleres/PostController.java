@@ -184,14 +184,4 @@ public class PostController {
     }
 
 
-//    @GetMapping("user/post-all")
-//    public ModelAndView displayPaginatedPosts(@RequestParam("pageNo") int pageNo) {
-//        List<PostDto> postList = postService.findPaginatedPost(pageNo, 5);
-//        ModelAndView modelAndView = new ModelAndView("user-view-all-post");
-//        modelAndView.addObject("currentPage", pageNo);
-//        modelAndView.addObject("totalPages", postService.findTotalPages(pageNo,5));
-//        modelAndView.addObject("postData", postList);
-//        return modelAndView;
-//    }
-
 }
