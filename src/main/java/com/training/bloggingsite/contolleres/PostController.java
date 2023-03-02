@@ -57,14 +57,7 @@ public class PostController {
         return mav;
     }
 
-    @GetMapping("user/all-post")
-    public ModelAndView getAllPostForUser() {
-        List<PostDto> postDto = postService.getAllVerifiedPost();
 
-        ModelAndView mav = new ModelAndView("user-view-all-post");
-        mav.addObject("postData", postDto);
-        return mav;
-    }
 
     @GetMapping("user/post/{postId}")
 
@@ -135,7 +128,7 @@ public class PostController {
     }
 
 
-    @GetMapping("user/post-all")
+    @GetMapping("user/all-post")
     public ModelAndView displayPaginatedPosts(@RequestParam("pageNo") int pageNo) {
 
         List<PostDto> postList=postService.findPaginatedPost(pageNo,5);

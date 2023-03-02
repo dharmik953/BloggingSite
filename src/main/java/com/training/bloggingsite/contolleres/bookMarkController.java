@@ -8,7 +8,6 @@ import com.training.bloggingsite.services.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -27,7 +26,7 @@ public class bookMarkController {
     PostService postService;
     @GetMapping("user/all-bookmarked-post")
         public ModelAndView findAllBookmarkedPostUser(Principal principal){
-            ModelAndView modelAndView=new ModelAndView("user-view-all-post");
+        ModelAndView modelAndView=new ModelAndView("user-view-all-post");
         UserDto userDto = userService.findUserByEmail(principal.getName());
         List<PostDto> postDataByBookmark=bookmarkService.getAllBookMarkedPost(userDto);
             modelAndView.addObject("postData",postDataByBookmark);
@@ -51,7 +50,7 @@ public class bookMarkController {
     @GetMapping("user/post/change-bookmark-status")
     public String changeBookMarkStatus(@RequestParam long postId,
                                        @RequestParam boolean isBookMarked,
-    Principal principal){
+                                        Principal principal){
 
         UserDto userDto = userService.findUserByEmail(principal.getName());
         if(isBookMarked){
