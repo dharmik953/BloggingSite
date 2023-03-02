@@ -7,10 +7,13 @@ import com.training.bloggingsite.entities.Post;
 import com.training.bloggingsite.repositories.BookMarkRepository;
 import com.training.bloggingsite.services.interfaces.BookmarkService;
 import com.training.bloggingsite.services.interfaces.PostService;
+import com.training.bloggingsite.services.interfaces.UserService;
 import com.training.bloggingsite.utils.PostConvertor;
 import com.training.bloggingsite.utils.UserConvertor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 

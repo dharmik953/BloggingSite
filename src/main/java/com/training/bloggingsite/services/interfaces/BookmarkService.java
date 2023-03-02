@@ -3,6 +3,7 @@ package com.training.bloggingsite.services.interfaces;
 import com.training.bloggingsite.dtos.PostDto;
 import com.training.bloggingsite.dtos.UserDto;
 
+import java.security.Principal;
 import java.util.List;
 
 public interface BookmarkService {
