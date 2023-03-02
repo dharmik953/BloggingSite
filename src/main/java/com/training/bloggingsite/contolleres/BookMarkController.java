@@ -21,16 +21,17 @@ public class BookMarkController {
 
     @Autowired
     UserService userService;
+
     @Autowired
     PostService postService;
 
     //View All BookMarked Post for USER
     @GetMapping("admin/all-bookmarked-post")
-    public ModelAndView findAllBookmarkedPostAdmin(Principal principal){
-        ModelAndView modelAndView=new ModelAndView("admin-view-all-post");
+    public ModelAndView findAllBookmarkedPostAdmin(Principal principal) {
+        ModelAndView modelAndView = new ModelAndView("admin-view-all-post");
         UserDto userDto = userService.findUserByEmail(principal.getName());
-        List<PostDto> postDataByBookmark=bookmarkService.getAllBookMarkedPost(userDto);
-        modelAndView.addObject("postData",postDataByBookmark);
+        List<PostDto> postDataByBookmark = bookmarkService.getAllBookMarkedPost(userDto);
+        modelAndView.addObject("postData", postDataByBookmark);
         return modelAndView;
     }
 
@@ -38,35 +39,32 @@ public class BookMarkController {
     @GetMapping("admin/post/change-bookmark-status")
     public String changeBookMarkStatusAdmin(@RequestParam long postId,
                                             @RequestParam boolean isBookMarked,
-                                            Principal principal){
+                                            Principal principal) {
 
-      bookmarkService.changeBookMarkStatus(postId,isBookMarked,principal);
-        return "redirect:/admin/post/"+postId;
+        bookmarkService.changeBookMarkStatus(postId, isBookMarked, principal);
+        return "redirect:/admin/post/" + postId;
     }
 
 
     //View All BookMarked Post for USER
     @GetMapping("user/all-bookmarked-post")
-        public ModelAndView findAllBookmarkedPostUser(Principal principal){
-        ModelAndView modelAndView=new ModelAndView("user-view-all-post");
+    public ModelAndView findAllBookmarkedPostUser(Principal principal) {
+        ModelAndView modelAndView = new ModelAndView("user-view-all-post");
         UserDto userDto = userService.findUserByEmail(principal.getName());
-        List<PostDto> postDataByBookmark=bookmarkService.getAllBookMarkedPost(userDto);
-            modelAndView.addObject("postData",postDataByBookmark);
-            return modelAndView;
-        }
+        List<PostDto> postDataByBookmark = bookmarkService.getAllBookMarkedPost(userDto);
+        modelAndView.addObject("postData", postDataByBookmark);
+        return modelAndView;
+    }
 
 
     //Change BOOKMARK Status FOR USER
     @GetMapping("user/post/change-bookmark-status")
     public String changeBookMarkStatusUser(@RequestParam long postId,
-                                       @RequestParam boolean isBookMarked,
-                                        Principal principal){
-
-        bookmarkService.changeBookMarkStatus(postId,isBookMarked,principal);
-
-        return "redirect:/user/post/"+postId;
+                                           @RequestParam boolean isBookMarked,
+                                           Principal principal) {
+        bookmarkService.changeBookMarkStatus(postId, isBookMarked, principal);
+        return "redirect:/user/post/" + postId;
     }
-
 
 
 }

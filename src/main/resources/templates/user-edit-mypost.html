@@ -19,10 +19,10 @@
                style="border: 2px solid black;
                         display: block; width:97%; height: 60px;
                         box-shadow: 2px 2px 4px grey; margin: 10px;
-                        margin-end: 40px" th:text=" ${postdto.title}"
+                        margin-end: 40px" th:placeholder="${postdto.title}"
                required
                th:field="*{title}"/>
-        <label for="category">category</label>
+        Category :
         <select id="category" name="Category" th:field="*{categoryDto.name}">
             <option th:each="category: ${categories}" th:value="${category.name}" th:text="${category.name}"></option>
         </select>

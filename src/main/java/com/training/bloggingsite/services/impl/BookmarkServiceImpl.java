@@ -11,20 +11,16 @@ import com.training.bloggingsite.services.interfaces.UserService;
 import com.training.bloggingsite.utils.PostConvertor;
 import com.training.bloggingsite.utils.UserConvertor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Service
-public class BookmarkImpl implements BookmarkService {
+public class BookmarkServiceImpl implements BookmarkService {
     @Autowired
     BookMarkRepository bookMarkRepository;
-
 
     @Autowired
     PostService postService;
@@ -63,6 +59,19 @@ public class BookmarkImpl implements BookmarkService {
 
         bookMarkRepository.save(bookMark);
 
+    }
+
+    @Override
+    public boolean isBookMarked(UserDto userDto, long postId) {
+        boolean isBookMarked = false;
+        List<PostDto> bookMarkedPostsList = getAllBookMarkedPost(userDto);
+        for (PostDto bookmarkpost : bookMarkedPostsList) {
+            if (bookmarkpost.getId() == postId) {
+                isBookMarked = true;
+                break;
+            }
+        }
+        return isBookMarked;
     }
 
     @Override
