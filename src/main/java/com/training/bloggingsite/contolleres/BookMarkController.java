@@ -48,7 +48,7 @@ public class BookMarkController {
     }
 
     @GetMapping("user/post/change-bookmark-status")
-    public String changeBookMarkStatus(@RequestParam long postId,
+    public String changeBookMarkStatusUser(@RequestParam long postId,
                                        @RequestParam boolean isBookMarked,
     Principal principal){
 
@@ -59,6 +59,20 @@ public class BookMarkController {
             bookmarkService.addBookMarkedPost(postService.findPostById(postId),userDto);
 
         return "redirect:/user/post/"+postId;
+    }
+
+    @GetMapping("admin/post/change-bookmark-status")
+    public String changeBookMarkStatusAdmin(@RequestParam long postId,
+                                       @RequestParam boolean isBookMarked,
+                                       Principal principal){
+
+        UserDto userDto = userService.findUserByEmail(principal.getName());
+        if(isBookMarked){
+            bookmarkService.deleteBookMarkedPostByPostID(userDto,postService.findPostById(postId));
+        }else
+            bookmarkService.addBookMarkedPost(postService.findPostById(postId),userDto);
+
+        return "redirect:/admin/post/"+postId;
     }
 
 }

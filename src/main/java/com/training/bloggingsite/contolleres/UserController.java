@@ -1,7 +1,6 @@
 package com.training.bloggingsite.contolleres;
 
 import com.training.bloggingsite.dtos.UserDto;
-import com.training.bloggingsite.services.interfaces.RoleService;
 import com.training.bloggingsite.services.interfaces.UserService;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
@@ -19,7 +18,6 @@ import java.security.Principal;
 
 @Controller
 public class UserController {
-
 
     @Autowired
     UserService userService;

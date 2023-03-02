@@ -52,19 +52,23 @@ public class PostController {
     }
 
     @GetMapping("admin/all-post")
-    public ModelAndView getAllPostForAdmin() {
-        List<PostDto> postDto = this.postService.findAllPost();
-        ModelAndView mav = new ModelAndView("admin-view-all-post");
-        mav.addObject("postData", postDto);
-        return mav;
+    public ModelAndView getAllPostForAdmin(@RequestParam("pageNo") int pageNo) {
+        List<PostDto> postList = postService.findPaginatedPost(pageNo, 5);
+        ModelAndView modelAndView = new ModelAndView("admin-view-all-post");
+        modelAndView.addObject("currentPage", pageNo);
+        modelAndView.addObject("totalPages", postService.findTotalPages(pageNo,5));
+        modelAndView.addObject("postData", postList);
+        return modelAndView;
     }
 
     @GetMapping("user/all-post")
-    public ModelAndView getAllPostForUser() {
-        List<PostDto> postDto = postService.findAllVerifiedPost();
-        ModelAndView mav = new ModelAndView("user-view-all-post");
-        mav.addObject("postData", postDto);
-        return mav;
+    public ModelAndView getAllPostForUser(@RequestParam("pageNo") int pageNo) {
+        List<PostDto> postList = postService.findPaginatedPost(pageNo, 5);
+        ModelAndView modelAndView = new ModelAndView("user-view-all-post");
+        modelAndView.addObject("currentPage", pageNo);
+        modelAndView.addObject("totalPages", postService.findTotalPages(pageNo,5));
+        modelAndView.addObject("postData", postList);
+        return modelAndView;
     }
 
     @GetMapping("user/post/{postId}")
@@ -117,7 +121,7 @@ public class PostController {
     @GetMapping("user/update-mypost")
     public ModelAndView getEditPostUser(@RequestParam("id") long postId,Principal principal) {
         System.out.println("entered in mthpd");
-        PostDto postDto = this.postService.getPostById(postId);
+        PostDto postDto = this.postService.findPostById(postId);
         CategoryDto categoryDto = postDto.getCategoryDto();
         ModelAndView modelAndView = new ModelAndView("user-edit-mypost");
         modelAndView.addObject("postdto", postDto);
@@ -129,7 +133,7 @@ public class PostController {
     @GetMapping("admin/update-mypost")
     public ModelAndView getEditPostAdmin(@RequestParam("id") long postId,Principal principal) {
         System.out.println("entered in mthpd");
-        PostDto postDto = this.postService.getPostById(postId);
+        PostDto postDto = this.postService.findPostById(postId);
         CategoryDto categoryDto = postDto.getCategoryDto();
         ModelAndView modelAndView = new ModelAndView("admin-edit-mypost");
         modelAndView.addObject("postdto", postDto);
@@ -180,23 +184,14 @@ public class PostController {
     }
 
 
-    @GetMapping("user/post-all")
-    public ModelAndView displayPaginatedPosts(@RequestParam("pageNo") int pageNo) {
-
-        List<PostDto> postList=postService.findPaginatedPost(pageNo,5);
-
-
-        Page<Post> paginatedPostList = postService.findPaginatedPost(pageNo, 10);
-        Page<Post> postList = postService.findPaginatedPost(pageNo, 10);
-        ModelAndView modelAndView = new ModelAndView("user-view-all-post");
-        modelAndView.addObject("currentPage", pageNo);
-        modelAndView.addObject("totalPages", postService.findTotalPages(pageNo,5));
-
-        //modelAndView.addObject("totalItems", paginatedPostList.getTotalElements());
-        modelAndView.addObject("postData", postList);
-
-        return modelAndView;
-
-    }
+//    @GetMapping("user/post-all")
+//    public ModelAndView displayPaginatedPosts(@RequestParam("pageNo") int pageNo) {
+//        List<PostDto> postList = postService.findPaginatedPost(pageNo, 5);
+//        ModelAndView modelAndView = new ModelAndView("user-view-all-post");
+//        modelAndView.addObject("currentPage", pageNo);
+//        modelAndView.addObject("totalPages", postService.findTotalPages(pageNo,5));
+//        modelAndView.addObject("postData", postList);
+//        return modelAndView;
+//    }
 
 }

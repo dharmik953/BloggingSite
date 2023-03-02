@@ -25,8 +25,7 @@ public class CategoryController {
     @GetMapping("admin/add-category")
     public ModelAndView getAddCategory(){
         ModelAndView mav = new ModelAndView("add-category");
-        CategoryDto categoryDto = new CategoryDto();
-        mav.addObject("categoryData",categoryDto);
+        mav.addObject("categoryData",new CategoryDto());
         return mav;
     }
 
@@ -45,8 +44,7 @@ public class CategoryController {
     @GetMapping("/admin/add-subcategory")
     public ModelAndView getAddSubCategory(@RequestParam("id") long id){
         ModelAndView mav = new ModelAndView("add-sub-category");
-        CategoryDto categoryDto = new CategoryDto();
-        mav.addObject("categoryData",categoryDto);
+        mav.addObject("categoryData",new CategoryDto());
         mav.addObject("parentId",id);
         return mav;
     }

@@ -3,6 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title th:text="${postDto.title}"></title>
+    <script>
+        function submitFuc(){
+            alert("This comment will be displayed after admin verification");
+            document.getElementById("comment-form").submit();
+        }
+    </script>
 </head>
 <div>
     <h1 th:text="${postDto.title}"></h1>
@@ -20,13 +26,11 @@
     <p th:text="${postDto.content}"></p>
 </div>
 
-<a onclick="history.back()">Back-></a>
-
-<form th:object="${commentDto}" method="post"
+<form th:object="${commentDto}" method="post" id="comment-form"
       th:action="@{/user/save-comment(postId=${postDto.id},userEmail=${userEmail})}">
     Add Comment : <label>
-    <textarea rows="20" cols="30" style="width: 400px; height: 110px;" th:field="*{content}"></textarea>
-    <input type="submit" value="submit">
+    <textarea maxlength="100" minlength="5" rows="20" cols="30" style="width: 400px; height: 110px;" th:field="*{content}"></textarea>
+    <button value="submit" onclick="submitFuc()">Submit</button>
 </label>
 </form>
 
@@ -39,5 +43,5 @@
     </div>
 </div>
 
-<a th:href="@{/user/all-post}">Back-></a>
+<a onclick="history.back()">Back-></a>
 </html>

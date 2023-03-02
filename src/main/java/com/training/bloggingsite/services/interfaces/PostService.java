@@ -23,6 +23,8 @@ public interface PostService {
 
     void updateVerification(long postId, boolean isVerified);
 
-    Page<Post> findPaginatedPost(int pageNo,int pageSize);
+    List<PostDto> findPaginatedPost(int pageNo,int pageSize);
+
+    int findTotalPages(int pageNo, int pageSize);
 
 }

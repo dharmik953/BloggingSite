@@ -33,7 +33,7 @@ public class CommentController {
             , @RequestParam("userEmail") String userEmail, BindingResult result) {
         if (result.hasErrors()){
             logger.error(result.toString());
-            return "redirect:/user/post/"+postId;
+            return this.commentService.redirectToPost(userEmail,postId);
         }
         return  this.commentService.addComment(commentDto,postId,userEmail);
     }

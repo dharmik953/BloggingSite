@@ -2,8 +2,6 @@ package com.training.bloggingsite.services.impl;
 
 import com.training.bloggingsite.contolleres.CommentController;
 import com.training.bloggingsite.dtos.CommentDto;
-import com.training.bloggingsite.dtos.PostDto;
-import com.training.bloggingsite.dtos.UserDto;
 import com.training.bloggingsite.entities.Comment;
 import com.training.bloggingsite.entities.Post;
 import com.training.bloggingsite.entities.Role;
@@ -83,6 +81,18 @@ public class CommentServiceImpl implements CommentService {
         Comment comment = this.commentRepository.findById(commentId).get();
         this.commentRepository.updateVerificationStatus(commentId,!isVerified);
         logger.info("Comment verified as : " + !isVerified + " for id "+comment.getId());
+    }
+
+    @Override
+    public String redirectToPost(String email, long postId) {
+        User user = this.userRepository.findByEmail(email);
+        List<Role> roles = user.getRoles().stream().toList();
+        if(roles.get(0).getName().equals(DefaultValue.ADMIN)){
+            return "redirect:/admin/post/"+postId;
+        }
+        else {
+            return "redirect:/user/post/"+postId;
+        }
     }
 
 

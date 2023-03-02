@@ -116,14 +116,12 @@ public class PostServiceImpl implements PostService {
         List<PostDto> postDtos=new ArrayList<>();
 
         List<Post> post=postRepository.findAll(pageable).getContent();
-                for(Post p: post)
-                {
-                postDtos.add(PostConvertor.toPostDto(p));
+                for(Post p: post) {
+                    postDtos.add(PostConvertor.toPostDto(p));
                 }
-
-
                 return postDtos;
     }
+
     @Override
     public int findTotalPages(int pageNo, int pageSize) {
         Pageable pageable=PageRequest.of(pageNo-1,pageSize);

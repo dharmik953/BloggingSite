@@ -9,11 +9,9 @@
 <h1 th:text="${name}"></h1>
 <div style="height: 300px;width: 300px;border: 1px solid black">
     <a th:href="@{/user/add-post}">Add Post</a><br>
-    <a th:href="@{/user/all-post}">View Posts</a><br>
+    <a th:href="@{/user/all-post(pageNo=1)}">View Posts</a><br>
     <a th:href="@{/user/my-post}">View MyPosts</a><br>
-
     <a th:href="@{/user/all-bookmarked-post}">My BookmarkedPost</a> <br>
-
     <a th:href="@{/logout}">Log Out</a>
 </div>
 </body>
