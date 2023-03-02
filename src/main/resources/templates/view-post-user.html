@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${postDto.title}"></title>
+    <script>
+        function submitFuc(){
+            alert("This comment will be displayed after admin verification");
+            document.getElementById("comment-form").submit();
+        }
+    </script>
+</head>
+<div>
+    <h1 th:text="${postDto.title}"></h1>
+</div>
+
+<hr>
+<p>
+    <a th:text="${isBookMarked}?'remove Bookmarked':'Add Bookmark'"
+       th:href="@{/user/post/change-bookmark-status(postId=${postid.id},isBookMarked=${isBookMarked}
+   )}"
+    ></a>
+</p>
+
+<div>
+    <p th:text="${postDto.content}"></p>
+</div>
+
+<form th:object="${commentDto}" method="post" id="comment-form"
+      th:action="@{/user/save-comment(postId=${postDto.id},userEmail=${userEmail})}">
+    Add Comment : <label>
+    <textarea maxlength="100" minlength="5" rows="20" cols="30" style="width: 400px; height: 110px;" th:field="*{content}"></textarea>
+    <button value="submit" onclick="submitFuc()">Submit</button>
+</label>
+</form>
+
+<div>
+    <h3>Comments :</h3> <br>
+    <div th:each="comment: ${commentList}" style="border: 1px solid black">
+        Comment By : <b th:text="${comment.userDto.name}"></b> <br>
+        Comment :  <i th:text="${comment.content}"></i>
+        <br><br>
+    </div>
+</div>
+
+<a onclick="history.back()">Back-></a>
+</html>

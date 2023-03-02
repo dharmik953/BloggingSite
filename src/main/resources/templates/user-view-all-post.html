@@ -6,33 +6,24 @@
 </head>
 <body>
 <div th:each="postData: ${postData}">
-  <div style="border: 2px aqua solid; box-shadow: 6px 6px 6px grey;margin-bottom: 20px;">
-    <p style="text-indent: 3em">
-      <a th:href="@{/user/post/{postId}(postId=${postData.id})}"> <span th:text="${postData.title}"></span></a>
-    </p>
-    <br><br><br><br>
-    Posted By : <b th:text="${postData.userDto.name}"></b>
-  </div>
+    <div style="border: 2px aqua solid; box-shadow: 6px 6px 6px grey;margin-bottom: 20px;">
+        <p style="text-indent: 3em">
+            <a th:href="@{/user/post/{postId}(postId=${postData.id})}"> <span th:text="${postData.title}"></span></a>
+        </p>
+        Posted By : <b th:text="${postData.userDto.name}"></b> <br>
+        Category : <b th:text="${postData.categoryDto.name}"></b>
+    </div>
 </div>
 
-
-Page Number: [[${currentPage}]]
+<div th:if="${currentPage}">
+    Page Number: [[${currentPage}]]
+    <br>
+    <a th:if="${currentPage > 1}" th:href="@{'/user/all-post?pageNo=' + ${currentPage - 1}}">Previous</a>
+    <a th:if="${currentPage < totalPages}" th:href="@{'/user/all-post?pageNo=' + ${currentPage + 1}}">Next</a>
+    <span th:unless="${currentPage < totalPages}">Next</span>
+</div>
 <br>
-<a th:if="${currentPage > 1}" th:href="@{'/user/all-post?pageNo=' + ${currentPage - 1}}">Previous</a>
-
-<a th:if="${currentPage < totalPages}" th:href="@{'/user/all-post?pageNo=' + ${currentPage + 1}}">Next</a>
-<span th:unless="${currentPage < totalPages}">Next</span>
-
-
-
-<div>
-    <a th:href="@{/user/home}">Back-></a>
-
-
-
-
-
-
+<a th:href="@{/user/home}">Back-></a>
 
 </body>
 </html>

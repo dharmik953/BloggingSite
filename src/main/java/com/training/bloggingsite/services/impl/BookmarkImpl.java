@@ -33,7 +33,7 @@ public class BookmarkImpl implements BookmarkService {
         List<Post> post=bookMarkList.stream().map(s->s.getPost()).toList();
         List<PostDto> postDtos=new ArrayList<>();
         for(Post p:post){
-            postDtos.add(postService.toPostDto(p));
+            postDtos.add(PostConvertor.toPostDto(p));
         }
 
         return postDtos;
@@ -43,7 +43,6 @@ public class BookmarkImpl implements BookmarkService {
     public PostDto deleteBookMarkedPostByPostID(UserDto userDto,PostDto postDto) {
        List< BookMark > bookMarkList=bookMarkRepository.findAll().stream().
                 filter(s->s.getPost().getId()==postDto.getId()).toList();
-        //select * from bm where postId equalsTo currentPostId
         bookMarkRepository.deleteById(bookMarkList.get(0).getId());
 
         return postDto;

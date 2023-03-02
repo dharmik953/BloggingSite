@@ -38,27 +38,36 @@ public class BookMarkController {
         ModelAndView modelAndView=new ModelAndView("admin-view-all-post");
         UserDto userDto = userService.findUserByEmail(principal.getName());
         List<PostDto> postDataByBookmark=bookmarkService.getAllBookMarkedPost(userDto);
-
-        System.out.println("Book mark : "+postDataByBookmark);
-        System.out.println("Book mark User : "+userDto);
-
         modelAndView.addObject("postData",postDataByBookmark);
-
         return modelAndView;
     }
 
     @GetMapping("user/post/change-bookmark-status")
-    public String changeBookMarkStatus(@RequestParam long postId,
+    public String changeBookMarkStatusUser(@RequestParam long postId,
                                        @RequestParam boolean isBookMarked,
                                         Principal principal){
 
         UserDto userDto = userService.findUserByEmail(principal.getName());
         if(isBookMarked){
-            bookmarkService.deleteBookMarkedPostByPostID(userDto,postService.getPostById(postId));
+            bookmarkService.deleteBookMarkedPostByPostID(userDto,postService.findPostById(postId));
         }else
-            bookmarkService.addBookMarkedPost(postService.getPostById(postId),userDto);
+            bookmarkService.addBookMarkedPost(postService.findPostById(postId),userDto);
 
         return "redirect:/user/post/"+postId;
+    }
+
+    @GetMapping("admin/post/change-bookmark-status")
+    public String changeBookMarkStatusAdmin(@RequestParam long postId,
+                                       @RequestParam boolean isBookMarked,
+                                       Principal principal){
+
+        UserDto userDto = userService.findUserByEmail(principal.getName());
+        if(isBookMarked){
+            bookmarkService.deleteBookMarkedPostByPostID(userDto,postService.findPostById(postId));
+        }else
+            bookmarkService.addBookMarkedPost(postService.findPostById(postId),userDto);
+
+        return "redirect:/admin/post/"+postId;
     }
 
 }
