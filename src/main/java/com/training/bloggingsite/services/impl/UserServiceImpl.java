@@ -16,10 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 
 @Service
@@ -59,6 +56,7 @@ public class UserServiceImpl implements UserService {
         if (users == null) {
             throw new UserNotFoundException();
         }
+
         List<UserDto> userDtos = new ArrayList<>();
         for (User user : users) {
             userDtos.add(UserConvertor.toUserDto(user));
