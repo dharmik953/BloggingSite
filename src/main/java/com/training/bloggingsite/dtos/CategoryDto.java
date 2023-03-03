@@ -10,11 +10,16 @@ public class CategoryDto {
     @Size(max = 30)
     private String name;
 
+    //private CategoryDto parentCategory;
+
+
+
     public CategoryDto(){}
 
     public CategoryDto(long Id, String name) {
         this.Id = Id;
         this.name = name;
+       // this.parentCategory = parentCategory;
     }
 
     @Override
@@ -39,4 +44,5 @@ public class CategoryDto {
     public void setName(String name) {
         this.name = name;
     }
+
 }

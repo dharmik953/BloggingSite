@@ -60,7 +60,7 @@ public class PostController {
     // View all posts to admin.
     @GetMapping("admin/all-post")
     public ModelAndView getAllPostForAdmin(@RequestParam("pageNo") int pageNo) {
-        List<PostDto> postList = postService.findPaginatedPost(pageNo, 5);
+        List<PostDto> postList = postService.findPaginatedPosts(pageNo, 5);
         ModelAndView modelAndView = new ModelAndView("admin-view-all-post");
         modelAndView.addObject("currentPage", pageNo);
         modelAndView.addObject("totalPages", postService.findTotalPages(pageNo,5));
@@ -104,7 +104,7 @@ public class PostController {
     // View all posts to user.
     @GetMapping("user/all-post")
     public ModelAndView getAllPostForUser(@RequestParam("pageNo") int pageNo) {
-        List<PostDto> postList = postService.findPaginatedPost(pageNo, 5);
+        List<PostDto> postList = postService.findPaginatedVerifiedPost(pageNo, 5);
         ModelAndView modelAndView = new ModelAndView("user-view-all-post");
         modelAndView.addObject("currentPage", pageNo);
         modelAndView.addObject("totalPages", postService.findTotalPages(pageNo,5));
@@ -116,7 +116,7 @@ public class PostController {
     @GetMapping("user/post/{postId}")
     public ModelAndView getPostByPostIdUser(@PathVariable long postId,Principal principal) {
         ModelAndView mav = new ModelAndView("view-post-user");
-        List<CommentDto> commentDtos = this.commentService.findAllPostById(postId);
+        List<CommentDto> commentDtos = this.commentService.findCommentByPostVerified(postId);
         PostDto postDto = postService.findPostById(postId);
         UserDto userDto = userService.findUserByEmail(principal.getName());
         boolean isBookMarked = this.bookmarkService.isBookMarked(userDto,postId);

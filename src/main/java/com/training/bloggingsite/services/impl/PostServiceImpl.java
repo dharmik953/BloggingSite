@@ -91,16 +91,25 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<PostDto> findPaginatedPost(int pageNo, int pageSize) {
+    public List<PostDto> findPaginatedVerifiedPost(int pageNo, int pageSize) {
         Pageable pageable=PageRequest.of(pageNo-1,pageSize, Sort.by("title"));
-
         List<PostDto> postDtos=new ArrayList<>();
-
-        List<Post> post=postRepository.findAll(pageable).getContent();
-                for(Post p: post) {
-                    postDtos.add(PostConvertor.toPostDto(p));
+        List<Post> posts=postRepository.findPostsByIsVerifiedTrue(pageable);
+                for(Post post: posts) {
+                    postDtos.add(PostConvertor.toPostDto(post));
                 }
                 return postDtos;
+    }
+
+    @Override
+    public List<PostDto> findPaginatedPosts(int pageNo, int pageSize) {
+        Pageable pageable=PageRequest.of(pageNo-1,pageSize, Sort.by("title"));
+        List<PostDto> postDtos=new ArrayList<>();
+        List<Post> posts=postRepository.findAll(pageable).getContent();
+        for(Post post: posts) {
+            postDtos.add(PostConvertor.toPostDto(post));
+        }
+        return postDtos;
     }
 
     @Override

@@ -6,6 +6,8 @@ import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -86,6 +88,13 @@ public class CategoryController {
     public String deleteCategory(@RequestParam("id") long id){
         this.categoryService.deleteCategory(id);
         return "redirect:/admin/view-categories";
+    }
+
+
+    @GetMapping("user/getAllCategories")
+    public ResponseEntity getAllCategories(){
+        List<CategoryDto> categoryDtos = this.categoryService.findAllCategoryIncludeChildren();
+        return new ResponseEntity<List>(categoryDtos, HttpStatus.OK);
     }
 
 }
