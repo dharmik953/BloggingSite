@@ -1,15 +1,10 @@
 package com.training.bloggingsite;
 
-import com.training.bloggingsite.dtos.RoleDto;
-import com.training.bloggingsite.dtos.UserDto;
 import com.training.bloggingsite.entities.Role;
 import com.training.bloggingsite.entities.User;
 import com.training.bloggingsite.repositories.RoleRepository;
 import com.training.bloggingsite.repositories.UserRepository;
-import com.training.bloggingsite.services.interfaces.RoleService;
-import com.training.bloggingsite.services.interfaces.UserService;
 import com.training.bloggingsite.utils.DefaultValue;
-import com.training.bloggingsite.utils.RoleConvertor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +12,6 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;

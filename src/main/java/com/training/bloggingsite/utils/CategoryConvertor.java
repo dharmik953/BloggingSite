@@ -16,6 +16,7 @@ public class CategoryConvertor {
         return new CategoryDto(
                 category.getId(),
                 category.getName()
+              //  toCategoryDto(category.getParentCategory())
         );
     }
 

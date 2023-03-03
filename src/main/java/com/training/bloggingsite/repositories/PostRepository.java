@@ -2,6 +2,7 @@ package com.training.bloggingsite.repositories;
 
 import com.training.bloggingsite.entities.Post;
 import com.training.bloggingsite.entities.User;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -12,7 +13,7 @@ import java.util.List;
 @Repository
 public interface PostRepository extends JpaRepository<Post, Long> {
 
-    List<Post> findPostsByIsVerifiedTrue();
+    List<Post> findPostsByIsVerifiedTrue(Pageable pageable);
     List<Post> findPostByUser(User user);
 
     @Modifying
