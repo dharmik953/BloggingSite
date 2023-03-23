@@ -8,8 +8,11 @@ import com.training.bloggingsite.exceptions.UserNotFoundException;
 import com.training.bloggingsite.repositories.RoleRepository;
 import com.training.bloggingsite.repositories.UserRepository;
 import com.training.bloggingsite.services.interfaces.UserService;
+import com.training.bloggingsite.utils.CriteriaQueryBuilder;
 import com.training.bloggingsite.utils.DefaultValue;
 import com.training.bloggingsite.utils.UserConvertor;
+import jakarta.annotation.PostConstruct;
+import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +20,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-
 
 @Service
 @Transactional
@@ -29,19 +31,31 @@ public class UserServiceImpl implements UserService {
     @Autowired
     RoleRepository roleRepository;
 
+    @Autowired
+    EntityManager em;
 
-    private Logger logger = LoggerFactory.getLogger(RoleServiceImpl.class);
+    private CriteriaQueryBuilder<User> cbForUser;
+    private CriteriaQueryBuilder<Role> cbForRole ;
+
+    @PostConstruct
+    public void init(){
+        cbForUser = new CriteriaQueryBuilder<>(User.class,em);
+        cbForRole = new CriteriaQueryBuilder<>(Role.class,em);
+    }
+
+    private final Logger logger = LoggerFactory.getLogger(RoleServiceImpl.class);
 
     @Override
     public UserDto addUser(UserDto userDto) {
-        User user = this.userRepository.findByEmail(userDto.getEmail());
-        if (user == null) {
+        List<User> user = cbForUser.getResultWhereColumnEqual("email",userDto.getEmail());
+        if (user.isEmpty()) {
             User userToBeInserted = UserConvertor.toUser(userDto);
-            Role role = this.roleRepository.findByName(DefaultValue.USER);
+            List<Role> role = cbForRole.getResultWhereColumnEqual("name",DefaultValue.USER);
             Set<Role> roleSet = new HashSet<>();
-            roleSet.add(role);
+            roleSet.add(role.get(0));
             userToBeInserted.setRoles(roleSet);
-            this.userRepository.save(userToBeInserted);
+//            this.userRepository.save(userToBeInserted);
+            em.persist(userToBeInserted); //------------Persistent Save -------------------
             logger.info("User Added :" + userDto);
             return userDto;
         } else {
@@ -52,8 +66,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserDto> findAllUsers() {
-        List<User> users = this.userRepository.findAll();
-        if (users == null) {
+        List<User> users = cbForUser.getAll();
+        if (users.isEmpty()) {
             throw new UserNotFoundException();
         }
 
@@ -67,39 +81,38 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto findUserById(long id) {
-        User user = this.userRepository.findById(id).get();
-        if (user == null) {
+//        User user = this.userRepository.findById(id).get();
+        List<User> user = cbForUser.getResultWhereColumnEqual("id",id);
+        if (user.isEmpty()) {
             throw new UserNotFoundException();
         }
-        UserDto userDto = UserConvertor.toUserDto(user);
+        UserDto userDto = UserConvertor.toUserDto(user.get(0));
         logger.info("User fetched by id :" + userDto + userDto.getId());
         return userDto;
     }
 
     @Override
     public UserDto findUserByEmail(String email) {
-        User user = this.userRepository.findByEmail(email);
-        if (user == null) {
+        List<User> user = cbForUser.getResultWhereColumnEqual("email",email);
+        if (user.isEmpty()) {
             throw new UserNotFoundException();
         }
-        UserDto userDto = UserConvertor.toUserDto(user);
+        UserDto userDto = UserConvertor.toUserDto(user.get(0));
         logger.info("User fetched by email :" + userDto);
         return userDto;
     }
 
     @Override
     public void updateUserRole(long id, String role) {
-        User user = this.userRepository.findById(id).get();
+        List<User> user = cbForUser.getResultWhereColumnEqual("id",id);
         Set<Role> roleSet = new HashSet<>();
+        List<Role> roleToInsert = cbForRole.getResultWhereColumnEqual("name",role.equals(DefaultValue.ADMIN) ? DefaultValue.USER : DefaultValue.ADMIN);
 
-        Role roleToInsert = this.roleRepository.findByName(
-                role.equals(DefaultValue.ADMIN) ? DefaultValue.USER
-                        : DefaultValue.ADMIN);
-
-        roleSet.add(roleToInsert);
-        user.setRoles(roleSet);
-        logger.info("User " + user.getName() + " changed as " + roleToInsert.getName() + ".");
-        this.userRepository.save(user);
+        roleSet.add(roleToInsert.get(0));
+        user.get(0).setRoles(roleSet);
+        logger.info("User " + user.get(0).getName() + " changed as " + roleToInsert.get(0).getName() + ".");
+        this.userRepository.save(user.get(0));
+//        em.persist(user);//------------Persistent Save -------------------
     }
 
 
