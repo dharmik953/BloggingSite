@@ -4,7 +4,11 @@ import com.training.bloggingsite.entities.Role;
 import com.training.bloggingsite.entities.User;
 import com.training.bloggingsite.repositories.RoleRepository;
 import com.training.bloggingsite.repositories.UserRepository;
+import com.training.bloggingsite.utils.CriteriaQueryBuilder;
 import com.training.bloggingsite.utils.DefaultValue;
+import jakarta.annotation.PostConstruct;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +31,18 @@ public class BloggingSiteApplication implements ApplicationRunner {
     @Autowired
     RoleRepository roleRepository;
 
+    @Autowired
+    EntityManager em;
+
+    private CriteriaQueryBuilder<User> cbForUser;
+    private CriteriaQueryBuilder<Role> cbForRole ;
+
+    @PostConstruct
+    public void init(){
+        cbForUser = new CriteriaQueryBuilder<>(User.class,em);
+        cbForRole = new CriteriaQueryBuilder<>(Role.class,em);
+    }
+
     Logger logger = LoggerFactory.getLogger(BloggingSiteApplication.class);
 
     public static void main(String[] args) {
@@ -35,8 +51,8 @@ public class BloggingSiteApplication implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        List<User> users=this.userRepository.findAll();
-        List<Role>roles = this.roleRepository.findAll();
+        List<User> users=cbForUser.getAll();
+        List<Role>roles = cbForRole.getAll();
         if(users.isEmpty() && roles.isEmpty()){
             Role roleAdmin = new Role(1, DefaultValue.ADMIN);
             Role roleUser = new Role(2,DefaultValue.USER);
