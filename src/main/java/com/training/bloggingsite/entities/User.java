@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 public class User extends BaseEntity{
 
     @Column(name = "email")
@@ -15,7 +15,7 @@ public class User extends BaseEntity{
     @Column(name = "password")
     private String password;
 
-    @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.MERGE)
     @JoinTable(
             joinColumns = {
                     @JoinColumn(name = "user_id")
