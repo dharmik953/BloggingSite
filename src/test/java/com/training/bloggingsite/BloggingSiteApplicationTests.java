@@ -2,8 +2,7 @@ package com.training.bloggingsite;
 
 import com.training.bloggingsite.entities.Category;
 import com.training.bloggingsite.repositories.CategoryRepository;
-import com.training.bloggingsite.security.SecurityConfig;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -25,6 +24,7 @@ public class BloggingSiteApplicationTests {
 
     @Autowired
     private MockMvc mockMvc;
+
 
     @Test
     @WithMockUser(username = "admin@admin.com",password = "Mind@123",roles = {"ADMIN"})
