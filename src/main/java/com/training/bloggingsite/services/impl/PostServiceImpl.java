@@ -36,6 +36,8 @@ public class PostServiceImpl implements PostService {
     PostRepository postRepository;
 
     @Autowired
+    CriteriaQueryBuilder criteriaQueryBuilder;
+    @Autowired
     UserRepository userRepository;
 
     @Autowired
@@ -80,22 +82,24 @@ public class PostServiceImpl implements PostService {
 //                postRepository.getReferenceById(id)
 //        );
         logger.info("find post by id");
-        return PostConvertor.toPostDto(criteriaQueryHelper.getAllDataWhere("id",id).get(0));
-
+      //  return PostConvertor.toPostDto(criteriaQueryHelper.getAllDataWhere("id",id).get(0));
+     return    PostConvertor.toPostDto(
+             criteriaQueryBuilder.getResultWhereColumnEqual("id",id,Post.class).get(0)
+                );
 
     }
 
     @Override
     public List<PostDto> findAllPostByUser(User user) {
 
-
         List<PostDto> postDtos = new ArrayList<>();
         //logger.info("fetching ....");
   //      List<Post> postByUserId = postRepository.findPostByUser(user);
 //        logger.info(user.getId()+"fetched with jpa");
-        List<Post> postByUserId = criteriaQueryHelper.getAllDataWhere("user",user);
+        //List<Post> postByUserId = criteriaQueryHelper.getAllDataWhere("user",user);
 //        System.out.println("this"+postByUserId3.toString());
 
+        List<Post> postByUserId= criteriaQueryBuilder.getResultWhereColumnEqual("user",user,Post.class);
         for (Post post : postByUserId)
             postDtos.add(PostConvertor.toPostDto(post));
 
@@ -117,13 +121,18 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<PostDto> findPaginatedPost(int offset, int limit) {
+    public List<PostDto> findPaginatedVerifiedPost(int pageNo, int pageSize) {
+        return null;
+    }
+
+    @Override
+    public <T> List<PostDto> findPaginatedPosts(int offset, int limit,String columnName,T value) {
       //  Pageable pageable = PageRequest.of(pageNo - 1, pageSize, Sort.by("title"));
 
         List<PostDto> postDtos = new ArrayList<>();
 
        // List<Post> post = postRepository.findAll(pageable).getContent();
-        List<Post> post = criteriaQueryHelper.getPaginatedData(offset,limit,"isVerified",true);
+        List<Post> post = criteriaQueryHelper.getPaginatedData(offset,limit,"isVerified",value);
        // System.out.println(criteriaQueryHelper.getPaginatedData(0,5,"is_verified",true));
 
         for (Post p : post) {

@@ -57,7 +57,7 @@ public class CriteriaQueryHelper {
     public <T> int getCount(String columnName, T value) {
         if ((boolean) value == false) {
 
-          return   getAllData("").size();///when verified is false return all post for admin view
+          return   entityManager.createQuery(criteriaQuery.select(root)).getResultList().size();///when verified is false return all post for admin vie
 
         }
 
