@@ -1,7 +1,6 @@
 package com.training.bloggingsite.entities;
 
 import jakarta.persistence.*;
-import org.springframework.boot.autoconfigure.web.WebProperties;
 
 import java.util.Set;
 
