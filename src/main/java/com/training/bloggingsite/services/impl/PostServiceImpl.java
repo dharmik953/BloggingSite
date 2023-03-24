@@ -112,10 +112,7 @@ public class PostServiceImpl implements PostService {
         logger.info("Post verified as : " + !isVerified + " for id " + post.getId());
     }
 
-    @Override
-    public List<PostDto> findPaginatedVerifiedPost(int pageNo, int pageSize) {
-        return null;
-    }
+
 
     @Override
     public <T> List<PostDto> findPaginatedPosts(int offset, int limit,String columnName,T value) {
