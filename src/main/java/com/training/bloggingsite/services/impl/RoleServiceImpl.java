@@ -29,7 +29,7 @@ public class RoleServiceImpl implements RoleService {
     @Autowired
     CriteriaQueryBuilder cb;
 
-    private Logger logger = LoggerFactory.getLogger(RoleServiceImpl.class);
+    private final Logger logger = LoggerFactory.getLogger(RoleServiceImpl.class);
 
     @Override
     public RoleDto addRole(RoleDto roleDto) {
@@ -59,14 +59,14 @@ public class RoleServiceImpl implements RoleService {
             throw new RoleNotFoundException();
         }
 
-        List<RoleDto> roleDtos = roles.stream().map(R->RoleConvertor.toRoleDto(R)).collect(Collectors.toList());
+        List<RoleDto> roleDtos = roles.stream().map(RoleConvertor::toRoleDto).collect(Collectors.toList());
         logger.info("Roles Fetched :" + roleDtos);
         return roleDtos;
     }
 
     @Override
     public void deleteRole(int id) {
-        this.roleRepository.deleteById(id);
+        cb.deleteById("Id",id,Role.class);
         logger.info("Role Deleted with id :" + id);
     }
 

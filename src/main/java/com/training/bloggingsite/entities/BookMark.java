@@ -26,7 +26,7 @@ public class BookMark  {
     public BookMark() {
     }
 
-    public BookMark(Long id, Set<Post> postSet) {
+    public BookMark(Long id, Post postSet) {
         this.id = id;
     }
 
