@@ -8,11 +8,11 @@ public interface CommentService {
 
     String addComment(CommentDto comment,long postId,String userEmail);
 
-    List<CommentDto> findCommentByPostVerified(long postId);
+    List<CommentDto> findCommentByPostVerified(Long postId);
 
-    List<CommentDto> findAllPostById(long postId);
+    List<CommentDto> findAllCommentsByPostId(long postId);
 
-    void updateVerification(long commentId, boolean isVerified);
+    void updateVerification(Long commentId, Boolean isVerified);
 
     String redirectToPost(String email, long postId);
 }

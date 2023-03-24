@@ -62,7 +62,8 @@ public class UserServiceImpl implements UserService {
         if (users.isEmpty()) {
             throw new UserNotFoundException();
         }
-        List<UserDto> userDtos = users.stream().map(U -> UserConvertor.toUserDto(U)).collect(Collectors.toList());
+
+        List<UserDto> userDtos = users.stream().map(UserConvertor::toUserDto).collect(Collectors.toList());
         logger.info("Users fetched : " + userDtos);
         return userDtos;
     }

@@ -22,10 +22,26 @@ public class CriteriaQueryBuilder {
         this.cb = em.getCriteriaBuilder();
     }
 
+
+    public <F,T> List<T> getResultWhereColumnEqual(List<String> column, List<F> value,Class<T> clazz) {
+        CriteriaQuery<T> cq = cb.createQuery(clazz);
+        Root<T> root = cq.from(clazz);
+
+        Predicate[] predicates = new Predicate[column.size()];
+
+        for(int i=0;i<column.size();++i){
+            predicates[i] = cb.equal(root.get(column.get(i)),value.get(i));
+        }
+
+        cq.select(root).where(predicates);
+        return em.createQuery(cq).getResultList();
+    }
+
     public <F,T> List<T> getResultWhereColumnEqual(String column, F value,Class<T> clazz) {
         CriteriaQuery<T> cq = cb.createQuery(clazz);
         Root<T> root = cq.from(clazz);
-        cq.select(root).where(cb.equal( root.get(column), value));
+
+        cq.select(root).where(cb.equal(root.get(column),value));
         return em.createQuery(cq).getResultList();
     }
 
@@ -54,7 +70,7 @@ public class CriteriaQueryBuilder {
         CriteriaUpdate<T> cu = cb.createCriteriaUpdate(clazz);
         Root<T> root = cu.from(clazz);
         cu.set(column,value);
-        cu.where(root.get(column).in(id));
+        cu.where(cb.equal(root.get("id"),id));
         em.createQuery(cu).executeUpdate();
     }
 
@@ -90,5 +106,8 @@ public class CriteriaQueryBuilder {
         return count;
 
     }
+
+
+
 
 }

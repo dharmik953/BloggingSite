@@ -26,16 +26,12 @@ import java.util.List;
 @Service
 @Transactional
 public class PostServiceImpl implements PostService {
-//    @Autowired
-//    EntityManager entityManager;
+
     @Autowired
     PostRepository postRepository;
 
     @Autowired
     CriteriaQueryBuilder cb;
-
-    @Autowired
-    UserRepository userRepository;
 
     @Autowired
     CategoryRepository categoryRepository;
@@ -44,23 +40,31 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public String savePost(PostDto post, String userEmail, String categoryName) {
-        User user = this.userRepository.findByEmail(userEmail);
-        Category category = this.categoryRepository.findByName(categoryName);
+
+        List<User> user = cb.getResultWhereColumnEqual("email", userEmail, User.class);
+
+        List<Category> category = cb.getResultWhereColumnEqual("name", categoryName, Category.class);
+
         Post postToBeInserted = PostConvertor.toPost(post);
-        postToBeInserted.setCategory(category);
-        postToBeInserted.setUser(user);
-        List<Role> roles = user.getRoles().stream().toList();
+        postToBeInserted.setCategory(category.get(0));
+        postToBeInserted.setUser(user.get(0));
+        List<Role> roles = user.get(0).getRoles().stream().toList();
+
         if (roles.get(0).getName().equals(DefaultValue.ADMIN)) {
             postToBeInserted.setVerified(true);
-             this.postRepository.save(postToBeInserted);
-//            entityManager.persist(postToBeInserted);
-            logger.info("Post created as : " + postToBeInserted.getTitle() + " by " + user.getName());
+
+            // Save Using JPA
+            this.postRepository.save(postToBeInserted);
+
+            logger.info("Post created as : " + postToBeInserted.getTitle() + " by " + user.get(0).getName());
             return "redirect:/admin/home";
         } else {
             postToBeInserted.setVerified(false);
-               this.postRepository.save(postToBeInserted);
-//            entityManager.persist(postToBeInserted);
-            logger.info("Post created as : " + postToBeInserted.getTitle() + " by " + user.getName());
+
+            // Save Using JPA
+            this.postRepository.save(postToBeInserted);
+
+            logger.info("Post created as : " + postToBeInserted.getTitle() + " by " + user.get(0).getName());
             return "redirect:/user/home";
         }
     }
@@ -68,14 +72,9 @@ public class PostServiceImpl implements PostService {
     @Override
     public PostDto findPostById(long id) {
 
-//        return PostConvertor.toPostDto(
-//                postRepository.getReferenceById(id)
-//        );
         logger.info("find post by id");
-      //  return PostConvertor.toPostDto(criteriaQueryHelper.getAllDataWhere("id",id).get(0));
-     return    PostConvertor.toPostDto(
-             cb.getResultWhereColumnEqual("id",id,Post.class).get(0)
-                );
+
+        return PostConvertor.toPostDto(cb.getResultWhereColumnEqual("id", id, Post.class).get(0));
 
     }
 
@@ -83,67 +82,40 @@ public class PostServiceImpl implements PostService {
     public List<PostDto> findAllPostByUser(User user) {
 
         List<PostDto> postDtos = new ArrayList<>();
-        //logger.info("fetching ....");
-  //      List<Post> postByUserId = postRepository.findPostByUser(user);
-//        logger.info(user.getId()+"fetched with jpa");
-        //List<Post> postByUserId = criteriaQueryHelper.getAllDataWhere("user",user);
-//        System.out.println("this"+postByUserId3.toString());
-
-        List<Post> postByUserId= cb.getResultWhereColumnEqual("user",user,Post.class);
+        List<Post> postByUserId = cb.getResultWhereColumnEqual("user", user, Post.class);
         for (Post post : postByUserId)
             postDtos.add(PostConvertor.toPostDto(post));
-
-
         return postDtos;
     }
 
-    @Override//my-post//my-post
+    @Override
     public void deletePost(long id) {
-        this.postRepository.deleteById(id);
+        cb.deleteById("Id",id,Post.class);
         logger.info("Post Deleted with id  : " + id);
     }
 
     @Override
     public void updateVerification(long postId, boolean isVerified) {
-        Post post = this.postRepository.findById(postId).get();
+        List<Post> post = cb.getResultWhereColumnEqual("Id",postId,Post.class);
         this.postRepository.updateVerificationStatus(postId, !isVerified);
-        logger.info("Post verified as : " + !isVerified + " for id " + post.getId());
+
+        logger.info("Post verified as : " + !isVerified + " for id " + post.get(0).getId());
     }
 
     @Override
-    public List<PostDto> findPaginatedVerifiedPost(int pageNo, int pageSize) {
-        return null;
-    }
-
-    @Override
-    public <T> List<PostDto> findPaginatedPosts(int offset, int limit,String columnName,T value) {
-      //  Pageable pageable = PageRequest.of(pageNo - 1, pageSize, Sort.by("title"));
-
+    public <T> List<PostDto> findPaginatedPosts(int offset, int limit, String columnName, T value) {
         List<PostDto> postDtos = new ArrayList<>();
-
-       // List<Post> post = postRepository.findAll(pageable).getContent();
-        List<Post> post = cb.getPaginatedData(offset,limit,"isVerified",value,Post.class);
-       // System.out.println(criteriaQueryHelper.getPaginatedData(0,5,"is_verified",true));
-
+        List<Post> post = cb.getPaginatedData(offset, limit, "isVerified", value, Post.class);
         for (Post p : post) {
 
             postDtos.add(PostConvertor.toPostDto(p));
         }
-
-       //----------------
-      //  criteriaQueryHelper.getAllData("").forEach(System.out::println);
-
         return postDtos;
     }
 
     @Override
-    public <T> int findTotalPages(String columnName,T value) {
-//        Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
-//        return postRepository.findAll(pageable).getTotalPages();
-//
-//
-
-       return cb.getCount(columnName,value,Post.class);
+    public <T> int findTotalPages(String columnName, T value) {
+        return cb.getCount(columnName, value, Post.class);
     }
 
 

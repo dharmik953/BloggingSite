@@ -16,8 +16,6 @@ public interface PostService {
 
     void updateVerification(long postId, boolean isVerified);
 
-    List<PostDto> findPaginatedVerifiedPost(int pageNo,int pageSize);
-
    <T> List<PostDto> findPaginatedPosts(int pageNo,int pageSize,String columnName,T value);
 
     <T> int findTotalPages(String ColumnName, T value);
