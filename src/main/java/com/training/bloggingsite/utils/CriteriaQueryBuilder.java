@@ -54,7 +54,7 @@ public class CriteriaQueryBuilder {
         CriteriaUpdate<T> cu = cb.createCriteriaUpdate(clazz);
         Root<T> root = cu.from(clazz);
         cu.set(column,value);
-        cu.where(root.get(column).in(id));
+        cu.where(cb.equal(root.get("id"),id));
         em.createQuery(cu).executeUpdate();
     }
 

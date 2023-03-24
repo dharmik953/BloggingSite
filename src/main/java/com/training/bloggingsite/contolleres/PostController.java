@@ -97,7 +97,7 @@ public class PostController {
     @GetMapping("admin/post/{postId}")
     public ModelAndView getPostByPostIdAdmin(@PathVariable long postId, Principal principal) {
         ModelAndView mav = new ModelAndView("view-post-admin");
-        List<CommentDto> commentDtos = this.commentService.findAllPostById(postId);
+        List<CommentDto> commentDtos = this.commentService.findAllCommentsByPostId(postId);
         PostDto postDto = postService.findPostById(postId);
         UserDto userDto = userService.findUserByEmail(principal.getName());
         boolean isBookMarked = this.bookmarkService.isBookMarked(userDto, postId);
