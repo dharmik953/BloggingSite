@@ -26,22 +26,14 @@ public class CategoryServiceImpl implements CategoryService {
     CategoryRepository categoryRepositories;
 
     @Autowired
-    EntityManager em;
-
-    private CriteriaQueryBuilder<Category> cbForCategory;
-//    private CriteriaQueryBuilder<Role> cbForRole ;
+    CriteriaQueryBuilder cb;
 
     private Logger logger = LoggerFactory.getLogger(CategoryServiceImpl.class);
-
-    @PostConstruct
-    public void init() {
-        cbForCategory = new CriteriaQueryBuilder<>(Category.class, em);
-    }
 
     @Override
     public CategoryDto addCategory(CategoryDto categoryDto) {
 
-        List<Category> categories = this.cbForCategory.getResultWhereColumnEqual("name", categoryDto.getName());
+        List<Category> categories = this.cb.getResultWhereColumnEqual("name", categoryDto.getName(),Category.class);
 //        Category checkCategoryInDB =this.categoryRepositories.findByName(categoryDto.getName());
 
         if (categories.isEmpty()) {
@@ -65,12 +57,12 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<CategoryDto> findAllCategory() {
-        List<Category> categories = cbForCategory.getResultWhereColumnIsNull("parentCategory");
+        List<Category> categories = cb.getResultWhereColumnIsNull("parentCategory",Category.class);
 //        List<Category> categories = this.categoryRepositories.findCategoriesByParentCategoryNull();
         if (categories == null) {
             throw new CategoryNotFoundException();
         }
-        List<CategoryDto> categoryDtos = categories.stream().map(C -> CategoryConvertor.toCategoryDto(C)).collect(Collectors.toList());
+        List<CategoryDto> categoryDtos = categories.stream().map(CategoryConvertor::toCategoryDto).collect(Collectors.toList());
         logger.info("Category fetched :" + categoryDtos);
         return categoryDtos;
     }
@@ -89,7 +81,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public CategoryDto addSubCategory(long parentId, CategoryDto categoryDto) {
 
-        List<Category> checkSubCategoryInDB = cbForCategory.getResultWhereColumnEqual("name", categoryDto.getName());
+        List<Category> checkSubCategoryInDB = cb.getResultWhereColumnEqual("name", categoryDto.getName(),Category.class);
 
         if (checkSubCategoryInDB.isEmpty()) {
             Category parentCategory = this.categoryRepositories.findById(parentId).get();
@@ -107,7 +99,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public List<CategoryDto> findCategoryByParent(CategoryDto categoryDto) {
         Category category = CategoryConvertor.toCategory(categoryDto);
-        List<Category> categories = cbForCategory.getResultWhereColumnEqual("parentCategory", category);
+        List<Category> categories = cb.getResultWhereColumnEqual("parentCategory", category,Category.class);
         List<CategoryDto> categoryDtos = categories.stream().map(C -> CategoryConvertor.toCategoryDto(C)).collect(Collectors.toList());
         logger.info("Category fetched as parent :" + categoryDtos);
         return categoryDtos;
