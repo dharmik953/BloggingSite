@@ -8,7 +8,7 @@ public interface CommentService {
 
     String addComment(CommentDto comment,long postId,String userEmail);
 
-    List<CommentDto> findCommentByPostVerified(long postId);
+    List<CommentDto> findCommentByPostVerified(Long postId);
 
     List<CommentDto> findAllCommentsByPostId(long postId);
 

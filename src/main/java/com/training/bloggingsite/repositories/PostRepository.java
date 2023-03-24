@@ -12,10 +12,6 @@ import java.util.List;
 @Repository
 public interface PostRepository extends JpaRepository<Post, Long> {
 
-   // List<Post> findPostsByIsVerifiedTrue();
- //   List<Post> findPostsByIsVerifiedTrue(Pageable pageable);
-    List<Post> findPostByUser(User user);
-
     @Modifying
     @Query("UPDATE Post p SET p.isVerified=?2 where p.id=?1")
     void updateVerificationStatus(long id,boolean isVerified);

@@ -26,16 +26,11 @@ import java.util.List;
 @Service
 @Transactional
 public class PostServiceImpl implements PostService {
-//    @Autowired
-//    EntityManager entityManager;
     @Autowired
     PostRepository postRepository;
 
     @Autowired
     CriteriaQueryBuilder cb;
-
-    @Autowired
-    UserRepository userRepository;
 
     @Autowired
     CategoryRepository categoryRepository;
@@ -68,14 +63,9 @@ public class PostServiceImpl implements PostService {
     @Override
     public PostDto findPostById(long id) {
 
-//        return PostConvertor.toPostDto(
-//                postRepository.getReferenceById(id)
-//        );
         logger.info("find post by id");
-      //  return PostConvertor.toPostDto(criteriaQueryHelper.getAllDataWhere("id",id).get(0));
-     return    PostConvertor.toPostDto(
-             cb.getResultWhereColumnEqual("id",id,Post.class).get(0)
-                );
+
+        return PostConvertor.toPostDto(cb.getResultWhereColumnEqual("id", id, Post.class).get(0));
 
     }
 
@@ -109,10 +99,11 @@ public class PostServiceImpl implements PostService {
        //Post post=cb.getResultWhereColumnEqual("id",postId)
         this.postRepository.updateVerificationStatus(postId, !isVerified);
 
-        logger.info("Post verified as : " + !isVerified + " for id " + post.getId());
+
+
+
+       // logger.info("Post verified as : " + !isVerified + " for id " + post.get(0).getId());
     }
-
-
 
     @Override
     public <T> List<PostDto> findPaginatedPosts(int offset, int limit,String columnName,T value) {
@@ -128,10 +119,6 @@ public class PostServiceImpl implements PostService {
 
             postDtos.add(PostConvertor.toPostDto(p));
         }
-
-       //----------------
-      //  criteriaQueryHelper.getAllData("").forEach(System.out::println);
-
         return postDtos;
     }
 
