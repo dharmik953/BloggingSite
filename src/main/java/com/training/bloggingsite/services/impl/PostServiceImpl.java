@@ -39,23 +39,24 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public String savePost(PostDto post, String userEmail, String categoryName) {
-        User user = this.userRepository.findByEmail(userEmail);
-        Category category = this.categoryRepository.findByName(categoryName);
+        List<User> user = this.cb.getResultWhereColumnEqual("email",userEmail,User.class);
+//        Category category = this.categoryRepository.findByName(categoryName);
+        List<Category> category = cb.getResultWhereColumnEqual("name", categoryName, Category.class);
         Post postToBeInserted = PostConvertor.toPost(post);
-        postToBeInserted.setCategory(category);
-        postToBeInserted.setUser(user);
-        List<Role> roles = user.getRoles().stream().toList();
+        postToBeInserted.setCategory(category.get(0));
+        postToBeInserted.setUser(user.get(0));
+        List<Role> roles = user.get(0).getRoles().stream().toList();
         if (roles.get(0).getName().equals(DefaultValue.ADMIN)) {
             postToBeInserted.setVerified(true);
              this.postRepository.save(postToBeInserted);
 //            entityManager.persist(postToBeInserted);
-            logger.info("Post created as : " + postToBeInserted.getTitle() + " by " + user.getName());
+            logger.info("Post created as : " + postToBeInserted.getTitle() + " by " + user.get(0).getName());
             return "redirect:/admin/home";
         } else {
             postToBeInserted.setVerified(false);
                this.postRepository.save(postToBeInserted);
 //            entityManager.persist(postToBeInserted);
-            logger.info("Post created as : " + postToBeInserted.getTitle() + " by " + user.getName());
+            logger.info("Post created as : " + postToBeInserted.getTitle() + " by " + user.get(0).getName());
             return "redirect:/user/home";
         }
     }
