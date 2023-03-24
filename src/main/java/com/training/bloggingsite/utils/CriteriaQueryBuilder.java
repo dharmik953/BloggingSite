@@ -30,6 +30,11 @@ public class CriteriaQueryBuilder <T>{
         return em.createQuery(cq).getResultList();
     }
 
+    public List<T> getResultWhereColumnIsNull(String column) {
+        cq.select(root).where(cb.isNull( root.get(column)));
+        return em.createQuery(cq).getResultList();
+    }
+
     public List<T> getAll() {
         cq.select(root).where(cb.gt(root.get("id"),0));
         System.out.println("From Data Base ->>>>>"+em.createQuery(cq).getResultList());
