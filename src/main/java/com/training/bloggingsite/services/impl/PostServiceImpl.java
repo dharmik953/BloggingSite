@@ -106,7 +106,9 @@ public class PostServiceImpl implements PostService {
     @Override
     public void updateVerification(long postId, boolean isVerified) {
         Post post = this.postRepository.findById(postId).get();
+       //Post post=cb.getResultWhereColumnEqual("id",postId)
         this.postRepository.updateVerificationStatus(postId, !isVerified);
+
         logger.info("Post verified as : " + !isVerified + " for id " + post.getId());
     }
 
