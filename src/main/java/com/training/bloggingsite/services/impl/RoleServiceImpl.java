@@ -11,6 +11,7 @@ import com.training.bloggingsite.utils.CriteriaQueryBuilder;
 import com.training.bloggingsite.utils.RoleConvertor;
 import jakarta.annotation.PostConstruct;
 import jakarta.persistence.EntityManager;
+import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,6 +66,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
+    @Transactional
     public void deleteRole(int id) {
         cb.deleteById("Id",id,Role.class);
         logger.info("Role Deleted with id :" + id);

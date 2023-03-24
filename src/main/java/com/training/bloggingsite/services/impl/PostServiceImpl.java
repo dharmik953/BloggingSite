@@ -9,7 +9,6 @@ import com.training.bloggingsite.repositories.CategoryRepository;
 import com.training.bloggingsite.repositories.PostRepository;
 import com.training.bloggingsite.repositories.UserRepository;
 import com.training.bloggingsite.services.interfaces.PostService;
-import com.training.bloggingsite.utils.CriteriaQueryHelper;
 import com.training.bloggingsite.utils.CriteriaQueryBuilder;
 import com.training.bloggingsite.utils.DefaultValue;
 import com.training.bloggingsite.utils.PostConvertor;
@@ -19,9 +18,6 @@ import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -30,13 +26,14 @@ import java.util.List;
 @Service
 @Transactional
 public class PostServiceImpl implements PostService {
-    @Autowired
-    EntityManager entityManager;
+//    @Autowired
+//    EntityManager entityManager;
     @Autowired
     PostRepository postRepository;
 
     @Autowired
-    CriteriaQueryBuilder criteriaQueryBuilder;
+    CriteriaQueryBuilder cb;
+
     @Autowired
     UserRepository userRepository;
 
@@ -44,13 +41,6 @@ public class PostServiceImpl implements PostService {
     CategoryRepository categoryRepository;
 
     Logger logger = LoggerFactory.getLogger(PostServiceImpl.class);
-    CriteriaQueryHelper criteriaQueryHelper;
-
-    @PostConstruct
-    public void init() {
-    criteriaQueryHelper =new CriteriaQueryHelper(entityManager, Post.class);
-
-    }
 
     @Override
     public String savePost(PostDto post, String userEmail, String categoryName) {
@@ -62,14 +52,14 @@ public class PostServiceImpl implements PostService {
         List<Role> roles = user.getRoles().stream().toList();
         if (roles.get(0).getName().equals(DefaultValue.ADMIN)) {
             postToBeInserted.setVerified(true);
-            // this.postRepository.save(postToBeInserted);
-            entityManager.persist(postToBeInserted);
+             this.postRepository.save(postToBeInserted);
+//            entityManager.persist(postToBeInserted);
             logger.info("Post created as : " + postToBeInserted.getTitle() + " by " + user.getName());
             return "redirect:/admin/home";
         } else {
             postToBeInserted.setVerified(false);
-            //   this.postRepository.save(postToBeInserted);
-            entityManager.persist(postToBeInserted);
+               this.postRepository.save(postToBeInserted);
+//            entityManager.persist(postToBeInserted);
             logger.info("Post created as : " + postToBeInserted.getTitle() + " by " + user.getName());
             return "redirect:/user/home";
         }
@@ -84,7 +74,7 @@ public class PostServiceImpl implements PostService {
         logger.info("find post by id");
       //  return PostConvertor.toPostDto(criteriaQueryHelper.getAllDataWhere("id",id).get(0));
      return    PostConvertor.toPostDto(
-             criteriaQueryBuilder.getResultWhereColumnEqual("id",id,Post.class).get(0)
+             cb.getResultWhereColumnEqual("id",id,Post.class).get(0)
                 );
 
     }
@@ -99,7 +89,7 @@ public class PostServiceImpl implements PostService {
         //List<Post> postByUserId = criteriaQueryHelper.getAllDataWhere("user",user);
 //        System.out.println("this"+postByUserId3.toString());
 
-        List<Post> postByUserId= criteriaQueryBuilder.getResultWhereColumnEqual("user",user,Post.class);
+        List<Post> postByUserId= cb.getResultWhereColumnEqual("user",user,Post.class);
         for (Post post : postByUserId)
             postDtos.add(PostConvertor.toPostDto(post));
 
@@ -132,7 +122,7 @@ public class PostServiceImpl implements PostService {
         List<PostDto> postDtos = new ArrayList<>();
 
        // List<Post> post = postRepository.findAll(pageable).getContent();
-        List<Post> post = criteriaQueryHelper.getPaginatedData(offset,limit,"isVerified",value);
+        List<Post> post = cb.getPaginatedData(offset,limit,"isVerified",value,Post.class);
        // System.out.println(criteriaQueryHelper.getPaginatedData(0,5,"is_verified",true));
 
         for (Post p : post) {
@@ -153,7 +143,7 @@ public class PostServiceImpl implements PostService {
 //
 //
 
-       return criteriaQueryHelper.getCount(columnName,value);
+       return cb.getCount(columnName,value,Post.class);
     }
 
 
