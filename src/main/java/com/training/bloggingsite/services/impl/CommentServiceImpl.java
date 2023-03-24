@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -73,17 +74,17 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<CommentDto> findAllPostById(long postId) {
+    public List<CommentDto> findAllCommentsByPostId(long postId) {
         List<Post> postIdObj = cb.getResultWhereColumnEqual("Id",postId,Post.class);
         List<Comment> comments =cb.getResultWhereColumnEqual("post",postIdObj.get(0),Comment.class);
-        List<CommentDto> commentDtos = comments.stream().map(CommentConverter::toCommentDto).collect(Collectors.toList());
+        List<CommentDto> commentDtos = comments.stream().map(CommentConverter::toCommentDto).sorted(Comparator.comparing(CommentDto::getId)).collect(Collectors.toList());
         return commentDtos;
     }
 
     @Override
-    public void updateVerification(long commentId, boolean isVerified) {
+    public void updateVerification(Long commentId, Boolean isVerified) {
         Comment comment = this.commentRepository.findById(commentId).get();
-        cb.updateByColumn("Id",commentId,Comment.class,!isVerified);
+        cb.updateByColumn("isVerified",commentId,Comment.class,!isVerified);
 //        this.commentRepository.updateVerificationStatus(commentId,!isVerified);
         logger.info("Comment verified as : " + !isVerified + " for id "+comment.getId());
     }

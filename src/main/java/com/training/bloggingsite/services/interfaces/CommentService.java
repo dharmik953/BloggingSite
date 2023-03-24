@@ -10,9 +10,9 @@ public interface CommentService {
 
     List<CommentDto> findCommentByPostVerified(long postId);
 
-    List<CommentDto> findAllPostById(long postId);
+    List<CommentDto> findAllCommentsByPostId(long postId);
 
-    void updateVerification(long commentId, boolean isVerified);
+    void updateVerification(Long commentId, Boolean isVerified);
 
     String redirectToPost(String email, long postId);
 }
