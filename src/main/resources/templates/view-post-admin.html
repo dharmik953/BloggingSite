@@ -27,7 +27,7 @@
 <form th:object="${commentDto}" method="post"
       th:action="@{/user/save-comment(postId=${postDto.id},userEmail=${userEmail})}">
     Add Comment : <label>
-    <textarea rows="20" cols="30" style="width: 400px; height: 110px;" th:field="*{content}"></textarea>
+    <textarea rows="20" cols="30" style="width: 400px; height: 110px;" th:field="*{content}" minlength="5" maxlength="100"></textarea>
     <button value="submit" onclick="submitFuc()">Submit</button>
 </label>
 </form>
