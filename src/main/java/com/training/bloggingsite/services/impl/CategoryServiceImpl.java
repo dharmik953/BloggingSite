@@ -51,7 +51,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public void deleteCategory(Long id) {
-        cb.deleteById("Id",id,Category.class);
+        categoryRepositories.deleteById(id);
         logger.info("Category deleted by  :" + id);
     }
 
@@ -99,8 +99,8 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public List<CategoryDto> findCategoryByParent(CategoryDto categoryDto) {
         Category category = CategoryConvertor.toCategory(categoryDto);
-        List<Category> categories = cb.getResultWhereColumnEqual("parentCategory", category,Category.class);
-        List<CategoryDto> categoryDtos = categories.stream().map(CategoryConvertor::toCategoryDto).collect(Collectors.toList());
+        List<Category> categories = cb.getResultWhereColumnEqual("parentCategory", category, Category.class);
+        List<CategoryDto> categoryDtos = categories.stream().map(C -> CategoryConvertor.toCategoryDto(C)).collect(Collectors.toList());
         logger.info("Category fetched as parent :" + categoryDtos);
         return categoryDtos;
     }

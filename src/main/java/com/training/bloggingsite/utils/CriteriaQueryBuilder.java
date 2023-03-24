@@ -3,10 +3,7 @@ package com.training.bloggingsite.utils;
 import com.training.bloggingsite.entities.Post;
 import jakarta.annotation.PostConstruct;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaDelete;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Root;
+import jakarta.persistence.criteria.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -51,6 +48,14 @@ public class CriteriaQueryBuilder {
         Root<T> root = cq.from(clazz);
         cq.where(root.get(column).in(id));
         em.createQuery(cq).executeUpdate();
+    }
+
+    public <T,V,F> void updateByColumn(String column,F id, Class<T> clazz, V value){
+        CriteriaUpdate<T> cu = cb.createCriteriaUpdate(clazz);
+        Root<T> root = cu.from(clazz);
+        cu.set(column,value);
+        cu.where(root.get(column).in(id));
+        em.createQuery(cu).executeUpdate();
     }
 
     public <T,F> List<T> getPaginatedData(int offset, int limit, String columnName, F value,Class<T> clazz) {
