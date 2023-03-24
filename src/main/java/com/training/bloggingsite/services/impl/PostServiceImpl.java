@@ -10,6 +10,7 @@ import com.training.bloggingsite.repositories.PostRepository;
 import com.training.bloggingsite.repositories.UserRepository;
 import com.training.bloggingsite.services.interfaces.PostService;
 import com.training.bloggingsite.utils.CriteriaQueryHelper;
+import com.training.bloggingsite.utils.CriteriaQueryBuilder;
 import com.training.bloggingsite.utils.DefaultValue;
 import com.training.bloggingsite.utils.PostConvertor;
 import jakarta.annotation.PostConstruct;
@@ -84,7 +85,7 @@ public class PostServiceImpl implements PostService {
 
     }
 
-    @Override//MY-post
+    @Override
     public List<PostDto> findAllPostByUser(User user) {
 
 
@@ -145,7 +146,6 @@ public class PostServiceImpl implements PostService {
 
        return criteriaQueryHelper.getCount(columnName,value);
     }
-
 
 
 }

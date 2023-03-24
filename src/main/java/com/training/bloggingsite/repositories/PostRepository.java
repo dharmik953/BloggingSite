@@ -13,6 +13,7 @@ import java.util.List;
 public interface PostRepository extends JpaRepository<Post, Long> {
 
    // List<Post> findPostsByIsVerifiedTrue();
+ //   List<Post> findPostsByIsVerifiedTrue(Pageable pageable);
     List<Post> findPostByUser(User user);
 
     @Modifying

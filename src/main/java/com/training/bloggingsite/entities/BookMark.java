@@ -1,7 +1,6 @@
 package com.training.bloggingsite.entities;
 
 import jakarta.persistence.*;
-import org.springframework.boot.autoconfigure.web.WebProperties;
 
 import java.util.Set;
 
@@ -9,13 +8,13 @@ import java.util.Set;
 public class BookMark  {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    long id;//post id //TOBEADDED
+    long id;
 
-    @OneToOne()//one bookmark can have many post
+    @OneToOne()
      Post post;
 
 
-    @OneToOne//one Bookmark can have many user
+    @OneToOne
     User user;
 
     public BookMark() {

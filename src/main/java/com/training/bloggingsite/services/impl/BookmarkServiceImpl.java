@@ -10,6 +10,8 @@ import com.training.bloggingsite.services.interfaces.PostService;
 import com.training.bloggingsite.services.interfaces.UserService;
 import com.training.bloggingsite.utils.PostConvertor;
 import com.training.bloggingsite.utils.UserConvertor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +30,8 @@ public class BookmarkServiceImpl implements BookmarkService {
     @Autowired
     UserService userService;
 
+    Logger logger = LoggerFactory.getLogger(BookmarkServiceImpl.class);
+
     @Override
     public List<PostDto> getAllBookMarkedPost(UserDto userDto) {
         List< BookMark > bookMarkList=bookMarkRepository.findAll().stream().
@@ -37,7 +41,7 @@ public class BookmarkServiceImpl implements BookmarkService {
         for(Post p:post){
             postDtos.add(PostConvertor.toPostDto(p));
         }
-
+        logger.info("Bookmarked Posts fetched : "+postDtos);
         return postDtos;
     }
 
@@ -46,31 +50,25 @@ public class BookmarkServiceImpl implements BookmarkService {
        List< BookMark > bookMarkList=bookMarkRepository.findAll().stream().
                 filter(s->s.getPost().getId()==postDto.getId()).toList();
         bookMarkRepository.deleteById(bookMarkList.get(0).getId());
-
+        logger.info("Bookmarked post deteted : "+postDto);
         return postDto;
     }
 
     @Override
     public void addBookMarkedPost(PostDto postDto,UserDto userDto) {
-
         BookMark bookMark=new BookMark();
         bookMark.setUser(UserConvertor.toUser(userDto));
         bookMark.setPost(PostConvertor.toPost(postDto));
-
+        logger.info("Bookmarked post added : "+postDto);
         bookMarkRepository.save(bookMark);
-
     }
 
     @Override
     public boolean isBookMarked(UserDto userDto, long postId) {
         boolean isBookMarked = false;
         List<PostDto> bookMarkedPostsList = getAllBookMarkedPost(userDto);
-        for (PostDto bookmarkpost : bookMarkedPostsList) {
-            if (bookmarkpost.getId() == postId) {
-                isBookMarked = true;
-                break;
-            }
-        }
+        isBookMarked = bookMarkedPostsList.stream().anyMatch(B->B.getId()==postId);
+        logger.info("Bookmarked Check : "+isBookMarked+" for postId :"+postId+" user :"+userDto);
         return isBookMarked;
     }
 
@@ -78,9 +76,11 @@ public class BookmarkServiceImpl implements BookmarkService {
     public void changeBookMarkStatus(long postId, boolean isBookMarked, Principal principal) {
         UserDto userDto = userService.findUserByEmail(principal.getName());
         if(isBookMarked){
+            logger.info("Changed bookmarked status for post : "+postId+" user with email : "+principal.getName()+" as "+!isBookMarked);
             this.deleteBookMarkedPostByPostID(userDto,postService.findPostById(postId));
-        }else
-            this.addBookMarkedPost(postService.findPostById(postId),userDto);
-
+        }else {
+            logger.info("Changed bookmarked status for post : "+postId+" user with email : "+principal.getName()+" as "+!isBookMarked);
+            this.addBookMarkedPost(postService.findPostById(postId), userDto);
+        }
     }
 }

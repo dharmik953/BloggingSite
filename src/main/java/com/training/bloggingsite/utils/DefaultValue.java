@@ -1,8 +1,11 @@
 package com.training.bloggingsite.utils;
 
+import com.training.bloggingsite.entities.Category;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 public class DefaultValue {
+
+    public static final Category DEFAULT_CATEGORY =new Category(0,"");
     static BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
     public static final String ADMIN = "ADMIN";
     public static final String USER = "USER";

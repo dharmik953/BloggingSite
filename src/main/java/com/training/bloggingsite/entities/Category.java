@@ -1,6 +1,8 @@
 package com.training.bloggingsite.entities;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.ColumnDefault;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 
 
 @Entity

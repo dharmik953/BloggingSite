@@ -15,7 +15,7 @@ public class User extends BaseEntity{
     @Column(name = "password")
     private String password;
 
-    @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.MERGE)
     @JoinTable(
             joinColumns = {
                     @JoinColumn(name = "user_id")
@@ -28,10 +28,10 @@ public class User extends BaseEntity{
 
     public User(){}
 
-    public User(long id, String name, String email, String encrptedPassword, Set<Role> roles, LocalDateTime createDateTime, LocalDateTime updateDateTime) {
+    public User(long id, String name, String email, String encryptedPassword, Set<Role> roles, LocalDateTime createDateTime, LocalDateTime updateDateTime) {
         super(id,name,createDateTime,updateDateTime);
         this.email=email;
-        this.password=encrptedPassword;
+        this.password=encryptedPassword;
         this.roles=roles;
     }
 

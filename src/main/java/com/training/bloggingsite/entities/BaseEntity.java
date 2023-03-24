@@ -14,7 +14,7 @@ public class BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long Id;
+    private Long Id;
     private String name;
     @CreationTimestamp
     private LocalDateTime createDateTime;

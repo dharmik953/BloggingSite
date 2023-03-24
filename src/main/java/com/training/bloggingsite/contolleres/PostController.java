@@ -38,19 +38,19 @@ public class PostController {
 
     // Verification of the post, posted by user. (For admin auto verification)
     @GetMapping("/admin/post/verification")
-    public String updateVerification(@RequestParam("postId") long postId, @RequestParam("isVerified") boolean isVerified, @RequestParam("pageNo") int pageNo) {
+    public String updateVerification(@RequestParam("postId") long postId, @RequestParam("isVerified") boolean isVerified,@RequestParam("pageNo")int pageNo) {
         this.postService.updateVerification(postId, isVerified);
-        return "redirect:/admin/all-post?pageNo=" + pageNo;
+        return "redirect:/admin/all-post?pageNo="+pageNo;
     }
 
     // Open the Edit post Dialog at admin side.
     @GetMapping("admin/update-mypost")
-    public ModelAndView getEditPostAdmin(@RequestParam("id") long postId, Principal principal) {
+    public ModelAndView getEditPostAdmin(@RequestParam("id") long postId,Principal principal) {
         PostDto postDto = this.postService.findPostById(postId);
         ModelAndView modelAndView = new ModelAndView("admin-edit-mypost");
         List<CategoryDto> categoryDtos = this.categoryService.findAllCategoryIncludeChildren();
         modelAndView.addObject("postdto", postDto);
-        modelAndView.addObject("categories", categoryDtos);
+        modelAndView.addObject("categories",categoryDtos);
         return modelAndView;
     }
 
@@ -70,14 +70,7 @@ public class PostController {
 
         ModelAndView modelAndView = new ModelAndView("admin-view-all-post");
         modelAndView.addObject("currentPage", pageNo);
-        int count=postService.findTotalPages("isVerified", false);
-        System.out.println(count);
-        int count3=(int)Math.ceil(count/pageLimit);
-        System.out.println("Admin/"+count3);
-//        modelAndView.addObject("totalPages", postService.findTotalPages("pageNo",5));
-        modelAndView.addObject("totalPages", count);
-
-
+        modelAndView.addObject("totalPages", postService.findTotalPages(pageNo,5));
         modelAndView.addObject("postData", postList);
         return modelAndView;
     }
@@ -124,28 +117,25 @@ public class PostController {
         ModelAndView modelAndView = new ModelAndView("user-view-all-post");
 
         modelAndView.addObject("currentPage", pageNo);
-        modelAndView.addObject("pageSize", pageLimit);
-        // modelAndView.addObject("totalPages", postService.findTotalPages(pageNo,5));
-        int count=postService.findTotalPages("isVerified", true);
-        modelAndView.addObject("totalPages",Math.ceil(count/pageLimit));
-        logger.info(count+": Total Page count");
+        modelAndView.addObject("totalPages", postService.findTotalPages(pageNo,5));
         modelAndView.addObject("postData", postList);
         return modelAndView;
     }
 
     // Displaying specific Post to user.
     @GetMapping("user/post/{postId}")
-    public ModelAndView getPostByPostIdUser(@PathVariable long postId, Principal principal) {
+    public ModelAndView getPostByPostIdUser(@PathVariable long postId,Principal principal) {
         ModelAndView mav = new ModelAndView("view-post-user");
         logger.info("inside postid");
 
         List<CommentDto> commentDtos = this.commentService.findCommentByPostVerified(postId);
         logger.info("after postid commentDtos");
+        List<CommentDto> commentDtos = this.commentService.findCommentByPostVerified(postId);
         PostDto postDto = postService.findPostById(postId);
         UserDto userDto = userService.findUserByEmail(principal.getName());
-        boolean isBookMarked = this.bookmarkService.isBookMarked(userDto, postId);
-        mav.addObject("userEmail", principal.getName());
-        mav.addObject("commentDto", new CommentDto());
+        boolean isBookMarked = this.bookmarkService.isBookMarked(userDto,postId);
+        mav.addObject("userEmail",principal.getName());
+        mav.addObject("commentDto",new CommentDto());
         mav.addObject("postDto", postDto);
         mav.addObject("commentList", commentDtos);
         mav.addObject("isBookMarked", isBookMarked);
@@ -154,12 +144,12 @@ public class PostController {
 
     // Open the Edit post Dialog at user side.
     @GetMapping("user/update-mypost")
-    public ModelAndView getEditPostUser(@RequestParam("id") long postId, Principal principal) {
+    public ModelAndView getEditPostUser(@RequestParam("id") long postId,Principal principal) {
         System.out.println("entered in mthpd");
         PostDto postDto = this.postService.findPostById(postId);
         ModelAndView modelAndView = new ModelAndView("user-edit-mypost");
         List<CategoryDto> categoryDtos = this.categoryService.findAllCategoryIncludeChildren();
-        modelAndView.addObject("categories", categoryDtos);
+        modelAndView.addObject("categories",categoryDtos);
         modelAndView.addObject("postdto", postDto);
         return modelAndView;
     }
@@ -170,7 +160,7 @@ public class PostController {
         PostDto postDto = new PostDto();
         ModelAndView modelAndView = new ModelAndView("add-post");
         List<CategoryDto> categoryDtos = this.categoryService.findAllCategoryIncludeChildren();
-        modelAndView.addObject("categories", categoryDtos);
+        modelAndView.addObject("categories",categoryDtos);
         modelAndView.addObject("postdto", postDto);
         return modelAndView;
     }
@@ -178,7 +168,7 @@ public class PostController {
     // Save New post.
     @PostMapping("user/save-post")
     public String saveThePost(@ModelAttribute PostDto post, Principal principal) {
-        return this.postService.savePost(post, principal.getName(), post.getCategoryDto().getName());
+        return this.postService.savePost(post, principal.getName(),post.getCategoryDto().getName());
     }
 
     // View  individual post at user side.
@@ -190,6 +180,8 @@ public class PostController {
         modelAndView.addObject("postData", postDto);
         return modelAndView;
     }
+
+
 
 
 }
