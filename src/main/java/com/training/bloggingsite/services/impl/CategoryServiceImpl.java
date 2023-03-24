@@ -9,8 +9,6 @@ import com.training.bloggingsite.repositories.CategoryRepository;
 import com.training.bloggingsite.services.interfaces.CategoryService;
 import com.training.bloggingsite.utils.CategoryConvertor;
 import com.training.bloggingsite.utils.CriteriaQueryBuilder;
-import jakarta.annotation.PostConstruct;
-import jakarta.persistence.EntityManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,12 +31,12 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public CategoryDto addCategory(CategoryDto categoryDto) {
 
-        List<Category> categories = this.cb.getResultWhereColumnEqual("name", categoryDto.getName(),Category.class);
-//        Category checkCategoryInDB =this.categoryRepositories.findByName(categoryDto.getName());
+        List<Category> categories = this.cb.getResultWhereColumnEqual("name", categoryDto.getName(), Category.class);
+
 
         if (categories.isEmpty()) {
             Category categoryToBeInserted = CategoryConvertor.toCategory(categoryDto);
-//            categoryToBeInserted.getParentCategory().setp(0);
+
             // saved using JPA
             this.categoryRepositories.save(categoryToBeInserted);
 
@@ -57,8 +55,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<CategoryDto> findAllCategory() {
-        List<Category> categories = cb.getResultWhereColumnIsNull("parentCategory",Category.class);
-//        List<Category> categories = this.categoryRepositories.findCategoriesByParentCategoryNull();
+        List<Category> categories = cb.getResultWhereColumnIsNull("parentCategory", Category.class);
         if (categories == null) {
             throw new CategoryNotFoundException();
         }
@@ -81,7 +78,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public CategoryDto addSubCategory(long parentId, CategoryDto categoryDto) {
 
-        List<Category> checkSubCategoryInDB = cb.getResultWhereColumnEqual("name", categoryDto.getName(),Category.class);
+        List<Category> checkSubCategoryInDB = cb.getResultWhereColumnEqual("name", categoryDto.getName(), Category.class);
 
         if (checkSubCategoryInDB.isEmpty()) {
             Category parentCategory = this.categoryRepositories.findById(parentId).get();
@@ -99,7 +96,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public List<CategoryDto> findCategoryByParent(CategoryDto categoryDto) {
         Category category = CategoryConvertor.toCategory(categoryDto);
-        List<Category> categories = cb.getResultWhereColumnEqual("parentCategory", category,Category.class);
+        List<Category> categories = cb.getResultWhereColumnEqual("parentCategory", category, Category.class);
         List<CategoryDto> categoryDtos = categories.stream().map(C -> CategoryConvertor.toCategoryDto(C)).collect(Collectors.toList());
         logger.info("Category fetched as parent :" + categoryDtos);
         return categoryDtos;

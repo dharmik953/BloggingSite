@@ -36,6 +36,9 @@ public class CommentServiceImpl implements CommentService {
     @Autowired
     PostRepository postRepository;
 
+    @Autowired
+    CriteriaQueryBuilder cb;
+
     @Override
     public String addComment(CommentDto commentDto,long postId,String userEmail) {
         User user = this.userRepository.findByEmail(userEmail);
@@ -59,15 +62,18 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public List<CommentDto> findCommentByPostVerified(long postId) {
-        List<Comment> comments = this.commentRepository.findByPostIdAndIsVerifiedTrue(postId);
+//        List<Comment> comments = this.commentRepository.findByPostIdAndIsVerifiedTrue(postId);
+        List<Post> postIdObj = cb.getResultWhereColumnEqual("Id",postId,Post.class);
+        List<Comment> comments =cb.getResultWhereColumnEqual("post",postIdObj.get(0),Comment.class);
         List<CommentDto> commentDtos = comments.stream().map(C->CommentConverter.toCommentDto(C)).collect(Collectors.toList());
         return commentDtos;
     }
 
     @Override
     public List<CommentDto> findAllPostById(long postId) {
-        List<Comment> comments = this.commentRepository.findAllByPostId(postId);
-        List<CommentDto> commentDtos = comments.stream().map(C->CommentConverter.toCommentDto(C)).collect(Collectors.toList());
+        List<Post> postIdObj = cb.getResultWhereColumnEqual("Id",postId,Post.class);
+        List<Comment> comments =cb.getResultWhereColumnEqual("post",postIdObj.get(0),Comment.class);
+        List<CommentDto> commentDtos = comments.stream().map(CommentConverter::toCommentDto).collect(Collectors.toList());
         return commentDtos;
     }
 
