@@ -14,20 +14,14 @@ public class BookMark  {
     @OneToOne()//one bookmark can have many post
      Post post;
 
-    public User getUser() {
-        return user;
-    }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
     @OneToOne//one Bookmark can have many user
     User user;
 
     public BookMark() {
     }
 
-    public BookMark(Long id, Set<Post> postSet) {
+    public BookMark(Long id, Post postSet) {
         this.id = id;
     }
 
@@ -49,5 +43,12 @@ public class BookMark  {
 
     public void setPost(Post post) {
         this.post = post;
+    }
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

@@ -21,14 +21,35 @@
         </div>
     </div>
 
-    <div th:if="${currentPage}">
+    <!--<div th:if="${currentPage}">
         Page Number: [[${currentPage}]]
         <br>
         <a th:if="${currentPage > 1}" th:href="@{'/admin/all-post?pageNo=' + ${currentPage - 1}}">Previous</a>
 
-        <a th:if="${currentPage < totalPages}" th:href="@{'/admin/all-post?pageNo=' + ${currentPage + 1}}">Next</a>
-        <span th:unless="${currentPage < totalPages}">Next</span>
+&lt;!&ndash;        <a th:if="${currentPage <= totalPages}" th:href="@{'/admin/all-post?pageNo=' + ${currentPage + 1}}">Next</a>&ndash;&gt;
+
+
+        <a th:if="${currentPage <= totalPages}" th:href="@{'/admin/all-post?pageNo=' + ${currentPage + 1}}">Next</a>
+
+
+        <span th:unless="${currentPage > totalPages}">Next</span>
     </div>
+-->
+    <div th:if="${currentPage}">
+        Page Number: [[${currentPage}]]
+
+        <br>
+        <a th:if="${currentPage > 1}" th:href="@{'/admin/all-post?pageNo=' + ${currentPage - 1}}">Previous</a>
+        <a th:if="${currentPage <= totalPages}" th:href="@{'/admin/all-post?pageNo=' + ${currentPage + 1}}">Next</a>
+<!--        <span th:unless="${currentPage > totalPages}">Next</span>-->
+
+        <!--1>3-->
+    </div>
+
+
+
+
+
 
     <br>
     <a th:href="@{/admin/home}">Back-></a>

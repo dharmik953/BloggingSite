@@ -18,6 +18,6 @@ public interface PostService {
 
     List<PostDto> findPaginatedPost(int pageNo,int pageSize);
 
-    int findTotalPages(int pageNo, int pageSize);
+    <T> int findTotalPages(String ColumnName, T value);
 
 }
