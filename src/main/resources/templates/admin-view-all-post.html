@@ -27,7 +27,7 @@
         <a th:if="${currentPage > 1}" th:href="@{'/admin/all-post?pageNo=' + ${currentPage - 1}}">Previous</a>
 
         <a th:if="${currentPage > 1}" th:href="@{'/admin/all-post?pageNo=' + ${currentPage - 1}}">Previous</a>
-        <a th:if="${currentPage <= totalPages}" th:href="@{'/admin/all-post?pageNo=' + ${currentPage + 1}}">Next</a>
+        <a th:if="${currentPage < totalPages}" th:href="@{'/admin/all-post?pageNo=' + ${currentPage + 1}}">Next</a>
         </div>
 
     <br>
