@@ -11,6 +11,7 @@ import com.training.bloggingsite.utils.CriteriaQueryBuilder;
 import com.training.bloggingsite.utils.RoleConvertor;
 import jakarta.annotation.PostConstruct;
 import jakarta.persistence.EntityManager;
+import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,7 @@ public class RoleServiceImpl implements RoleService {
     @Autowired
     CriteriaQueryBuilder cb;
 
-    private Logger logger = LoggerFactory.getLogger(RoleServiceImpl.class);
+    private final Logger logger = LoggerFactory.getLogger(RoleServiceImpl.class);
 
     @Override
     public RoleDto addRole(RoleDto roleDto) {
@@ -59,14 +60,15 @@ public class RoleServiceImpl implements RoleService {
             throw new RoleNotFoundException();
         }
 
-        List<RoleDto> roleDtos = roles.stream().map(R->RoleConvertor.toRoleDto(R)).collect(Collectors.toList());
+        List<RoleDto> roleDtos = roles.stream().map(RoleConvertor::toRoleDto).collect(Collectors.toList());
         logger.info("Roles Fetched :" + roleDtos);
         return roleDtos;
     }
 
     @Override
+    @Transactional
     public void deleteRole(int id) {
-        this.roleRepository.deleteById(id);
+        cb.deleteById("Id",id,Role.class);
         logger.info("Role Deleted with id :" + id);
     }
 
