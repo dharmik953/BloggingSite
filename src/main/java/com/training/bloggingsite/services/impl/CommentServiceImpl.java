@@ -17,7 +17,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -62,9 +61,13 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public List<CommentDto> findCommentByPostVerified(long postId) {
+//        List<Comment> comments = this.commentRepository.findByPostIdAndIsVerifiedTrue(postId);
         List<Comment> comments = this.commentRepository.findByPostIdAndIsVerifiedTrue(postId);
+
+
 //        List<Post> postIdObj = cb.getResultWhereColumnEqual("Id",postId,Post.class);
 //        List<Comment> comments =cb.getResultWhereColumnEqual("post",postIdObj.get(0),Comment.class);
+
         List<CommentDto> commentDtos = comments.stream().map(C->CommentConverter.toCommentDto(C)).collect(Collectors.toList());
         return commentDtos;
     }
@@ -80,7 +83,8 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public void updateVerification(long commentId, boolean isVerified) {
         Comment comment = this.commentRepository.findById(commentId).get();
-        this.commentRepository.updateVerificationStatus(commentId,!isVerified);
+        cb.updateByColumn("Id",commentId,Comment.class,!isVerified);
+//        this.commentRepository.updateVerificationStatus(commentId,!isVerified);
         logger.info("Comment verified as : " + !isVerified + " for id "+comment.getId());
     }
 
