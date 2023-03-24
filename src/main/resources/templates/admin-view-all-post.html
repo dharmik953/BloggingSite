@@ -25,9 +25,10 @@
         Page Number: [[${currentPage}]]
         <br>
         <a th:if="${currentPage > 1}" th:href="@{'/admin/all-post?pageNo=' + ${currentPage - 1}}">Previous</a>
-        <a th:if="${currentPage < totalPages}" th:href="@{'/admin/all-post?pageNo=' + ${currentPage + 1}}">Next</a>
-        <span th:unless="${currentPage < totalPages}">Next</span>
-    </div>
+
+        <a th:if="${currentPage > 1}" th:href="@{'/admin/all-post?pageNo=' + ${currentPage - 1}}">Previous</a>
+        <a th:if="${currentPage <= totalPages}" th:href="@{'/admin/all-post?pageNo=' + ${currentPage + 1}}">Next</a>
+        </div>
 
     <br>
     <a th:href="@{/admin/home}">Back-></a>

@@ -13,13 +13,7 @@ public class BookMark  {
     @OneToOne()
      Post post;
 
-    public User getUser() {
-        return user;
-    }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
     @OneToOne
     User user;
 
@@ -48,5 +42,12 @@ public class BookMark  {
 
     public void setPost(Post post) {
         this.post = post;
+    }
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

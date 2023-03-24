@@ -35,8 +35,8 @@ public class BookmarkServiceImpl implements BookmarkService {
     @Override
     public List<PostDto> getAllBookMarkedPost(UserDto userDto) {
         List< BookMark > bookMarkList=bookMarkRepository.findAll().stream().
-                filter(s->s.getUser().getId()==userDto.getId()).toList();
-        List<Post> post=bookMarkList.stream().map(s->s.getPost()).toList();
+                filter(B->B.getUser().getId()==userDto.getId()).toList();
+        List<Post> post=bookMarkList.stream().map(B->B.getPost()).toList();
         List<PostDto> postDtos=new ArrayList<>();
         for(Post p:post){
             postDtos.add(PostConvertor.toPostDto(p));
