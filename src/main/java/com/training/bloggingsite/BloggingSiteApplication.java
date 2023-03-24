@@ -8,7 +8,6 @@ import com.training.bloggingsite.utils.CriteriaQueryBuilder;
 import com.training.bloggingsite.utils.DefaultValue;
 import jakarta.annotation.PostConstruct;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,16 +31,7 @@ public class BloggingSiteApplication implements ApplicationRunner {
     RoleRepository roleRepository;
 
     @Autowired
-    EntityManager em;
-
-    private CriteriaQueryBuilder<User> cbForUser;
-    private CriteriaQueryBuilder<Role> cbForRole ;
-
-    @PostConstruct
-    public void init(){
-        cbForUser = new CriteriaQueryBuilder<>(User.class,em);
-        cbForRole = new CriteriaQueryBuilder<>(Role.class,em);
-    }
+    CriteriaQueryBuilder cb;
 
     Logger logger = LoggerFactory.getLogger(BloggingSiteApplication.class);
 
@@ -51,16 +41,24 @@ public class BloggingSiteApplication implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        List<User> users=cbForUser.getAll();
-        List<Role>roles = cbForRole.getAll();
+
+        List<User> users=cb.getAll(User.class);
+        List<Role>roles = cb.getAll(Role.class);
+
         if(users.isEmpty() && roles.isEmpty()){
+
             Role roleAdmin = new Role(1, DefaultValue.ADMIN);
             Role roleUser = new Role(2,DefaultValue.USER);
+
             roleUser.setCreateDateTime(LocalDateTime.now());
             roleUser.setUpdateDateTime(LocalDateTime.now());
+
+            // Saved Using JPA
             this.roleRepository.save(roleAdmin);
             this.roleRepository.save(roleUser);
+
             logger.info("Default Roles Added.");
+
             Set<Role> roleSet = new HashSet<>();
             roleSet.add(roleAdmin);
             User defaultUser = new User(1
@@ -69,7 +67,10 @@ public class BloggingSiteApplication implements ApplicationRunner {
                     DefaultValue.DEFAULT_PASSWORD,roleSet
                     ,LocalDateTime.now()
                     ,LocalDateTime.now());
+
+            // Saved Using JPA
             this.userRepository.save(defaultUser);
+
             logger.info("Default Admin added, email= "+DefaultValue.DEFAULT_EMAIL+" and password= "+DefaultValue.DEFAULT_PASSWORD_VALUE);
         }
     }
