@@ -25,20 +25,6 @@ public class CriteriaQueryHelper {
         root = criteriaQuery.from(className);
     }
 
-    public CriteriaQueryHelper() {
-    }
-
-    public <T> List<T> getAllData(String... condition) {
-        criteriaQuery.select(root);
-        return entityManager.createQuery(criteriaQuery).getResultList();
-    }
-
-    public <T> List<Post> getAllDataWhere(String columnName, T value) {
-
-        criteriaQuery.select(root).where(criteriaBuilder.equal(root.get(columnName), value));
-        return entityManager.createQuery(criteriaQuery).getResultList();
-    }
-
     public <T> List<Post> getPaginatedData(int offset, int limit, String columnName, T value) {
         System.out.println("value for column"+((boolean)value));
         if ((boolean) value == false) {
@@ -49,8 +35,6 @@ public class CriteriaQueryHelper {
         else {
             criteriaQuery.select(root).where(criteriaBuilder.equal(root.get(columnName), true));
         }
-
-
         return entityManager.createQuery(criteriaQuery.orderBy(criteriaBuilder.asc(root.get("title")))).setFirstResult(offset).setMaxResults(limit).getResultList();
     }
 
@@ -63,10 +47,6 @@ public class CriteriaQueryHelper {
 
         criteriaQuery.select(root).where(criteriaBuilder.equal(root.get(columnName), value));
         int count = entityManager.createQuery(criteriaQuery).getResultList().size();
-
         return count;
-
     }
-
-
 }

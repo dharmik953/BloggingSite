@@ -62,9 +62,9 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public List<CommentDto> findCommentByPostVerified(long postId) {
-//        List<Comment> comments = this.commentRepository.findByPostIdAndIsVerifiedTrue(postId);
-        List<Post> postIdObj = cb.getResultWhereColumnEqual("Id",postId,Post.class);
-        List<Comment> comments =cb.getResultWhereColumnEqual("post",postIdObj.get(0),Comment.class);
+        List<Comment> comments = this.commentRepository.findByPostIdAndIsVerifiedTrue(postId);
+//        List<Post> postIdObj = cb.getResultWhereColumnEqual("Id",postId,Post.class);
+//        List<Comment> comments =cb.getResultWhereColumnEqual("post",postIdObj.get(0),Comment.class);
         List<CommentDto> commentDtos = comments.stream().map(C->CommentConverter.toCommentDto(C)).collect(Collectors.toList());
         return commentDtos;
     }

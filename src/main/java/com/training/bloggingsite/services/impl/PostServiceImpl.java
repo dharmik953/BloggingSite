@@ -153,8 +153,6 @@ public class PostServiceImpl implements PostService {
 //
 //
 
-       return criteriaQueryHelper.getCount(columnName,value);
+        return criteriaQueryHelper.getCount(columnName, value);
     }
-
-
 }
